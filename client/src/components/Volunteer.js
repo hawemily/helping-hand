@@ -52,60 +52,47 @@ const Volunteer = (props) => {
     }
   }
   return (
-    <div>
-      <Container>
-        <h1>List of Jobs</h1>
-      </Container>
-
-      {volunteers === null ? (
-        <p>Loading...</p>
-      ) : volunteers.length === 0 ? (
-        <Container>
-          <p>No Jobs Available</p>
-        </Container>
-      ) : (
-        <Container>
-          <h2>Available Jobs</h2>
-          <ListGroup>
-            {console.log(`Volunteerlene: ${volunteers.length}`)}
-            {seeVs()}
-            {vs.map((volunteer, index) => (
-              <ListGroupItem>
-                Name: {volunteer.username}
-                <br />
-                JobType: {volunteer.jobType}
-                <br />
-                Email: {volunteer.email}
-              </ListGroupItem>
-            ))}
-          </ListGroup>
-        </Container>
-      )}
+    <Container>
+      <ListGroup>
+        <TransitionGroup className='jobs-list'>
+          {vs.map((volunteer, index) => (
+            <ListGroupItem>
+              Name: {volunteer.username}
+              <br />
+              JobType: {volunteer.jobType}
+              <br />
+              Email: {volunteer.email}
+              <br />
+              <Button className='delete-btn' color='danger' size='sm'>
+                &times;
+              </Button>
+            </ListGroupItem>
+          ))}
+        </TransitionGroup>
+      </ListGroup>
       <br />
-      <Container>
-        <form onSubmit={submitForm}>
-          <input
-            onChange={(e) => setUsername(e.target.value)}
-            type='text'
-            placeholder='Enter your name'
-          />
-          <br />
-          <input
-            onChange={(e) => setEmail(e.target.value)}
-            type='text'
-            placeholder='Enter your email address'
-          />
-          <br />
-          <input
-            onChange={(e) => setJobType(e.target.value)}
-            type='text'
-            placeholder='Enter your type of job'
-          />
-          <br />
-          <input type='submit' />
-        </form>
-      </Container>
-    </div>
+      <form onSubmit={submitForm}>
+        <input
+          onChange={(e) => setUsername(e.target.value)}
+          type='text'
+          placeholder='Enter your name'
+        />
+        <br />
+        <input
+          onChange={(e) => setEmail(e.target.value)}
+          type='text'
+          placeholder='Enter your email address'
+        />
+        <br />
+        <input
+          onChange={(e) => setJobType(e.target.value)}
+          type='text'
+          placeholder='Enter your type of job'
+        />
+        <br />
+        <input type='submit' />
+      </form>
+    </Container>
   );
 };
 
