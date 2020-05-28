@@ -20,7 +20,11 @@ mongoose
   .catch((err) => console.log(err));
 
 //Use Routes
-app.use("/", api);
+app.use("/volunteers", api);
+
+app.get("/", (req, res) => {
+  res.send("Dummy variable");
+});
 
 //Serve static assets if in production
 if (process.env.NODE_ENV === "production") {
