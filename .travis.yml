@@ -1,0 +1,14 @@
+language: node_js
+node_js:
+  - "12"
+
+branches:
+  only: -master
+
+# should add tests at a later stage
+
+deploy:
+  - provider: heroku
+    api-keey:
+      secure: $PRIVATE_KEY
+    app: helping-hand-drp08
