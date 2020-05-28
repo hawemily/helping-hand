@@ -9,6 +9,6 @@ branches:
 
 deploy:
   - provider: heroku
-    api-keey:
+    api-key:
       secure: $PRIVATE_KEY
     app: helping-hand-drp08
