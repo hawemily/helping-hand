@@ -8,9 +8,13 @@ const ContactSchema = new Schema({
     type: String,
     required: true,
   },
-  phoneNo: {
-    type: Number,
+  email: {
+    type: String,
     default: 0,
+  },
+  jobType: {
+    type: String,
+    default: "",
   },
 });
 
