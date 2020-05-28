@@ -1,0 +1,26 @@
+{
+  "name": "helping_hand",
+  "version": "1.0.0",
+  "description": "combined package of both webapp and server",
+  "scripts": {
+    "client-install": "npm install --prefix client",
+    "server-install": "npm install --prefix backend",
+    "start": "npm start --prefix backend",
+    "server": "npm run server --prefix backend",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hawemily/helping-hand.git"
+  },
+  "author": "Emily Haw",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hawemily/helping-hand/issues"
+  },
+  "homepage": "https://github.com/hawemily/helping-hand#readme",
+  "dependencies": {
+    "concurrently": "^5.2.0"
+  }
+}
