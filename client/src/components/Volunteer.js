@@ -31,7 +31,7 @@ const Volunteer = (props) => {
     }
     axios
       .post("/volunteers", {
-        username: username,
+        name: username,
         email: email,
         jobType: jobType,
       })
@@ -44,6 +44,10 @@ const Volunteer = (props) => {
         console.log(err);
       });
   }
+
+  // function deleteEntry() {
+  //   axios.delete
+  // }
 
   const vs = [{ username: "John", email: "abc@123.com", jobType: "Groceries" }];
   function seeVs() {
