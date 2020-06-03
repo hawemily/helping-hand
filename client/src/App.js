@@ -1,6 +1,6 @@
 import React from "react";
-import NavBar from "./components/NavBar";
-import Volunteer from "./components/people_in_need/Volunteer";
+import NavBar from "./components/general/NavBar";
+import Volunteer from "./components/Volunteer";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
