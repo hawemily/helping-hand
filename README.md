@@ -6,6 +6,8 @@ Prototype link: https://www.figma.com/proto/HkYpzUksJ2j9sIE6tFo1td/HelpingHand?n
 
 To run code base on localhost:
 
+npm install
+
 npm run client-install 
 
 npm run server-install 
