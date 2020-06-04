@@ -1,29 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-//Create schema
-
-const UserSchema = new Schema({
-  id: {
-    type: String,
-    required: true,
-  },
-  name: {
-    type: String,
-    required: true,
-  },
-  email: {
-    type: String,
-    default: 0,
-  },
-  jobType: {
-    type: String,
-    default: "",
-  },
-});
-
-const User = mongoose.model("contact", UserSchema);
-
 const TaskSchema = new Schema({
   id: {
     type: String,
@@ -66,8 +43,4 @@ const TaskSchema = new Schema({
 
 var Task = mongoose.model("task", TaskSchema);
 
-
-module.exports = {
-  User: User,
-  Task: Task,
-}
+module.exports = Task;
