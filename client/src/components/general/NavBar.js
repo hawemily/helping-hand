@@ -1,14 +1,5 @@
 import React, { useState } from "react";
-import {
-  Collapse,
-  Navbar,
-  NavbarToggler,
-  NavbarBrand,
-  Nav,
-  NavItem,
-  NavLink,
-  Container,
-} from "reactstrap";
+import { Collapse, Navbar, Nav, Container } from "react-bootstrap";
 
 const NavBar = (props) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,17 +11,17 @@ const NavBar = (props) => {
     <div>
       <Navbar color='info' light expand='sm' className='mb-5'>
         <Container>
-          <NavbarBrand href='/'>Helping Hand</NavbarBrand>
-          <NavbarToggler onClick={toggle} />
+          <Navbar.Brand href='/'>Helping Hand</Navbar.Brand>
+          <Navbar.Toggle onClick={toggle} />
           <Collapse isOpen={isOpen} navbar>
             <Nav className='ml-auto' navbar>
               {navBarItems.map((value) => {
                 return (
-                  <NavItem>
-                    <NavLink href='#' className='alert-link'>
+                  <Nav.Item>
+                    <Nav.Link href='#' className='alert-link'>
                       {value}
-                    </NavLink>
-                  </NavItem>
+                    </Nav.Link>
+                  </Nav.Item>
                 );
               })}
             </Nav>

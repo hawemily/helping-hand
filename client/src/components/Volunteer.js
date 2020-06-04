@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Container, ListGroup, ListGroupItem, Button } from "reactstrap";
+import { Container, ListGroup, Button } from "react-bootstrap";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import axios from "axios";
 
@@ -60,7 +60,7 @@ const Volunteer = (props) => {
       <ListGroup>
         <TransitionGroup className='jobs-list'>
           {vs.map((volunteer, index) => (
-            <ListGroupItem>
+            <ListGroup.Item>
               Name: {volunteer.username}
               <br />
               JobType: {volunteer.jobType}
@@ -70,7 +70,7 @@ const Volunteer = (props) => {
               <Button className='delete-btn' color='danger' size='sm'>
                 &times;
               </Button>
-            </ListGroupItem>
+            </ListGroup.Item>
           ))}
         </TransitionGroup>
       </ListGroup>
