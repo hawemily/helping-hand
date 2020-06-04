@@ -1,8 +1,10 @@
 const express = require("express");
 const router = express.Router();
 
+const schema = require("../models/schema");
+
 //Contact Model
-const Contact = require("../models/schema");
+const Contact = schema.Contact;
 
 //@route GET /contacts
 //@desc Get All contacts
