@@ -26,16 +26,15 @@ function App() {
   return (
     <div className='App'>
       <Router>
-        >
         <NavBar />
         <Switch>
           <Route exact path='/' component={HomePage} />
-          <Route path='/getHelp' component={PinMain} />
+          <Route exact path='/getHelp' component={PinMain} />
+          <Route exact path='/getHelp/groceries' component={GroceryForm} />
           <Route path='/volunteer' component={Volunteer} />
-          <TaskRequestList task={sampleTask} />
-          <VolunteerTaskCard task={sampleTask} />
         </Switch>
-        <GroceryForm />
+        <TaskRequestList task={sampleTask} />
+        <VolunteerTaskCard task={sampleTask} />
       </Router>
     </div>
   );

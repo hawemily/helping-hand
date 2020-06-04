@@ -5,8 +5,10 @@ import { setHours, setMinutes } from "date-fns";
 import AddItem from "./AddItem";
 
 const GroceryForm = (props) => {
-  const [groceryItems, setGroceryItems] = useState([]);
-  useEffect(() => {});
+  const [basket, setBasket] = useState([{ item: "milk", quantity: "1" }]);
+  useEffect(() => {
+    console.log(basket);
+  });
 
   const [store, setStore] = useState("");
   const [date, setDate] = useState(new Date());
@@ -61,7 +63,7 @@ const GroceryForm = (props) => {
               ></Form.Check>
             </Form.Group>
             <Form.Group>
-              <AddItem />
+              <AddItem basket={basket} setBasket={setBasket} />
             </Form.Group>
           </Col>
           <Col md={6}></Col>
