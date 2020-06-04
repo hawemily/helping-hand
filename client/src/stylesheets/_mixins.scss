@@ -17,3 +17,13 @@
         background: lighten($light-grey, 10%);
     }
 }
+
+@mixin tertiary-button {
+    background: $dark-blue;
+    border-color: $salmon;
+    color: white;
+
+    &:hover {
+        background: lighten($dark-blue, 10%);
+    }
+}
