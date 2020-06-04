@@ -14,12 +14,12 @@ router.get("/", (req, res) => {
 //@desc Post A volunteers
 //@access Public
 router.post("/", (req, res) => {
-  const { id, name, email, jobType } = req.body;
+  const { id, name, email, phoneNumber } = req.body;
   const newVolunteer = new Volunteer({
     id: id,
     name: name,
     email: email,
-    jobType: jobType,
+    phoneNumber: phoneNumber,
   });
   newVolunteer
     .save()

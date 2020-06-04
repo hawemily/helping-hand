@@ -22,7 +22,7 @@ const VolunteerTaskCard = (props) => {
             <Card.Body className="taskCard">
                 <Card.Title style={{margin: 0}}>{task.category}</Card.Title>
                 <Card.Text style={{marginLeft: 0}}>{task.description}</Card.Text>
-                <p className="expandTask" onclick={props.expand}>click to expand</p>
+                <p className="expandTask" onClick={props.expand}>click to expand</p>
             </Card.Body>
             </Card>
         </Card.Body>
