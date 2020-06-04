@@ -26,42 +26,6 @@
     }
 }
 
-.taskListConfirmed {
-    padding: 1rem;
-    padding-bottom: 0.5rem;
-    cursor: pointer;
-    background-color: #AEF359;
-
-    &:hover {
-        background-color: darken($lime, 10%);
-    }
-}
-
-.taskListPending {
-    padding: 1rem;
-    padding-bottom: 0.5rem;
-    cursor: pointer;
-    background-color: #FADA5E;
-
-    &:hover {
-        background-color: lighten($yellow, 10%);
-    }
-
-}
-
-.taskListCompleted {
-    padding: 1rem;
-    padding-bottom: 0.5rem;
-    cursor: pointer;
-    background-color: darkgrey;
-    color: white;
-
-    &:hover {
-        background-color: darken($darkgrey, 10%);
-    }
-
-}
-
 .btnGrp {
     margin: 0.5rem auto 1rem auto;
     display: inline-block;

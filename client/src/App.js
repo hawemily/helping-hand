@@ -52,6 +52,7 @@ function App() {
 
   return (
     <div className='App'>
+      <TaskRequestList tasks={sampleTasks} />
       <Router>
         >
         <NavBar />
