@@ -53,14 +53,12 @@ function App() {
   return (
     <div className='App'>
       <Router>
-        >
         <NavBar />
         <Switch>
           <Route exact path='/' component={HomePage} />
           <Route path='/getHelp' component={PinMain} />
           <Route path='/volunteer' component={Volunteer} />
           <TaskRequestList tasks={sampleTasks} />
-          <VolunteerTaskCard task={sampleTask} />
         </Switch>
         <GroceryForm />
       </Router>
