@@ -1,105 +1,50 @@
-import React, { useState, useEffect } from "react";
-import { Container, ListGroup, Button } from "react-bootstrap";
-import { CSSTransition, TransitionGroup } from "react-transition-group";
+import React from "react";
 import axios from "axios";
-import NavBar from "./general/NavBar";
+import VolunteerTaskCard from "./volunteers/VolunteerTaskCard";
 
-const Volunteer = (props) => {
-  const [volunteers, setVolunteers] = useState(null);
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [jobType, setJobType] = useState("");
+class Volunteer extends React.Component {
 
-  useEffect(() => {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoaded: false,
+      tasks: []
+    };
+  }
+
+  componentDidMount() {
     axios
-      .get("/volunteers")
-      .then((volunteers) => setVolunteers(volunteers))
-      .catch((err) => console.log(err));
-  }, []);
-
-  function submitForm() {
-    if (username === "") {
-      alert("Username field is mandatory");
-      return;
-    }
-    if (email === "") {
-      alert("Email field is mandatory");
-      return;
-    }
-    if (jobType === "") {
-      alert("Job field is mandatory");
-      return;
-    }
-    axios
-      .post("/volunteers", {
-        name: username,
-        email: email,
-        jobType: jobType,
-      })
-      .then(function () {
-        alert("Account created successfully");
-        window.location.reload();
+      .get("/tasks")
+      .then((e) => {
+        this.setState({
+          isLoaded: true,
+          tasks: e.data
+        });
       })
       .catch((err) => {
-        alert("Could not create account. Please try again.");
+        this.setState({
+          isLoaded: true,
+          err
+        })
         console.log(err);
+        alert("Could not load tasks. Please try again.");
       });
   }
 
-  // function deleteEntry() {
-  //   axios.delete
-  // }
+  render() {
+    const tasks = this.state.tasks.map((task, i) => (
+      <VolunteerTaskCard task={task} key={i}>
+      </VolunteerTaskCard>
+    ));
 
-  const vs = [{ username: "John", email: "abc@123.com", jobType: "Groceries" }];
-  function seeVs() {
-    for (var i = 0; i < volunteers.length; i++) {
-      console.log(volunteers[i].name);
-    }
+    return (
+      <div>
+        {tasks}
+      </div>
+    );
   }
-  return (
-    <Container>
-      <ListGroup>
-        <TransitionGroup className='jobs-list'>
-          {vs.map((volunteer, index) => (
-            <ListGroup.Item>
-              Name: {volunteer.username}
-              <br />
-              JobType: {volunteer.jobType}
-              <br />
-              Email: {volunteer.email}
-              <br />
-              <Button className='delete-btn' color='danger' size='sm'>
-                &times;
-              </Button>
-            </ListGroup.Item>
-          ))}
-        </TransitionGroup>
-      </ListGroup>
-      <br />
 
-      <form onSubmit={submitForm}>
-        <input
-          onChange={(e) => setUsername(e.target.value)}
-          type='text'
-          placeholder='Enter your name'
-        />
-        <br />
-        <input
-          onChange={(e) => setEmail(e.target.value)}
-          type='text'
-          placeholder='Enter your email address'
-        />
-        <br />
-        <input
-          onChange={(e) => setJobType(e.target.value)}
-          type='text'
-          placeholder='Enter your type of job'
-        />
-        <br />
-        <input type='submit' />
-      </form>
-    </Container>
-  );
+  
 };
 
 export default Volunteer;

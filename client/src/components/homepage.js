@@ -20,7 +20,7 @@ const HomePage = (props) => {
       body: "Find volunteering opportunites in your community",
       link: "/volunteer",
     },
-    { title: "Learn More", body: " Read about our story" },
+    { title: "Learn More", body: " Read about our story", link: "/" },
   ];
 
   return (

@@ -1,44 +1,42 @@
 const express = require("express");
 const router = express.Router();
 
-const schema = require("../models/schema");
+const Volunteer = require("../models/volunteerSchema");
 
-//Contact Model
-const Contact = schema.Contact;
-
-//@route GET /contacts
-//@desc Get All contacts
+//@route GET /volunteers
+//@desc Get All volunteers
 //@access Public
 router.get("/", (req, res) => {
-  Contact.find().then((contacts) => res.json(contacts));
+  Volunteer.find().then((volunteers) => res.json(volunteers));
 });
 
-//@route Post /contacts
-//@desc Post A contacts
+//@route Post /volunteers
+//@desc Post A volunteers
 //@access Public
 router.post("/", (req, res) => {
-  const { name, email, jobType } = req.body;
-  const newContact = new Contact({
+  const { id, name, email, phoneNumber } = req.body;
+  const newVolunteer = new Volunteer({
+    id: id,
     name: name,
     email: email,
-    jobType: jobType,
+    phoneNumber: phoneNumber,
   });
-  newContact
+  newVolunteer
     .save()
     .then((item) => res.json(item))
     .catch((err) =>
       res.status(400).json({
         error: err,
-        message: "Error creating User",
+        message: "Error creating Volunteer",
       })
     );
 });
 
-//@route delete /contacts/:id
-//@desc Delete A contacts
+//@route delete /volunteers/:id
+//@desc Delete A volunteers
 //@access Public
 router.delete("/:id", (req, res) => {
-  Contact.findById(req.params.id)
+  Volunteer.findById(req.params.id)
     .then((item) => item.remove())
     .then(() => res.json({ success: true }))
     .catch((err) => res.status(404).json({ success: false }));

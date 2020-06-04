@@ -1,32 +1,17 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-//Create schema
-
-const ContactSchema = new Schema({
-  name: {
+const TaskSchema = new Schema({
+  id: {
     type: String,
     required: true,
   },
-  email: {
-    type: String,
-    default: 0,
-  },
-  jobType: {
-    type: String,
-    default: "",
-  },
-});
-
-const Contact = mongoose.model("contact", ContactSchema);
-
-const TaskSchema = new Schema({
   area: {
     type: String,
     required: true,
   },
-  datetime: {
-    type: Date,
+  date: {
+    type: String,
     required: true,
   },
   category: {
@@ -58,8 +43,4 @@ const TaskSchema = new Schema({
 
 var Task = mongoose.model("task", TaskSchema);
 
-
-module.exports = {
-  Contact: Contact,
-  Task: Task,
-}
+module.exports = Task;

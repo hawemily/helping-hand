@@ -8,7 +8,7 @@ const VolunteerTaskCard = (props) => {
   // and parse date before passing in through props
 
   return (
-    <Card style={{ width: "50%", margin: "0.5rem" }}>
+    <Card className='taskCardWrapper'>
       <Card.Header className='taskCardHeader'>
         <h5>{task.area}</h5>
         <p>
@@ -20,7 +20,7 @@ const VolunteerTaskCard = (props) => {
           <Card.Body className='taskCard'>
             <Card.Title style={{ margin: 0 }}>{task.category}</Card.Title>
             <Card.Text style={{ marginLeft: 0 }}>{task.description}</Card.Text>
-            <p className='expandTask' onclick={props.expand}>
+            <p className='expandTask' onClick={props.expand}>
               click to expand
             </p>
           </Card.Body>
