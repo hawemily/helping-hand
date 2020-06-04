@@ -4,7 +4,7 @@ import DatePicker from "react-datepicker";
 import { setHours, setMinutes } from "date-fns";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 
 import AddItem from "./AddItem";
 import Basket from "../general/Basket";
@@ -36,9 +36,9 @@ const GroceryForm = (props) => {
         window.location.reload();
       })
       .catch((err) => {
-        alert(
-          "Could not submit grocery list. Please try again in a few seconds."
-        );
+        // alert(
+        //   "Could not submit grocery list. Please try again in a few seconds."
+        // );
         console.log(err);
       });
     setRedirectToTaskList(!redirectToTaskList);
@@ -126,10 +126,7 @@ const GroceryForm = (props) => {
         </Container>
         <br />
         <div>
-          <Button
-            variant='dark'
-            onClick={setRedirectToTaskList(!redirectToTaskList)}
-          >
+          <Button variant='dark' tag={Link} href='/getHelp/requestList'>
             Return to My Requests
           </Button>
         </div>
