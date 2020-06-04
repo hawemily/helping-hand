@@ -1,7 +1,5 @@
 import React from "react";
 import {Nav, Container, Card, Button} from "react-bootstrap";
-import TaskItem from "./TaskItem";
-
 
 const TaskRequestList = (props) => {
     var task = props.task;
@@ -14,16 +12,16 @@ const TaskRequestList = (props) => {
                 <Card.Header>
                     <Nav fill justify variant="tabs" defaultActiveKey="#first">
                         <Nav.Item>
-                            <Nav.Link href="#first">Date</Nav.Link>
+                            <Nav.Link href="#first"><h4>Date</h4></Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
-                            <Nav.Link href="#first">Request No.</Nav.Link>
+                            <Nav.Link href="#first"><h4>Request No.</h4></Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
-                            <Nav.Link href="#first"> Service </Nav.Link>
+                            <Nav.Link href="#first"><h4>Service</h4> </Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
-                            <Nav.Link href="#first"> Volunteer </Nav.Link>
+                            <Nav.Link href="#first"><h4>Volunteer</h4></Nav.Link>
                         </Nav.Item>
                     </Nav>
                 </Card.Header>
