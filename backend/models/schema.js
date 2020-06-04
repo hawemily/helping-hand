@@ -3,7 +3,11 @@ const Schema = mongoose.Schema;
 
 //Create schema
 
-const ContactSchema = new Schema({
+const UserSchema = new Schema({
+  id: {
+    type: String,
+    required: true,
+  },
   name: {
     type: String,
     required: true,
@@ -18,9 +22,13 @@ const ContactSchema = new Schema({
   },
 });
 
-const Contact = mongoose.model("contact", ContactSchema);
+const User = mongoose.model("contact", UserSchema);
 
 const TaskSchema = new Schema({
+  id: {
+    type: String,
+    required: true,
+  },
   area: {
     type: String,
     required: true,
@@ -60,6 +68,6 @@ var Task = mongoose.model("task", TaskSchema);
 
 
 module.exports = {
-  Contact: Contact,
+  User: User,
   Task: Task,
 }

@@ -3,27 +3,31 @@ const router = express.Router();
 
 const schema = require("../models/schema");
 
-//Contact Model
-const Contact = schema.Contact;
+// Models
+const User = schema.User;
+const Task = schema.Task;
 
-//@route GET /contacts
-//@desc Get All contacts
+// Users
+
+//@route GET /users
+//@desc Get All users
 //@access Public
 router.get("/", (req, res) => {
-  Contact.find().then((contacts) => res.json(contacts));
+  User.find().then((users) => res.json(users));
 });
 
-//@route Post /contacts
-//@desc Post A contacts
+//@route Post /users
+//@desc Post A users
 //@access Public
 router.post("/", (req, res) => {
-  const { name, email, jobType } = req.body;
-  const newContact = new Contact({
+  const { id, name, email, jobType } = req.body;
+  const newUser = new User({
+    id: id,
     name: name,
     email: email,
     jobType: jobType,
   });
-  newContact
+  newUser
     .save()
     .then((item) => res.json(item))
     .catch((err) =>
@@ -34,11 +38,58 @@ router.post("/", (req, res) => {
     );
 });
 
-//@route delete /contacts/:id
-//@desc Delete A contacts
+//@route delete /users/:id
+//@desc Delete A users
 //@access Public
 router.delete("/:id", (req, res) => {
-  Contact.findById(req.params.id)
+  User.findById(req.params.id)
+    .then((item) => item.remove())
+    .then(() => res.json({ success: true }))
+    .catch((err) => res.status(404).json({ success: false }));
+});
+
+
+// Tasks
+
+//@route GET /tasks
+//@desc Get All tasks
+//@access Public
+router.get("/", (req, res) => {
+  Task.find().then((tasks) => res.json(tasks));
+});
+
+//@route Post /tasks
+//@desc Post A tasks
+//@access Public
+router.post("/", (req, res) => {
+  const { id, area, datetime, category, pinId, volunteerId, description, store, optionOne } = req.body;
+  const newTask = new Task({
+    id: id,
+    area: area,
+    datetime: datetime,
+    category: category,
+    pinId: pinId,
+    volunteerId: volunteerId,
+    description: description,
+    store: store,
+    optionOne: optionOne != 'null' ? optionOne : null
+  });
+  newTask
+    .save()
+    .then((item) => res.json(item))
+    .catch((err) =>
+      res.status(400).json({
+        error: err,
+        message: "Error creating Task",
+      })
+    );
+});
+
+//@route delete /tasks/:id
+//@desc Delete A tasks
+//@access Public
+router.delete("/:id", (req, res) => {
+  Task.findById(req.params.id)
     .then((item) => item.remove())
     .then(() => res.json({ success: true }))
     .catch((err) => res.status(404).json({ success: false }));
