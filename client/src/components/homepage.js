@@ -1,8 +1,9 @@
 import React from "react";
 import NavBar from "./general/NavBar";
 import InitialOptions from "./initialOptions";
-import { BrowserRouter as Router, Link, Switch, Route } from "react-router-dom"
+import { BrowserRouter as Router, Route } from "react-router-dom"
 import PinMain from "./personInNeed/pinMain"
+import Volunteer from "./Volunteer"
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -19,6 +20,7 @@ const Homepage = (props) => {
         </React.Fragment>
       	)}/>
       <Route exact path="/getHelp" component={PinMain} />
+      <Route exact path="/volunteer" component={Volunteer} />
     </div>
     </Router>
   );

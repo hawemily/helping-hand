@@ -1,8 +1,6 @@
 import React from "react";
-import { Card, CardBody, Button, Row, Col } from 'reactstrap';
-import PinMain from "./personInNeed/pinMain"
-import { BrowserRouter as Router, Link, Switch, Route } from "react-router-dom"
-import Homepage from "./homepage"
+import { Card, CardBody, Button, Row } from 'reactstrap';
+import { Link } from "react-router-dom"
 
 const InitialOptions = (props) => {
   return (
@@ -19,7 +17,7 @@ const InitialOptions = (props) => {
       <div style={{marginTop: '75px', marginLeft: '3%', width: '300px'}}>
         <Card>
           <CardBody>
-          	<Button outline color="info" block>I Can Help</Button>
+          	<Button outline color="info" block tag={Link} to="/volunteer">I Can Help</Button>
           	<p style={{marginTop: '15px', textAlign: 'center'}}>Find volunteering opportunites in your community</p>
           </CardBody>
         </Card>

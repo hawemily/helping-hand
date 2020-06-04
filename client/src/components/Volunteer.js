@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Container, ListGroup, ListGroupItem, Button } from "reactstrap";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import axios from "axios";
+import NavBar from "./general/NavBar";
 
 const Volunteer = (props) => {
   const [volunteers, setVolunteers] = useState(null);
@@ -56,47 +57,50 @@ const Volunteer = (props) => {
     }
   }
   return (
-    <Container>
-      <ListGroup>
-        <TransitionGroup className='jobs-list'>
-          {vs.map((volunteer, index) => (
-            <ListGroupItem>
-              Name: {volunteer.username}
-              <br />
-              JobType: {volunteer.jobType}
-              <br />
-              Email: {volunteer.email}
-              <br />
-              <Button className='delete-btn' color='danger' size='sm'>
-                &times;
-              </Button>
-            </ListGroupItem>
-          ))}
-        </TransitionGroup>
-      </ListGroup>
-      <br />
-      <form onSubmit={submitForm}>
-        <input
-          onChange={(e) => setUsername(e.target.value)}
-          type='text'
-          placeholder='Enter your name'
-        />
+    <div>
+      <NavBar />
+      <Container>
+        <ListGroup>
+          <TransitionGroup className='jobs-list'>
+            {vs.map((volunteer, index) => (
+              <ListGroupItem>
+                Name: {volunteer.username}
+                <br />
+                JobType: {volunteer.jobType}
+                <br />
+                Email: {volunteer.email}
+                <br />
+                <Button className='delete-btn' color='danger' size='sm'>
+                  &times;
+                </Button>
+              </ListGroupItem>
+            ))}
+          </TransitionGroup>
+        </ListGroup>
         <br />
-        <input
-          onChange={(e) => setEmail(e.target.value)}
-          type='text'
-          placeholder='Enter your email address'
-        />
-        <br />
-        <input
-          onChange={(e) => setJobType(e.target.value)}
-          type='text'
-          placeholder='Enter your type of job'
-        />
-        <br />
-        <input type='submit' />
-      </form>
-    </Container>
+        <form onSubmit={submitForm}>
+          <input
+            onChange={(e) => setUsername(e.target.value)}
+            type='text'
+            placeholder='Enter your name'
+          />
+          <br />
+          <input
+            onChange={(e) => setEmail(e.target.value)}
+            type='text'
+            placeholder='Enter your email address'
+          />
+          <br />
+          <input
+            onChange={(e) => setJobType(e.target.value)}
+            type='text'
+            placeholder='Enter your type of job'
+          />
+          <br />
+          <input type='submit' />
+        </form>
+      </Container>
+    </div>
   );
 };
 
