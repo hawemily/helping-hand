@@ -2,6 +2,7 @@ import React from "react";
 import NavBar from "./components/general/NavBar";
 import Volunteer from "./components/Volunteer";
 import GroceryForm from "./components/people_in_need/GroceryForm";
+import Homepage from "./components/homepage";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-datepicker/dist/react-datepicker.css";
@@ -13,6 +14,7 @@ function App() {
       <NavBar />
       <Volunteer />
       <GroceryForm />
+      <Homepage />
     </div>
   );
 }

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Container, ListGroup, Button } from "react-bootstrap";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import axios from "axios";
+import NavBar from "./general/NavBar";
 
 const Volunteer = (props) => {
   const [volunteers, setVolunteers] = useState(null);
@@ -75,6 +76,7 @@ const Volunteer = (props) => {
         </TransitionGroup>
       </ListGroup>
       <br />
+
       <form onSubmit={submitForm}>
         <input
           onChange={(e) => setUsername(e.target.value)}
