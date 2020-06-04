@@ -9,11 +9,11 @@ const NavBar = (props) => {
 
   return (
     <div>
-      <Navbar color='info' light expand='sm' className='mb-5'>
+      <Navbar bg='light' light expand='sm' className='mb-5'>
         <Container>
           <Navbar.Brand href='/'>Helping Hand</Navbar.Brand>
           <Navbar.Toggle onClick={toggle} />
-          <Collapse isOpen={isOpen} navbar>
+          <Navbar.Collapse isOpen={isOpen} navbar>
             <Nav className='ml-auto' navbar>
               {navBarItems.map((value) => {
                 return (
@@ -25,7 +25,7 @@ const NavBar = (props) => {
                 );
               })}
             </Nav>
-          </Collapse>
+          </Navbar.Collapse>
         </Container>
       </Navbar>
     </div>
