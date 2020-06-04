@@ -30,7 +30,7 @@
     margin: 0.5rem auto 1rem auto;
     display: inline-block;
 
-    .taskCardDetailsBtn, .taskCardAcceptBtn {
+    .taskCardDetailsBtn, .taskCardAcceptBtn, .taskCardReportBtn {
         margin: 0 0.5rem;
     }
 
@@ -40,5 +40,9 @@
 
     .taskCardAcceptBtn {
         @include primary-button;
+    }
+
+    .taskCardReportBtn {
+        @include tertiary-button;
     }
 }

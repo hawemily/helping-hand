@@ -6,6 +6,12 @@ const TaskRequestList = (props) => {
     // props passed into task request list should have all the information shown,
     // as well as information on the volunteer who confirmed it
 
+    function setBorder() {
+        if (task.status =='pending') return 'warning'
+        if (task.status == 'confirmed') return 'success'
+        if (task.status == 'completed') return 'secondary'
+    }
+
     return (
         <Container variant='flush'>
             <Card>
@@ -26,17 +32,17 @@ const TaskRequestList = (props) => {
                     </Nav>
                 </Card.Header>
                 <Card.Body>
-                    <Card border='success' className='taskEntry'>
+                    <Card border={setBorder} className="taskCard">
                         <Nav fill justify>
                             <Nav.Item> <h5> {task.date} </h5></Nav.Item>
                             <Nav.Item> <h5> #{task.id} </h5></Nav.Item>
                             <Nav.Item><h5> {task.category} </h5> </Nav.Item>
                             <Nav.Item><h5>{task.volunteerId}</h5></Nav.Item>
                         </Nav>
-                        <div className="ActionGrp">
-                            <Button className="ActionDetailsBtn">View Details</Button>
-                            <Button className="ActionInfoBtn">Volunteer Info</Button>
-                            <Button className="ActionReportBtn"> Report an Issue </Button>
+                        <div className="btnGrp">
+                            <Button className="taskCardDetailsBtn">View Details</Button>
+                            <Button className="taskCardReportBtn">Volunteer Info</Button>
+                            <Button className="taskCardAcceptBtn">Report an Issue</Button>
                         </div>
                     </Card>
                 </Card.Body>
