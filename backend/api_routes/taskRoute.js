@@ -14,11 +14,11 @@ router.get("/", (req, res) => {
 //@desc Post A tasks
 //@access Public
 router.post("/", (req, res) => {
-  const { id, area, datetime, category, pinId, volunteerId, description, store, optionOne } = req.body;
+  const { id, area, date, category, pinId, volunteerId, description, store, optionOne } = req.body;
   const newTask = new Task({
     id: id,
     area: area,
-    datetime: datetime,
+    date: date,
     category: category,
     pinId: pinId,
     volunteerId: volunteerId,

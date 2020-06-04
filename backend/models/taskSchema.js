@@ -10,8 +10,8 @@ const TaskSchema = new Schema({
     type: String,
     required: true,
   },
-  datetime: {
-    type: Date,
+  date: {
+    type: String,
     required: true,
   },
   category: {
