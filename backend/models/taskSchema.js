@@ -8,7 +8,6 @@ const TaskSchema = new Schema({
   },
   volunteerId: {
     type: String,
-    required: true
   },
 });
 
