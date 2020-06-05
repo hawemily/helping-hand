@@ -2,16 +2,13 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const TaskSchema = new Schema({
-  taskID: {
-    type: String,
-    required: true,
-  },
-
   pinId: {
     type: String,
+    required: true
   },
   volunteerId: {
     type: String,
+    required: true
   },
 });
 

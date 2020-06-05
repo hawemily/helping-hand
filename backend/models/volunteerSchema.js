@@ -4,10 +4,6 @@ const Schema = mongoose.Schema;
 //Create schema
 
 const VolunteerSchema = new Schema({
-  id: {
-    type: String,
-    required: true,
-  },
   name: {
     type: String,
     required: true,
