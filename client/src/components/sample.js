@@ -1,3 +1,6 @@
+import React from "react";
+import axios from "axios";
+
 const Volunteer = (props) => {
   const [volunteers, setVolunteers] = useState(null);
   const [username, setUsername] = useState("");
@@ -40,9 +43,8 @@ const Volunteer = (props) => {
       });
   }
 
-
   function deleteEntry() {
-    axios.delete
+    axios.delete;
   }
 
   const vs = [{ username: "John", email: "abc@123.com", jobType: "Groceries" }];
@@ -95,4 +97,4 @@ const Volunteer = (props) => {
       </form>
     </Container>
   );
-}
+};

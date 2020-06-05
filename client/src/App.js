@@ -48,7 +48,7 @@ function App() {
     expand: () => console.log("click to expand"),
   };
 
-  const sampleTasks = [sampleTask, sampleTask2, sampleTask3]
+  const sampleTasks = [sampleTask, sampleTask2, sampleTask3];
 
   return (
     <div className='App'>
@@ -56,11 +56,17 @@ function App() {
         <NavBar />
         <Switch>
           <Route exact path='/' component={HomePage} />
-          <Route path='/getHelp' component={PinMain} />
+          <Route exact path='/getHelp' component={PinMain} />
+          <Route exact path='/getHelp/groceries' component={GroceryForm} />
+          <Route
+            exact
+            path='/getHelp/requestList'
+            component={() => <TaskRequestList tasks={sampleTasks} />}
+          />
           <Route path='/volunteer' component={Volunteer} />
-          <TaskRequestList tasks={sampleTasks} />
         </Switch>
-        <GroceryForm />
+
+        {/* <VolunteerTaskCard task={sampleTasks} /> */}
       </Router>
     </div>
   );

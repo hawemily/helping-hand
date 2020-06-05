@@ -2,44 +2,18 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const TaskSchema = new Schema({
-  id: {
+  taskID: {
     type: String,
     required: true,
   },
-  area: {
-    type: String,
-    required: true,
-  },
-  date: {
-    type: String,
-    required: true,
-  },
-  category: {
-    type: String,
-    default: "",
-  },
+
   pinId: {
     type: String,
-    required: true,
   },
   volunteerId: {
     type: String,
-    required: true
   },
-  description: {
-    type: String,
-    required: true,
-  },
-  store: {
-    type: String,
-    required: true,
-  },
-  // for options such as allowing substitutions for groceries
-  optionOne: {
-    type: Boolean,
-    default: false,
-  }
-})
+});
 
 var Task = mongoose.model("task", TaskSchema);
 

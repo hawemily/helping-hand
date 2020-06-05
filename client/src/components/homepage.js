@@ -13,12 +13,12 @@ const HomePage = (props) => {
       title: "I Need Help",
       body:
         " Make a request through our simple form, and get connected to a volunteer in your area",
-        link: "/getHelp"
+      link: "/getHelp",
     },
     {
       title: "I Can Help",
       body: "Find volunteering opportunites in your community",
-      link: "/volunteer"
+      link: "/volunteer",
     },
     { title: "Learn More", body: " Read about our story", link: "/" },
   ];
@@ -62,7 +62,13 @@ const HomePage = (props) => {
               }}
             >
               <Card.Body>
-                <Button outline color='info' block tag={Link} href={option.link}>
+                <Button
+                  outline
+                  color='info'
+                  block
+                  tag={Link}
+                  href={option.link}
+                >
                   {`${option.title}`}
                 </Button>
                 <p style={{ marginTop: "15px", textAlign: "center" }}>

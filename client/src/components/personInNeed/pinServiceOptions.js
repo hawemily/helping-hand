@@ -1,10 +1,16 @@
 import React from "react";
 import { Card, Button, Row, Col, Container } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 const Services = (props) => {
   const optionWidth = "302px";
 
-  const services = ["Grocery", "Laundry", "Transport", "Healthcare"];
+  const services = [
+    { name: "Groceries", link: "/getHelp/groceries" },
+    { name: "Laundry" },
+    { name: "Transport" },
+    { name: "Healthcare" },
+  ];
   return (
     <Container>
       <Row>
@@ -23,8 +29,14 @@ const Services = (props) => {
                 alt='Card image cap'
               />
               <Card.Body>
-                <Button outline color='primary' block>
-                  {`${service}`}
+                <Button
+                  outline
+                  color='primary'
+                  block
+                  tag={Link}
+                  href={service.link}
+                >
+                  {service.name}
                 </Button>
               </Card.Body>
             </Card>

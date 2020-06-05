@@ -5,7 +5,12 @@ const NavBar = (props) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => setIsOpen(!isOpen);
-  const navBarItems = ["Volunteer", "Get Help", "Contact Us", "Login"];
+  const navBarItems = [
+    { title: "Volunteer", link: "/volunteer" },
+    { title: "Get Help", link: "/getHelp" },
+    { title: "Contact Us" },
+    { title: "Login" },
+  ];
 
   return (
     <div>
@@ -15,11 +20,11 @@ const NavBar = (props) => {
           <Navbar.Toggle onClick={toggle} />
           <Navbar.Collapse isOpen={isOpen} navbar>
             <Nav className='ml-auto' navbar>
-              {navBarItems.map((value) => {
+              {navBarItems.map((item) => {
                 return (
                   <Nav.Item>
-                    <Nav.Link href='#' className='alert-link'>
-                      {value}
+                    <Nav.Link href={item.link} className='alert-link'>
+                      {item.title}
                     </Nav.Link>
                   </Nav.Item>
                 );
