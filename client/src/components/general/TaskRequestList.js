@@ -3,6 +3,11 @@ import { Nav, Container, Card, Button, Table, Row, Col } from "react-bootstrap";
 import TaskItem from "./TaskItem";
 import DetailsModal from "./DetailsModal";
 import ReportIssueModal from "./ReportIssueModal";
+import { TiTick } from "react-icons/ti";
+import { GiEmptyHourglass } from "react-icons/gi";
+import { MdDoneAll } from "react-icons/md";
+
+import { IconContext } from "react-icons";
 
 import { array } from "prop-types";
 
@@ -10,6 +15,8 @@ const TaskRequestList = (props) => {
   const tasks = props.tasks;
   // props passed into task request list should have all the information shown,
   // as well as information on the volunteer who confirmed it
+  // THERE IS A BUG where modal only presents first elem of list
+  // TODO: try componentwillupdateprops alternative
   const [detailsModalShow, setDetailsModalShow] = useState(false);
   const [reportModalShow, setReportModalShow] = useState(false);
   return (
@@ -21,7 +28,7 @@ const TaskRequestList = (props) => {
             <th>Request No.</th>
             <th>Service</th>
             <th> Actions </th>
-            {/* <th>Status</th> */}
+            <th>Status</th>
           </tr>
         </thead>
         <tbody>
@@ -78,14 +85,25 @@ const TaskRequestList = (props) => {
                     </Col>
                   </Row>
                 </td>
-                <td class='align-middle'></td>
-                <td class='align-middle'></td>
+                <td class='align-middle'>
+                  <IconContext.Provider value={{ style: { fontSize: "30px" } }}>
+                    <div>
+                      {task.isCompleted ? (
+                        <TiTick />
+                      ) : task.volunteerId == null ? (
+                        <GiEmptyHourglass />
+                      ) : (
+                        <MdDoneAll />
+                      )}
+                    </div>
+                  </IconContext.Provider>
+                </td>
               </tr>
             );
           })}
         </tbody>
       </Table>
-      <Card>
+      {/* <Card>
         <Card.Header>
           <Nav fill justify variant='tabs' defaultActiveKey='#first'>
             <Nav.Item>
@@ -117,7 +135,7 @@ const TaskRequestList = (props) => {
             })}
           </div>
         </Card.Body>
-      </Card>
+      </Card> */}
     </Container>
   );
 };
