@@ -6,13 +6,25 @@ const VolunteerTaskCard = (props) => {
 
   // must calculate distance based on current location and area given
   // and parse date before passing in through props
+  const timeFormat = (d) => {
+    if (d === null) return "";
+    const date = new Date(d);
+    return `${date.getHours()}:${date.getMinutes()}`;
+  };
+
+  const dateFormat = (d) => {
+    if (d === null) return "";
+    const date = new Date(d);
+    return `${date.getDate()}/${date.getMonth()}/${date.getYear()}`;
+  };
 
   return (
     <Card className='taskCardWrapper'>
       <Card.Header className='taskCardHeader'>
         <h5>{task.area}</h5>
         <p>
-          {task.date}, {task.distance} km away
+          {dateFormat(task.date)},{timeFormat(task.date)}, {task.distance} km
+          away
         </p>
       </Card.Header>
       <Card.Body style={{ padding: "0.5rem 1rem" }}>
