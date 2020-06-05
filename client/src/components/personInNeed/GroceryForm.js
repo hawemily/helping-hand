@@ -24,6 +24,10 @@ const GroceryForm = (props) => {
 
   const onSubmit = (data) => {
     console.log(data);
+    if (basket.length === 0) {
+      alert("Basket cannot be empty!");
+      return;
+    }
     axios
       .post("/services/groceries", {
         store: data.store,
@@ -113,7 +117,7 @@ const GroceryForm = (props) => {
                 </Col>
                 <Col>
                   <Button variant='danger' onClick={resetList}>
-                    Reset List
+                    Reset Basket
                   </Button>
                 </Col>
               </Row>
