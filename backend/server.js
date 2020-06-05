@@ -5,6 +5,7 @@ const path = require("path");
 
 const volunteerApi = require("./api_routes/volunteerRoute");
 const taskApi = require("./api_routes/taskRoute");
+const servicesApi = require("./api_routes/servicesRoute");
 
 const app = express();
 
@@ -23,6 +24,7 @@ mongoose
 //Use Routes
 app.use("/volunteers", volunteerApi);
 app.use("/tasks", taskApi);
+app.use("/getHelp", servicesApi);
 
 //Serve static assets if in production
 if (process.env.NODE_ENV === "production") {
