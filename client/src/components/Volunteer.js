@@ -7,18 +7,49 @@ class Volunteer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoaded: false,
-      tasks: []
+      isLoaded: false
     };
+    this.tasks = [];
   }
 
   componentDidMount() {
+    var taskList = this.tasks;
+
+   function loadService(task) {
+     return new Promise((resolve, reject) => {
+      axios.get("/tasks/getService/" + task._id)
+      .then((e) => {
+        if (e != null) {
+          const { area, store, date, time, basket, category, _id, optionOne} = e.data.service;
+          taskList.push({
+            task: task,
+            area: area,
+            store: store,
+            date: date,
+            time: time,
+            category: category,
+            basket: basket
+          });
+        }
+        resolve();
+      })
+      .catch((err) => {
+        console.error(err);
+        resolve();
+      });
+     })
+  }
+
     axios
       .get("/tasks")
-      .then((e) => {
+      .then(async function (e) {
+        const promises = e.data.map(loadService);
+
+        await Promise.all(promises);
+      })
+      .then(() => {
         this.setState({
-          isLoaded: true,
-          tasks: e.data
+          isLoaded: true
         });
       })
       .catch((err) => {
@@ -26,13 +57,14 @@ class Volunteer extends React.Component {
           isLoaded: true,
           err
         })
-        console.log(err);
+        console.error(err);
         alert("Could not load tasks. Please try again.");
       });
   }
 
+
   render() {
-    const tasks = this.state.tasks.map((task, i) => (
+    const tasks = this.tasks.map((task, i) => (
       <VolunteerTaskCard task={task} key={i}>
       </VolunteerTaskCard>
     ));

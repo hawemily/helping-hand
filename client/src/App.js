@@ -4,7 +4,6 @@ import Volunteer from "./components/Volunteer";
 import GroceryForm from "./components/personInNeed/GroceryForm";
 import HomePage from "./components/homepage";
 import PinMain from "./components/personInNeed/pinMain";
-import VolunteerTaskCard from "./components/volunteers/VolunteerTaskCard";
 import TaskRequestList from "./components/general/TaskRequestList";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 

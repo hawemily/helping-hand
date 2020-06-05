@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const Task = require("../models/taskSchema");
+const Service = require("../models/serviceSchema");
 
 //@route GET /tasks
 //@desc Get All tasks
@@ -10,13 +11,43 @@ router.get("/", (req, res) => {
   Task.find().then((tasks) => res.json(tasks));
 });
 
+//@route GET /tasks/getService/:id
+//@desc Get associated service
+//@access Public
+router.get("/getService/:id", (req, res) => {
+  const taskId = req.params.id;
+  Service.findOne({
+      "taskId": taskId
+    })
+    .then((result) => {
+      if (result != null) {
+        res.json({
+          success: true,
+          service: result
+        });
+      } else {
+        res.status(404).json({
+          success: false,
+          error: result
+        })
+      }
+    })
+    .catch(err =>
+      res.status(404).json({
+        success: false,
+        error: err
+      }))
+})
+
 //@route Post /tasks
 //@desc Post A tasks
 //@access Public
 router.post("/", (req, res) => {
-  const { id, pinId, volunteerId } = req.body;
+  const {
+    pinId,
+    volunteerId
+  } = req.body;
   const newTask = new Task({
-    taskID: id,
     pinId: pinId,
     volunteerId: volunteerId,
   });
@@ -37,8 +68,12 @@ router.post("/", (req, res) => {
 router.delete("/:id", (req, res) => {
   Task.findById(req.params.id)
     .then((item) => item.remove())
-    .then(() => res.json({ success: true }))
-    .catch((err) => res.status(404).json({ success: false }));
+    .then(() => res.json({
+      success: true
+    }))
+    .catch((err) => res.status(404).json({
+      success: false
+    }));
 });
 
 module.exports = router;
