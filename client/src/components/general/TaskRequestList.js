@@ -39,7 +39,7 @@ const TaskRequestList = (props) => {
               >
                 <td class='align-middle'>{date}</td>
                 <td class='align-middle'>#{id}</td>
-                <td class='align-middle'>{category}</td>
+                <td class='align-middle'>{`${category} + ${volunteerId}`}</td>
                 <td class='align-middle'>
                   <Row>
                     <Col>
@@ -49,25 +49,32 @@ const TaskRequestList = (props) => {
                       >
                         More Details
                       </Button>
-                      <DetailsModal
-                        show={detailsModalShow}
-                        description={description}
-                        volDetails={volunteerId}
-                        category={category}
-                        onHide={() => setDetailsModalShow(false)}
-                      />
+                      <div id={id}>
+                        <DetailsModal
+                          show={detailsModalShow}
+                          task={task}
+                          onHide={() => setDetailsModalShow(false)}
+                          ariaLabelledBy={task.id}
+                        />
+                      </div>
+                      {console.log("HELLOOOOO")}
+                      {console.log(task)}
                     </Col>
 
                     <Col>
                       <Button
                         variant='danger'
                         onClick={() => {
-                          setDetailsModalShow(true);
+                          setReportModalShow(true);
                         }}
                       >
                         Report Issue
                       </Button>
-                      <ReportIssueModal show={reportModalShow} />
+                      <ReportIssueModal
+                        show={reportModalShow}
+                        task={task}
+                        onHide={() => setReportModalShow(false)}
+                      />
                     </Col>
                   </Row>
                 </td>
