@@ -4,7 +4,7 @@ import { Container, Table, Button, Row, Col } from "react-bootstrap";
 const Basket = (props) => {
   const deleteItem = (id) => {
     console.log(id);
-    props.setBasket(props.basket.filter((el, value) => value != id));
+    props.setBasket(props.basket.filter((el, value) => value !== id));
   };
   return (
     <Container>

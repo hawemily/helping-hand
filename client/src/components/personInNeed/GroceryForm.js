@@ -30,12 +30,12 @@ const GroceryForm = (props) => {
     }
     axios
       .post("/getHelp/groceries", {
-        pinId: 'tempPinId',
-        area: 'someLocation',
+        pinId: "tempPinId",
+        area: "someLocation",
         store: data.store,
         date: date,
         time: time,
-        basket: basket.map(toString).toString(),
+        basket: JSON.stringify(basket),
       })
       .then(() => {
         alert("Grocery request has been submitted");

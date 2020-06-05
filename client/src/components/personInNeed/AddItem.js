@@ -21,7 +21,7 @@ const AddItem = (props) => {
   const legends = [
     {
       name: "Item",
-      pattern: /^[A-Za-z]+$/,
+      pattern: /^[A-Za-z ]+$/,
       regexMessage: "This field can only accept alphabets",
     },
     {
