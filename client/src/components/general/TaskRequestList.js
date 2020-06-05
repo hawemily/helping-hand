@@ -43,11 +43,12 @@ const TaskRequestList = (props) => {
                     ? "pending"
                     : "confirmed"
                 }`}
+                key={id}
               >
-                <td class='align-middle'>{date}</td>
-                <td class='align-middle'>#{id}</td>
-                <td class='align-middle'>{`${category} + ${volunteerId}`}</td>
-                <td class='align-middle'>
+                <td className='align-middle'>{date}</td>
+                <td className='align-middle'>#{id}</td>
+                <td className='align-middle'>{`${category}`}</td>
+                <td className='align-middle'>
                   <Row>
                     <Col>
                       <Button
@@ -64,8 +65,6 @@ const TaskRequestList = (props) => {
                           ariaLabelledBy={task.id}
                         />
                       </div>
-                      {console.log("HELLOOOOO")}
-                      {console.log(task)}
                     </Col>
 
                     <Col>
@@ -85,7 +84,7 @@ const TaskRequestList = (props) => {
                     </Col>
                   </Row>
                 </td>
-                <td class='align-middle'>
+                <td className='align-middle'>
                   <IconContext.Provider value={{ style: { fontSize: "30px" } }}>
                     <div>
                       {task.isCompleted ? (
