@@ -71,7 +71,14 @@ class Volunteer extends React.Component {
 
     return (
       <div>
-        {tasks}
+        <iframe
+          width="100%"
+          height="450"
+          frameborder="0" style={{border: 0}}
+          src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAx-m-_ApTt5debB13Pr5jOn8neck3X58E
+            &q=London" allowfullscreen>
+        </iframe>
+        <div style={{marginTop: "2rem"}}>{tasks}</div>
       </div>
     );
   }
