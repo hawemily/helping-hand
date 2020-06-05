@@ -14,17 +14,11 @@ router.get("/", (req, res) => {
 //@desc Post A tasks
 //@access Public
 router.post("/", (req, res) => {
-  const { id, area, date, category, pinId, volunteerId, description, store, optionOne } = req.body;
+  const { id, pinId, volunteerId } = req.body;
   const newTask = new Task({
-    id: id,
-    area: area,
-    date: date,
-    category: category,
+    taskID: id,
     pinId: pinId,
     volunteerId: volunteerId,
-    description: description,
-    store: store,
-    optionOne: optionOne != 'null' ? optionOne : null
   });
   newTask
     .save()
