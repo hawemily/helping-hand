@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Table, Button } from "react-bootstrap";
+import { Container, Table, Button, Row, Col } from "react-bootstrap";
 
 const Basket = (props) => {
   const deleteItem = (id) => {
@@ -8,6 +8,14 @@ const Basket = (props) => {
   };
   return (
     <Container>
+      <Container className='text-centre'>
+        <Row>
+          <Col>
+            <h6>Groceries Basket</h6>
+          </Col>
+        </Row>
+      </Container>
+
       <Table bordered hover>
         <thead>
           <tr>

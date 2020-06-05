@@ -6,7 +6,7 @@ const Services = (props) => {
   const optionWidth = "302px";
 
   const services = [
-    { name: "Grocery", link: "/getHelp/groceries" },
+    { name: "Groceries", link: "/getHelp/groceries" },
     { name: "Laundry" },
     { name: "Transport" },
     { name: "Healthcare" },

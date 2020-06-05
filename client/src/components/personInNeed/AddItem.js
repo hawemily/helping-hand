@@ -27,7 +27,7 @@ const AddItem = (props) => {
     {
       name: "Quantity",
       pattern: /^[1-9][0-9]*$/,
-      regexMessage: "This field cannot be 0",
+      regexMessage: "This field cannot be 0, and can only contain numbers",
     },
   ];
 
