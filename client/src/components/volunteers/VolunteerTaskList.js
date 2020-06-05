@@ -7,7 +7,7 @@ import {GiEmptyHourglass} from "react-icons/gi";
 import {IconContext} from "react-icons";
 
 
-const TaskRequestList = (props) => {
+const VolunteerTaskList = (props) => {
     const tasks = props.tasks;
     //TODO: there is a bug with the not completed button, it should turn green and disable on first click
     // but rn its disabling all buttons at the start and are not the right colours
@@ -100,4 +100,4 @@ const TaskRequestList = (props) => {
     );
 };
 
-export default TaskRequestList;
+export default VolunteerTaskList;
