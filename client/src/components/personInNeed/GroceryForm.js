@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Col, Row, Container, Form, Button } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import { setHours, setMinutes } from "date-fns";
-import { useForm } from "react-hook-form";
 import axios from "axios";
 import { Redirect, Link } from "react-router-dom";
 
@@ -10,9 +9,9 @@ import AddItem from "./AddItem";
 import Basket from "../general/Basket";
 
 const GroceryForm = (props) => {
-  const { register, handleSubmit, errors } = useForm();
   const [basket, setBasket] = useState([]);
 
+  const [store, setStore] = useState("");
   const [date, setDate] = useState(new Date());
   const [time, setTime] = useState();
 
@@ -22,8 +21,11 @@ const GroceryForm = (props) => {
     setBasket([]);
   };
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = () => {
+    if (store === "") {
+      alert("Store cannot be empty!");
+      return;
+    }
     if (basket.length === 0) {
       alert("Basket cannot be empty!");
       return;
@@ -32,7 +34,7 @@ const GroceryForm = (props) => {
       .post("/getHelp/groceries", {
         pinId: "tempPinId",
         area: "someLocation",
-        store: data.store,
+        store: store,
         date: date,
         time: time,
         basket: JSON.stringify(basket),
@@ -56,7 +58,7 @@ const GroceryForm = (props) => {
     return (
       <Container>
         <Container className='border border-dark'>
-          <Form className='m-3' onSubmit={handleSubmit(onSubmit)}>
+          <Container className='m-3'>
             <Row form>
               <Col md={6}>
                 <Form.Group controlId='grocer'>
@@ -64,12 +66,10 @@ const GroceryForm = (props) => {
                   <Form.Control
                     type='text'
                     name='store'
-                    ref={register({ required: true })}
+                    value={store}
+                    onChange={(e) => setStore(e.target.value)}
                     placeholder='Enter the Grocery Store'
                   />
-                  {errors.store && errors.store.type === "required" && (
-                    <p>Store is a required field.</p>
-                  )}
                 </Form.Group>
                 <Form.Group>
                   <Form.Label>Date:</Form.Label>
@@ -105,6 +105,11 @@ const GroceryForm = (props) => {
                     label='Allow Substitutions'
                   ></Form.Check>
                 </Form.Group>
+                <Form.Group>
+                  <Container className='border border-dark'>
+                    <AddItem basket={basket} setBasket={setBasket} />
+                  </Container>
+                </Form.Group>
               </Col>
               <Col md={6}>
                 <Basket basket={basket} setBasket={setBasket} />
@@ -113,7 +118,7 @@ const GroceryForm = (props) => {
             <Container className='text-center'>
               <Row>
                 <Col>
-                  <Button variant='dark' dark type='submit'>
+                  <Button variant='dark' dark onClick={onSubmit}>
                     Submit Request
                   </Button>
                 </Col>
@@ -124,11 +129,7 @@ const GroceryForm = (props) => {
                 </Col>
               </Row>
             </Container>
-          </Form>
-        </Container>
-        <br />
-        <Container className='border border-dark'>
-          <AddItem basket={basket} setBasket={setBasket} />
+          </Container>
         </Container>
         <br />
         <div>
