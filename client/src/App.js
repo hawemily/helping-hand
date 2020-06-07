@@ -5,6 +5,7 @@ import GroceryForm from "./components/personInNeed/GroceryForm";
 import HomePage from "./components/homepage";
 import PinMain from "./components/personInNeed/pinMain";
 import TaskRequestList from "./components/general/TaskRequestList";
+import VolunteerTaskList from "./components/volunteers/VolunteerTaskList";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -62,7 +63,12 @@ function App() {
             path='/getHelp/requestList'
             component={() => <TaskRequestList tasks={sampleTasks} />}
           />
-          <Route path='/volunteer' component={Volunteer} />
+          <Route exact path='/volunteer' component={Volunteer} />
+          <Route
+            exact
+            path='/volunteer/taskList'
+            component={() => <VolunteerTaskList tasks={sampleTasks} />}
+          />
         </Switch>
 
         {/* <VolunteerTaskCard task={sampleTasks} /> */}

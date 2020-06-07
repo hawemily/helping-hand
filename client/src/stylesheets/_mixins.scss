@@ -1,29 +1,29 @@
 @mixin primary-button {
-    background: $salmon;
-    border-color: $grey-blue;
-    color: black;
+    background: $salmon !important;
+    border-color: $grey-blue !important;
+    color: black !important;
 
     &:hover {
-        background: lighten($salmon, 10%);
+        background: lighten($salmon, 10%) !important;
     }
 }
 
 @mixin secondary-button {
-    background: $light-grey;
-    border-color: $grey-blue;
-    color: black;
+    background: $light-grey !important;
+    border-color: $grey-blue !important;
+    color: black !important;
 
     &:hover {
-        background: lighten($light-grey, 10%);
+        background: lighten($light-grey, 10%) !important;
     }
 }
 
 @mixin tertiary-button {
-    background: $dark-blue;
-    border-color: $salmon;
-    color: white;
+    background: $dark-blue !important;
+    border-color: $salmon !important;
+    color: white !important;
 
     &:hover {
-        background: lighten($dark-blue, 10%);
+        background: lighten($dark-blue, 10%) !important;
     }
 }
