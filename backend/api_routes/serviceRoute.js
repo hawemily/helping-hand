@@ -180,4 +180,67 @@ router.post("/groceries", (req, res) => {
     );
 });
 
+//@route POST /getHelp/laundry
+//@desc post laundry request of user
+//@access public
+router.post("/laundry", (req, res) => {
+  const {
+    area,
+    load,
+    dateOfPickup,
+    timeOfPickup,
+    dateOfDropoff,
+    timeOfDropoff,
+    detergent,
+    pinId,
+    volunteerId,
+  } = req.body;
+
+  const createService = (task) => {
+    const newService = new Service({
+      taskId: task._id,
+      area: area,
+      load: load,
+      dateOfPickup: dateOfPickup,
+      timeOfPickup: timeOfPickup,
+      dateOfDropoff: dateOfDropoff,
+      timeOfDropoff: timeOfDropoff,
+      category: "laundry",
+      optionOne: detergent,
+    });
+    newService
+      .save()
+      .then((item) =>
+        res.json({
+          success: true,
+          task: task,
+          service: item,
+        })
+      )
+      .catch((err) =>
+        res.status(400).json({
+          success: false,
+          error: err,
+        })
+      );
+  };
+
+  const newTask = new Task({
+    volunteerId: volunteerId,
+    pinId: pinId,
+  });
+
+  newTask
+    .save()
+    .then((item) => {
+      createService(item);
+    })
+    .catch((err) =>
+      res.status(400).json({
+        success: false,
+        error: err,
+      })
+    );
+});
+
 module.exports = router;
