@@ -1,12 +1,13 @@
 // links all scss for components
 
 // General components
-@import './general/taskRequestList';
-@import './general/navbar';
-@import './general/login';
-@import './general/register';
+@import "./general/taskRequestList";
+@import "./general/navbar";
+@import "./general/login";
+@import "./general/register";
+@import "./homepage";
 // Volunteers
-@import './volunteers/volunteerTaskCard';
+@import "./volunteers/volunteerTaskCard";
 
 // Person In Neeed
 @import './personInNeed/pinMain';
