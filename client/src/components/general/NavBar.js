@@ -1,13 +1,14 @@
 import React, { useState } from "react";
-import axios from 'axios';
-import { Navbar, Nav, Container, Modal, Form, Button, ButtonGroup, ToggleButton } from "react-bootstrap";
+import { Navbar, Nav, Container } from "react-bootstrap";
 import Login from "./Login";
 import Register from "./Register";
+import Account from "./Account";
 
 const NavBar = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
+  const [showAccount, setShowAccount] = useState(false);
 
   const toggle = () => setIsOpen(!isOpen);
 
@@ -16,6 +17,9 @@ const NavBar = (props) => {
 
   const showRegisterModal = () => setShowRegister(true);
   const closeRegisterModal = () => setShowRegister(false);
+
+  const showAccountModal = () => setShowAccount(true);
+  const closeAccountModal = () => setShowAccount(false);
 
   const logout = () => {
     props.auth.logout();
@@ -33,7 +37,7 @@ const NavBar = (props) => {
     { title: "Get Help", link: "/getHelp" },
     { title: "All Requests", link: "/getHelp/requestList" },
     { title: "Contact Us" },
-    { title: "My Account" },
+    { title: "My Account", onClick: () => showAccountModal() },
     { title: "Logout", onClick: () => logout()},
   ]
 
@@ -41,7 +45,7 @@ const NavBar = (props) => {
     { title: "Volunteer", link: "/volunteer" },
     { title: "All Tasks", link: "/volunteer/taskList" },
     { title: "Contact Us" },
-    { title: "My Account" },
+    { title: "My Account", onClick: () => showAccountModal() },
     { title: "Logout", onClick: () => logout()}
   ]
 
@@ -66,7 +70,7 @@ const NavBar = (props) => {
             <Nav className='ml-auto' navbar>
               {getNavbarItems().map((item) => {
                 return (
-                  <Nav.Item>
+                  <Nav.Item className="navbar-items">
                     <Nav.Link href={item.link} onClick={item.onClick} className='alert-link'>
                       {item.title}
                     </Nav.Link>
@@ -81,6 +85,8 @@ const NavBar = (props) => {
       <Login show={showLogin} close={closeLoginModal} auth={props.auth} />
 
       <Register show={showRegister} close={closeRegisterModal} />
+
+      <Account show={showAccount} close={closeAccountModal} />
       
     </div>
   );

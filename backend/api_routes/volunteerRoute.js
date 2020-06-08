@@ -7,7 +7,52 @@ const Volunteer = require("../models/volunteerSchema");
 //@desc Get All volunteers
 //@access Public
 router.get("/", (req, res) => {
-  Volunteer.find().then((volunteers) => res.json(volunteers));
+  Volunteer.find()
+  .then((volunteers) => res.json({
+    success: true,
+    volunteers: volunteers}))
+    .catch((err) => res.status(404).json({success: false, error: err}));
+});
+
+//@route GET /volunteers/get/:id
+//@desc Get volunteer info by id
+//@access Public
+router.get("/get/:id", (req, res) => {
+  Volunteer.findById(req.params.id)
+  .then((volunteer) => {
+    const {firstName, lastName, email, phoneNumber, password} = volunteer;
+    var length = password.length;
+    res.json({
+    success: true,
+    volunteer: {
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      phoneNumber: phoneNumber,
+      passwordLength: length
+    }
+    });
+    
+  })
+  .catch(err => res.status(404).json({
+    success: false,
+    error: err
+  }))
+});
+
+//@route POST /volunteers/edit/:id
+//@desc Edit volunteer info by id
+//@access Public
+router.post("/edit/:id", (req, res) => {
+  Volunteer.findByIdAndUpdate({_id: req.params.id}, req.body)
+  .then((volunteer) => res.json({
+    success: true,
+    id: volunteer
+  }))
+  .catch(err => res.status(404).json({
+    success: false,
+    error: err
+  }))
 });
 
 //@route POST /volunteers/login

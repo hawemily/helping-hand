@@ -8,8 +8,28 @@ const Service = require("../models/serviceSchema");
 //@desc Get All tasks
 //@access Public
 router.get("/", (req, res) => {
-  Task.find().then((tasks) => res.json(tasks));
+  Task.find().then((tasks) => res.json({
+    success: true,
+    tasks: tasks
+  }));
 });
+
+// @route POST /tasks/assign/:id
+// @desc assign volunteer id to task item
+// @access Public
+router.post("/assign", (req, res) => {
+  const {volunteerId, id} = req.body;
+  Task.findByIdAndUpdate(id, {volunteerId: volunteerId}).then((task) => {
+    res.json({
+      success: true,
+      task: task
+    })
+  })
+  .catch(err => res.status(404).json({
+    success: false,
+    error: err
+  }))
+})
 
 //@route GET /tasks/getService/:id
 //@desc Get associated service
