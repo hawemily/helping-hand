@@ -51,6 +51,24 @@ const LaundryForm = (props) => {
                     <Form className='m-3' onSubmit={handleSubmit(onSubmit)}>
                         <Row form>
                             <Col md={6}>
+                                <Form.Group controlId='laundry'>
+                                    <Form.Label>Loads of Laundry:</Form.Label>
+                                    <Form.Control
+                                        type='number'
+                                        name='load'
+                                        ref={register({ required: true , max: 5 , min: 1 })}
+                                        placeholder='Enter the number of loads of laundry'
+                                    />
+                                    {errors.load && errors.load.type === "required" && (
+                                        <p>This is a required field.</p>
+                                    )}
+                                    {errors.load && errors.load.type === "max" && (
+                                        <p>Only up to 5 loads allowed.</p>
+                                    )}
+                                    {errors.load && errors.load.type === "min" && (
+                                        <p>Minimum number of loads is 1.</p>
+                                    )}
+                                </Form.Group>
                                 <Form.Group>
                                     <Form.Label>Date of Pickup:</Form.Label>
                                     <br />
@@ -78,33 +96,6 @@ const LaundryForm = (props) => {
                                         withPortal
                                     />
                                 </Form.Group>
-                                <Form.Group controlId='grocer'>
-                                    <Form.Label>Loads of Laundry:</Form.Label>
-                                    <Form.Control
-                                        type='number'
-                                        name='load'
-                                        ref={register({ required: true , max: 5 , min: 1 })}
-                                        placeholder='Enter the number of loads of laundry'
-                                    />
-                                    {errors.load && errors.load.type === "required" && (
-                                        <p>This is a required field.</p>
-                                    )}
-                                    {errors.load && errors.load.type === "max" && (
-                                        <p>Only up to 5 loads allowed.</p>
-                                    )}
-                                    {errors.load && errors.load.type === "min" && (
-                                        <p>Minimum number of loads is 1.</p>
-                                    )}
-                                </Form.Group>
-                                <Form.Group>
-                                    <Form.Check
-                                        type='checkbox'
-                                        id='default-checkbox'
-                                        label='I will provide detergent'
-                                    ></Form.Check>
-                                </Form.Group>
-                            </Col>
-                            <Col md={4}>
                                 <Form.Group>
                                     <Form.Label>Date of Drop-off:</Form.Label>
                                     <br />
@@ -132,6 +123,82 @@ const LaundryForm = (props) => {
                                         dateFormat='h:mm aa'
                                         withPortal
                                     />
+                                </Form.Group>
+                            </Col>
+                            <Col md={6}>
+                                <h6>Number of items:</h6>
+                                <Form.Group>
+                                    <Form.Control
+                                        type='number'
+                                        name='tops'
+                                        ref={register({ required: true, min: 0})}
+                                        placeholder='Enter number of tops'
+                                        />
+                                    {errors.tops && errors.tops.type === "min" && (
+                                        <p>Minimum number of tops is 0.</p>
+                                    )}
+                                </Form.Group>
+                                <Form.Group>
+                                    <Form.Control
+                                        type='number'
+                                        name='bottoms'
+                                        ref={register({ required: true, min: 0})}
+                                        placeholder='Enter number of bottoms'
+                                    />
+                                    {errors.bottoms && errors.bottoms.type === "min" && (
+                                        <p>Minimum number of bottoms is 0.</p>
+                                    )}
+                                </Form.Group>
+                                <Form.Group>
+                                    <Form.Control
+                                        type='number'
+                                        name='shoes'
+                                        ref={register({ required: true, min: 0})}
+                                        placeholder='Enter number of shoes (in pairs)'
+                                    />
+                                    {errors.shoes && errors.shoes.type === "min" && (
+                                        <p>Minimum number of shoes is 0.</p>
+                                    )}
+                                </Form.Group>
+                                <Form.Group>
+                                    <Form.Control
+                                        type='number'
+                                        name='socks'
+                                        ref={register({ required: true, min: 1})}
+                                        placeholder='Enter number of socks (in pairs)'
+                                    />
+                                    {errors.socks && errors.socks.type === "min" && (
+                                        <p>Minimum number of socks is 0.</p>
+                                    )}
+                                </Form.Group>
+                                <Form.Group>
+                                    <Form.Control
+                                        type='number'
+                                        name='outerwear'
+                                        ref={register({ required: true, min: 0})}
+                                        placeholder='Enter number of outerwear'
+                                    />
+                                    {errors.outerwear && errors.outerwear.type === "min" && (
+                                        <p>Minimum number of outerwear is 0.</p>
+                                    )}
+                                </Form.Group>
+                                <Form.Group>
+                                    <Form.Control
+                                        type='number'
+                                        name='intimates'
+                                        ref={register({ required: true, min: 0})}
+                                        placeholder='Enter number of intimates'
+                                    />
+                                    {errors.intimates && errors.intimates.type === "min" && (
+                                        <p>Minimum number of intimates is 0.</p>
+                                    )}
+                                </Form.Group>
+                                <Form.Group>
+                                    <Form.Check
+                                        type='checkbox'
+                                        id='default-checkbox'
+                                        label='I will provide detergent'
+                                    ></Form.Check>
                                 </Form.Group>
                             </Col>
                         </Row>
