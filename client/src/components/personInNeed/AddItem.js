@@ -23,11 +23,13 @@ const AddItem = (props) => {
       name: "Item",
       pattern: /^[A-Za-z ]+$/,
       regexMessage: "This field can only accept alphabets",
+      type: "text",
     },
     {
       name: "Quantity",
       pattern: /^[1-9][0-9]*$/,
       regexMessage: "This field cannot be 0, and can only contain numbers",
+      type: "number",
     },
   ];
 
@@ -39,7 +41,7 @@ const AddItem = (props) => {
           <Form.Group controlId={`formGroup${name}`}>
             <Form.Label>{name}:</Form.Label>
             <Form.Control
-              type='text'
+              type={legend.type}
               placeholder={`Enter ${name}`}
               name={name}
               ref={register({
