@@ -1,6 +1,15 @@
 import React, { useState } from "react";
-import axios from 'axios';
-import { Navbar, Nav, Container, Modal, Form, Button, ButtonGroup, ToggleButton } from "react-bootstrap";
+import axios from "axios";
+import {
+  Navbar,
+  Nav,
+  Container,
+  Modal,
+  Form,
+  Button,
+  ButtonGroup,
+  ToggleButton,
+} from "react-bootstrap";
 import Login from "./Login";
 import Register from "./Register";
 
@@ -19,34 +28,34 @@ const NavBar = (props) => {
 
   const logout = () => {
     props.auth.logout();
-  }
+  };
 
   const generalItems = [
     { title: "Volunteer", link: "/volunteer" },
-    { title: "Get Help", link: "/getHelp" },
+    { title: "Get Help", link: "/services" },
     { title: "Contact Us" },
     { title: "Login", onClick: () => showLoginModal() },
-    { title: "Register", onClick: () => showRegisterModal() }
+    { title: "Register", onClick: () => showRegisterModal() },
   ];
 
   const pinItems = [
-    { title: "Get Help", link: "/getHelp" },
-    { title: "All Requests", link: "/getHelp/requestList" },
+    { title: "Get Help", link: "/services" },
+    { title: "All Requests", link: "/services/requestList" },
     { title: "Contact Us" },
     { title: "My Account" },
-    { title: "Logout", onClick: () => logout()},
-  ]
+    { title: "Logout", onClick: () => logout() },
+  ];
 
   const volunteerItems = [
     { title: "Volunteer", link: "/volunteer" },
     { title: "All Tasks", link: "/volunteer/taskList" },
     { title: "Contact Us" },
     { title: "My Account" },
-    { title: "Logout", onClick: () => logout()}
-  ]
+    { title: "Logout", onClick: () => logout() },
+  ];
 
   const getNavbarItems = () => {
-    const {isAuthenticated, isPin} = props.auth;
+    const { isAuthenticated, isPin } = props.auth;
     if (isAuthenticated() && isPin()) {
       return pinItems;
     } else if (isAuthenticated() && !isPin()) {
@@ -54,7 +63,7 @@ const NavBar = (props) => {
     } else {
       return generalItems;
     }
-  }
+  };
 
   return (
     <div>
@@ -67,7 +76,11 @@ const NavBar = (props) => {
               {getNavbarItems().map((item) => {
                 return (
                   <Nav.Item>
-                    <Nav.Link href={item.link} onClick={item.onClick} className='alert-link'>
+                    <Nav.Link
+                      href={item.link}
+                      onClick={item.onClick}
+                      className='alert-link'
+                    >
                       {item.title}
                     </Nav.Link>
                   </Nav.Item>
@@ -81,7 +94,6 @@ const NavBar = (props) => {
       <Login show={showLogin} close={closeLoginModal} auth={props.auth} />
 
       <Register show={showRegister} close={closeRegisterModal} />
-      
     </div>
   );
 };

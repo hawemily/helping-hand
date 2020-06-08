@@ -17,36 +17,34 @@ router.get("/", (req, res) => {
 router.get("/getService/:id", (req, res) => {
   const taskId = req.params.id;
   Service.findOne({
-      "taskId": taskId
-    })
+    taskId: taskId,
+  })
     .then((result) => {
       if (result != null) {
         res.json({
           success: true,
-          service: result
+          service: result,
         });
       } else {
         res.status(404).json({
           success: false,
-          error: result
-        })
+          error: result,
+        });
       }
     })
-    .catch(err =>
+    .catch((err) =>
       res.status(404).json({
         success: false,
-        error: err
-      }))
-})
+        error: err,
+      })
+    );
+});
 
 //@route Post /tasks
 //@desc Post A tasks
 //@access Public
 router.post("/", (req, res) => {
-  const {
-    pinId,
-    volunteerId
-  } = req.body;
+  const { pinId, volunteerId } = req.body;
   const newTask = new Task({
     pinId: pinId,
     volunteerId: volunteerId,
@@ -67,11 +65,16 @@ router.post("/", (req, res) => {
 //@access Public
 router.delete("/:id", (req, res) => {
   Task.findById(req.params.id)
-    .then((item) => {item.remove(); res.json({success: true})})
-    .catch((err) => res.status(404).json({
-      success: false,
-      error: err
-    }));
+    .then((item) => {
+      item.remove();
+      res.json({ success: true });
+    })
+    .catch((err) =>
+      res.status(404).json({
+        success: false,
+        error: err,
+      })
+    );
 });
 
 module.exports = router;

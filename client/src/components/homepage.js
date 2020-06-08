@@ -13,7 +13,7 @@ const HomePage = (props) => {
       title: "I Need Help",
       body:
         " Make a request through our simple form, and get connected to a volunteer in your area",
-      link: "/getHelp",
+      link: "/services",
     },
     {
       title: "I Can Help",

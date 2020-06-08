@@ -1,12 +1,11 @@
-
-import React from 'react';
-import Auth from './auth';
+import React from "react";
+import Auth from "./auth";
 import NavBar from "./components/general/NavBar";
 import Volunteer from "./components/Volunteer";
 import GroceryForm from "./components/personInNeed/GroceryForm";
 import HomePage from "./components/homepage";
 import PinMain from "./components/personInNeed/pinMain";
-import TaskRequestList from "./components/general/TaskRequestList";
+import PinRequestList from "./components/personInNeed/PinRequestList";
 import VolunteerTaskList from "./components/volunteers/VolunteerTaskList";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
@@ -51,26 +50,32 @@ const sampleTasks = [sampleTask, sampleTask2, sampleTask3];
 
 const Routes = () => (
   <Router>
-  <NavBar auth={auth} />
-  <Switch>
-    <Route exact path='/' component={auth.isAuthenticated() ? (auth.isPin() ? PinMain : Volunteer) : HomePage} />
-    <Route exact path='/getHelp' component={PinMain} />
-    <Route exact path='/getHelp/groceries' component={GroceryForm} />
-    <Route
-      exact
-      path='/getHelp/requestList'
-      component={() => <TaskRequestList tasks={sampleTasks} />}
-    />
-    <Route exact path='/volunteer' component={Volunteer} />
-    <Route
-      exact
-      path='/volunteer/taskList'
-      component={() => <VolunteerTaskList tasks={sampleTasks} />}
-    />
-  </Switch>
+    <NavBar auth={auth} />
+    <Switch>
+      <Route
+        exact
+        path='/'
+        component={
+          auth.isAuthenticated()
+            ? auth.isPin()
+              ? PinMain
+              : Volunteer
+            : HomePage
+        }
+      />
+      <Route exact path='/services' component={PinMain} />
+      <Route exact path='/services/groceries' component={GroceryForm} />
+      <Route exact path='/services/requestList' component={PinRequestList} />
+      <Route exact path='/volunteer' component={Volunteer} />
+      <Route
+        exact
+        path='/volunteer/taskList'
+        component={() => <VolunteerTaskList tasks={sampleTasks} />}
+      />
+    </Switch>
 
-  {/* <VolunteerTaskCard task={sampleTasks} /> */}
-</Router>
+    {/* <VolunteerTaskCard task={sampleTasks} /> */}
+  </Router>
 );
 
 export default Routes;

@@ -11,9 +11,15 @@ const AddItem = (props) => {
   // });
 
   const onSubmit = (data) => {
-    console.log(`item: ${data.Item}, quantity: ${data.Quantity}`);
+    console.log(
+      `item: ${data.Item}, quantity: ${data.Quantity}, units:${data.Units}`
+    );
     props.setBasket(
-      props.basket.concat({ item: data.Item, quantity: data.Quantity })
+      props.basket.concat({
+        item: data.Item,
+        quantity: data.Quantity,
+        unit: data.Units,
+      })
     );
     reset();
   };
@@ -30,8 +36,11 @@ const AddItem = (props) => {
       pattern: /^[1-9][0-9]*$/,
       regexMessage: "This field cannot be 0, and can only contain numbers",
       type: "number",
+      min: "1",
     },
   ];
+
+  const units = ["kg", "pints", "grams", "litres"];
 
   return (
     <Form className='mb-3 mt-3' onSubmit={handleSubmit(onSubmit)}>
@@ -42,6 +51,7 @@ const AddItem = (props) => {
             <Form.Label>{name}:</Form.Label>
             <Form.Control
               type={legend.type}
+              min={legend.min}
               placeholder={`Enter ${name}`}
               name={name}
               ref={register({
@@ -58,6 +68,24 @@ const AddItem = (props) => {
           </Form.Group>
         );
       })}
+      <Form.Group>
+        <Form.Label>Unit:</Form.Label>
+        <Form.Control
+          as='select'
+          placeholder='Enter Units'
+          name='Units'
+          ref={register()}
+          defaultValue='Units'
+        >
+          <option value='' selected>
+            Units
+          </option>
+          {units.map((unit) => (
+            <option>{unit}</option>
+          ))}
+        </Form.Control>
+      </Form.Group>
+
       <Container className='text-center'>
         <Row>
           <Col>

@@ -4,23 +4,23 @@ const router = express.Router();
 const Service = require("../models/serviceSchema");
 const Task = require("../models/taskSchema");
 
-//@route GET /getHelp/services
+// root route /services
+
+//@route GET /services
 //@desc get all tasks from all users
 //@access public
 // need to research how to send id of user over
 // todo generate
 // hi emolo think it's better to limit to just calling them tasks and services in the backend or else v confusing
-router.get("/services", (req, res) => {
+router.get("/", (req, res) => {
   var services = [];
-  const {
-    pinId
-  } = req.body;
+  const { pinId } = req.body;
 
   const findService = (elem) => {
     return new Promise((resolve, reject) => {
       Service.findOne({
-          "taskId": elem._id
-        })
+        taskId: elem._id,
+      })
         .then((serv) => {
           if (serv != null) {
             services.push({
@@ -35,35 +35,51 @@ router.get("/services", (req, res) => {
           services.push({
             valid: false,
             task: elem,
-            error: err
+            error: err,
           });
           console.error(err);
           resolve();
         });
     });
-  }
+  };
 
-  Task.find({
-      "pinId": pinId
-    }, async function (err, result) {
+  Task.find(
+    {
+      pinId: pinId,
+    },
+    async function (err, result) {
       const promises = result.map(findService);
       await Promise.all(promises);
       res.json({
         success: true,
         services: services,
       });
-    })
-    .catch((err) => {
-      res.status(400).json({
-        success: false,
-        error: err,
-      });
+    }
+  ).catch((err) => {
+    res.status(400).json({
+      success: false,
+      error: err,
     });
+  });
+});
 
+router.get("/allRequests", (req, res) => {
+  Service.find().then((item) => {
+    const compareDates = (x, y) => {
+      if (typeof x.date === "undefined" || typeof y.date === "undefined") {
+        return 0;
+      }
+      return x.date > y.date ? -1 : x.time > y.time ? -1 : 1;
+    };
+
+    item.sort((x, y) => compareDates(x, y));
+
+    res.json(item);
+  });
 });
 
 // FOR TESTING ONLY NEED TO DELETE LATER
-//@route GET /getHelp/services
+//@route GET /services
 //@desc Get All services in the db
 //@access Public
 router.get("/allServices", (req, res) => {
@@ -72,11 +88,11 @@ router.get("/allServices", (req, res) => {
 
 router.delete("/deleteAll", (req, res) => {
   Service.remove({}).then((item) => res.json(item));
-})
+});
 
 // END TESTING ROUTES
 
-//@route GET /getHelp/service/:id
+//@route GET /services/service/:id
 //@desc get individual service item using task id
 //@access public
 router.get("/service/:id", (req, res) => {
@@ -85,22 +101,24 @@ router.get("/service/:id", (req, res) => {
       if (item != null) {
         res.json({
           success: true,
-          response: item
-        })
+          response: item,
+        });
       } else {
         res.status(404).json({
           success: false,
-          response: "Service Not Found"
-        })
+          response: "Service Not Found",
+        });
       }
     })
-    .catch((err) => res.status(404).json({
-      success: false,
-      error: err
-    }));
-})
+    .catch((err) =>
+      res.status(404).json({
+        success: false,
+        error: err,
+      })
+    );
+});
 
-//@route POST /getHelp/groceries
+//@route POST /services/groceries
 //@desc post grocery list of user
 //@access public
 router.post("/groceries", (req, res) => {
@@ -112,9 +130,8 @@ router.post("/groceries", (req, res) => {
     basket,
     substitutions,
     pinId,
-    volunteerId
+    volunteerId,
   } = req.body;
-
 
   const createService = (task) => {
     const newService = new Service({
@@ -125,22 +142,25 @@ router.post("/groceries", (req, res) => {
       time: time,
       basket: basket,
       category: "Groceries",
-      optionOne: substitutions
+      status: "pending",
+      optionOne: substitutions,
     });
     newService
       .save()
-      .then((item) => res.json({
-        success: true,
-        task: task,
-        service: item
-      }))
+      .then((item) =>
+        res.json({
+          success: true,
+          task: task,
+          service: item,
+        })
+      )
       .catch((err) =>
         res.status(400).json({
           success: false,
-          error: err
+          error: err,
         })
       );
-  }
+  };
 
   const newTask = new Task({
     volunteerId: volunteerId,

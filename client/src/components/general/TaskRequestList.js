@@ -6,6 +6,7 @@ import ReportIssueModal from "./ReportIssueModal";
 import { TiTick } from "react-icons/ti";
 import { GiEmptyHourglass } from "react-icons/gi";
 import { FaExclamationCircle, FaHourglass } from "react-icons/fa";
+import Days from "./Day";
 
 import { IconContext } from "react-icons";
 
@@ -19,6 +20,33 @@ const TaskRequestList = (props) => {
   // TODO: try componentwillupdateprops alternative
   const [detailsModalShow, setDetailsModalShow] = useState(false);
   const [reportModalShow, setReportModalShow] = useState(false);
+
+  const formatDate = (dateStr) => {
+    if (typeof dateStr === "undefined") {
+      return;
+    }
+
+    const date = new Date(dateStr);
+    console.log(typeof date.getFullYear());
+    return `${Days[date.getDay()]}, 
+       ${date.getDate()}/${date.getMonth()}/${(date.getFullYear() + "").slice(
+      -2
+    )}, `;
+  };
+
+  const formatTime = (timeStr) => {
+    const time = new Date(timeStr);
+    var hours = time.getHours();
+    var mins = time.getMinutes();
+    if (hours < 10) {
+      hours = "0" + hours;
+    }
+    if (mins < 10) {
+      mins = "0" + mins;
+    }
+    return `${hours}:${mins}`;
+  };
+
   return (
     <Container variant='flush'>
       <Table>
@@ -33,7 +61,14 @@ const TaskRequestList = (props) => {
         </thead>
         <tbody>
           {tasks.map((task) => {
-            const { date, id, category, volunteerId, description } = task;
+            const {
+              date,
+              time,
+              taskId,
+              category,
+              volunteerId,
+              description,
+            } = task;
             return (
               <tr
                 className={`text-center ${
@@ -43,10 +78,13 @@ const TaskRequestList = (props) => {
                     ? "pending"
                     : "confirmed"
                 }`}
-                key={id}
+                key={taskId}
               >
-                <td className='align-middle'>{date}</td>
-                <td className='align-middle'>#{id}</td>
+                <td className='align-middle'>
+                  {formatDate(date)}
+                  {formatTime(time)}
+                </td>
+                <td className='align-middle'>#{taskId}</td>
                 <td className='align-middle'>{`${category}`}</td>
                 <td className='align-middle'>
                   <Row>
@@ -57,12 +95,12 @@ const TaskRequestList = (props) => {
                       >
                         More Details
                       </Button>
-                      <div id={id}>
+                      <div id={taskId}>
                         <DetailsModal
                           show={detailsModalShow}
                           task={task}
                           onHide={() => setDetailsModalShow(false)}
-                          ariaLabelledBy={task.id}
+                          ariaLabelledBy={task.taskId}
                         />
                       </div>
                     </Col>

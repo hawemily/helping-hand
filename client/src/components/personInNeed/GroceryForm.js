@@ -21,6 +21,16 @@ const GroceryForm = (props) => {
     setBasket([]);
   };
 
+  const stores = [
+    "Sainsburys",
+    "Tesco",
+    "M&S",
+    "Aldi",
+    "Lidl",
+    "Waitrose",
+    "Whole Foods",
+  ];
+
   const onSubmit = () => {
     if (store === "") {
       alert("Store cannot be empty!");
@@ -31,9 +41,9 @@ const GroceryForm = (props) => {
       return;
     }
     axios
-      .post("/getHelp/groceries", {
+      .post("/services/groceries", {
         pinId: "tempPinId",
-        area: "someLocation",
+        area: "some area",
         store: store,
         date: date,
         time: time,
@@ -44,16 +54,16 @@ const GroceryForm = (props) => {
         window.location.reload();
       })
       .catch((err) => {
-        // alert(
-        //   "Could not submit grocery list. Please try again in a few seconds."
-        // );
+        alert(
+          "Could not submit grocery list. Please try again in a few seconds."
+        );
         console.log(err);
       });
     setRedirectToTaskList(!redirectToTaskList);
   };
 
   if (redirectToTaskList) {
-    return <Redirect to='/getHelp/requestList' />;
+    return <Redirect to='/services/requestList' />;
   } else {
     return (
       <Container>
@@ -63,12 +73,17 @@ const GroceryForm = (props) => {
               <Form.Group controlId='grocer'>
                 <Form.Label>Preferred Grocery Store:</Form.Label>
                 <Form.Control
-                  type='text'
-                  name='store'
+                  as='select'
                   value={store}
                   onChange={(e) => setStore(e.target.value)}
-                  placeholder='Enter the Grocery Store'
-                />
+                >
+                  <option value={""} disabled selected>
+                    Select your Store:
+                  </option>
+                  {stores.sort().map((store) => (
+                    <option value={store}>{store}</option>
+                  ))}
+                </Form.Control>
               </Form.Group>
               <Form.Group>
                 <Form.Label>Date:</Form.Label>
@@ -131,7 +146,7 @@ const GroceryForm = (props) => {
         </Container>
         <br />
         <div>
-          <Button variant='dark' tag={Link} href='/getHelp/requestList'>
+          <Button variant='dark' tag={Link} href='/services/requestList'>
             Return to My Requests
           </Button>
         </div>

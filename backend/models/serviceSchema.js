@@ -1,3 +1,5 @@
+// HI STOPID MOFOS each service contains the details of one task
+//naming is a bij
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
@@ -27,6 +29,10 @@ const ServiceSchema = new Schema({
     required: true,
   },
   store: {
+    type: String,
+    required: true,
+  },
+  status: {
     type: String,
     required: true,
   },

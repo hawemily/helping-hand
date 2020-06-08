@@ -24,7 +24,7 @@ mongoose
 //Use Routes
 app.use("/volunteers", volunteerApi);
 app.use("/tasks", taskApi);
-app.use("/getHelp", servicesApi);
+app.use("/services", servicesApi);
 
 //Serve static assets if in production
 if (process.env.NODE_ENV === "production") {
