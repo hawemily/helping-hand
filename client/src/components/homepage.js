@@ -3,8 +3,6 @@ import NavBar from "./general/NavBar";
 import { Container, Card, Button, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-import Volunteer from "./Volunteer";
-
 const HomePage = (props) => {
   const initialOptions = [
     {
