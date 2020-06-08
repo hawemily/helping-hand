@@ -12,6 +12,11 @@ const VolunteerSchema = new Schema({
     type: String,
     required: true,
   },
+  password: {
+    type: String,
+    required: true,
+    default: '',
+  },
   phoneNumber: {
     type: String,
     required: true

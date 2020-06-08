@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/hawemily/helping-hand#readme",
   "dependencies": {
+    "auth0-js": "^9.13.2",
     "concurrently": "^5.2.0",
     "react-router-dom": "^5.2.0"
   }
