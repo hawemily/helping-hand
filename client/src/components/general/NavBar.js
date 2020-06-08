@@ -1,26 +1,32 @@
 import React, { useState } from "react";
-import { Collapse, Navbar, Nav, Container } from "react-bootstrap";
+import axios from 'axios';
+import { Navbar, Nav, Container, Modal, Form, Button, ButtonGroup, ToggleButton } from "react-bootstrap";
+import Login from "./Login";
+import Register from "./Register";
 
 const NavBar = (props) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
+  const [showRegister, setShowRegister] = useState(false);
 
   const toggle = () => setIsOpen(!isOpen);
 
-  const login = (creds) => {
-    props.auth.login(creds);
-  }
+  const showLoginModal = () => setShowLogin(true);
+  const closeLoginModal = () => setShowLogin(false);
+
+  const showRegisterModal = () => setShowRegister(true);
+  const closeRegisterModal = () => setShowRegister(false);
 
   const logout = () => {
-    console.log("logging out");
     props.auth.logout();
   }
-
 
   const generalItems = [
     { title: "Volunteer", link: "/volunteer" },
     { title: "Get Help", link: "/getHelp" },
     { title: "Contact Us" },
-    { title: "Login", onClick: () => login({email: "jxy18@ic.ac.uk", password: ""}) },
+    { title: "Login", onClick: () => showLoginModal() },
+    { title: "Register", onClick: () => showRegisterModal() }
   ];
 
   const pinItems = [
@@ -71,6 +77,11 @@ const NavBar = (props) => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
+
+      <Login show={showLogin} close={closeLoginModal} auth={props.auth} />
+
+      <Register show={showRegister} close={closeRegisterModal} />
+      
     </div>
   );
 };

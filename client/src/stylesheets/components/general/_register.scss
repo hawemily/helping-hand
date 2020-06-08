@@ -1,0 +1,20 @@
+#result-msg {
+  color: green;
+  display: none;
+}
+
+#result-msg.show {
+  display: block;
+}
+
+#result-msg.error {
+  color: red;
+}
+
+.typeToggleBtns {
+  @include secondary-button;
+}
+
+.submitBtn {
+  @include primary-button
+}

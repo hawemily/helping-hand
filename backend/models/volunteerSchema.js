@@ -4,7 +4,11 @@ const Schema = mongoose.Schema;
 //Create schema
 
 const VolunteerSchema = new Schema({
-  name: {
+  firstName: {
+    type: String,
+    required: true,
+  },
+  lastName: {
     type: String,
     required: true,
   },
@@ -15,7 +19,6 @@ const VolunteerSchema = new Schema({
   password: {
     type: String,
     required: true,
-    default: '',
   },
   phoneNumber: {
     type: String,

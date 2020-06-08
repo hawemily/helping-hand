@@ -13,15 +13,17 @@ export default class Auth {
   //   scope: 'openid'
   // });
 
-  login = (creds) => {
+  login = (creds, resolve, reject) => {
       axios.post("/volunteers/login", creds)
       .then((item)=> {
         console.log(item);
         if (item.data.success) {          
           this.setSession(item.data);
+          resolve(true);
         }
+        resolve(false);
       })
-      .catch(err => {console.error(err)});
+      .catch(err => {console.error(err); resolve(false);});
   }
 
   // handleAuthentication = () => {
