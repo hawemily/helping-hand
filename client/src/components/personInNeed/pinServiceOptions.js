@@ -7,7 +7,7 @@ const Services = (props) => {
 
   const services = [
     { name: "Groceries", link: "/getHelp/groceries" },
-    { name: "Laundry" },
+    { name: "Laundry" , link:"/getHelp/laundry"},
     { name: "Transport" },
     { name: "Healthcare" },
   ];
