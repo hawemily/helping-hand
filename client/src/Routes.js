@@ -56,11 +56,12 @@ const Routes = () => (
         exact
         path='/'
         component={
-          auth.isAuthenticated()
-            ? auth.isPin()
-              ? PinMain
-              : Volunteer
-            : HomePage
+          HomePage
+          // auth.isAuthenticated()
+          //   ? auth.isPin()
+          //     ? PinMain
+          //     : Volunteer
+          //   : HomePage
         }
       />
       <Route exact path='/services' component={PinMain} />

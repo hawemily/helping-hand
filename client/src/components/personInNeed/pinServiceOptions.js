@@ -12,7 +12,7 @@ const Services = (props) => {
   const services = [
     {
       name: "Groceries",
-      link: "/services/groceries",
+      link: "/groceries",
       image: groceries,
       alt: "groceries",
     },
@@ -42,7 +42,7 @@ const Services = (props) => {
                   outline
                   color='primary'
                   block
-                  tag={Link}
+                  onClick={() => redirect(service.link)}
                   // onClick={isLoggedIn ? redirect(service.link) : () => notice()}
                 >
                   {service.name}

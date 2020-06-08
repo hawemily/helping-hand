@@ -23,10 +23,10 @@
 }
 
 @media screen and (max-width: 545px) {
-  // .banner-bg {
-  //   background-size: auto 100%;
-  //   width: 100%;
-  // }
+  .background {
+    background-size: auto 100%;
+    width: 100%;
+  }
 
   .service-cards img {
     height: 300px;

@@ -1,8 +1,5 @@
 import React from "react";
 import Services from "./pinServiceOptions";
-import { Container } from "react-bootstrap";
-
-import "bootstrap/dist/css/bootstrap.min.css";
 
 const PinMain = (props) => {
   return (
