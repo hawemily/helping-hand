@@ -8,13 +8,14 @@ const Login = (props) => {
   const email = React.createRef();
   const password = React.createRef();
 
-
   async function login(e) {
     e.preventDefault();
+    document.getElementById('loginBtn').disabled = true;
     await new Promise((res, rej) => auth.login({email: email.current.value, password: password.current.value}, res, rej))
     .then((result) => {
       if (!result) {
         document.getElementById('error-msg').classList.add('error');
+        document.getElementById('loginBtn').disabled = false;
       }
     })
     .catch((err) => console.error(err));
@@ -43,7 +44,7 @@ const Login = (props) => {
         <Form.Group id="error-msg">
           <Form.Text>Unable to find the email address and password combination entered.</Form.Text>
         </Form.Group>
-        <Button variant="primary" type="submit" className="submitBtn">
+        <Button variant="primary" type="submit" className="submitBtn" id="loginBtn">
           Login
         </Button>
       </Form>

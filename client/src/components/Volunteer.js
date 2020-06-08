@@ -43,7 +43,8 @@ class Volunteer extends React.Component {
     axios
       .get("/tasks")
       .then(async function (e) {
-        const promises = e.data.map(loadService);
+        var taskList = e.data.tasks.filter(task => task.volunteerId == null);
+        const promises = taskList.map(loadService);
 
         await Promise.all(promises);
       })

@@ -1,9 +1,13 @@
 import React, {useState} from "react";
 import { Card, Button, Modal, Table } from "react-bootstrap";
 import TaskAccepted from "./TaskAccepted";
+import axios from "axios";
 
 const VolunteerTaskCard = (props) => {
   var task = props.task;
+
+  const volunteerId = localStorage.getItem("id_token");
+  const isLoggedIn = volunteerId != null;
 
   const [showTask, setShowTask] = useState(false);
   const [showPin, setShowPin] = useState(false);
@@ -32,6 +36,25 @@ const VolunteerTaskCard = (props) => {
     const date = new Date(d);
     return `${date.getDate()}/${date.getMonth()}/${date.getYear()}`;
   };
+
+  const acceptTask = () => {
+    axios.post("/tasks/assign", {
+      id: task.task._id,
+      volunteerId: volunteerId
+    })
+    .then((res) => {
+      if (res.data.success) {
+        showDoneModal();
+      } else {
+        console.error('Something went wrong');
+      }
+    })
+    .catch(err => console.error(err));
+  }
+
+  const notice = () => {
+    alert("Please log in or register to access this feature.");
+  }
 
   const ParseBasket = () => {
     var basket = JSON.parse(task.basket);
@@ -75,15 +98,15 @@ const VolunteerTaskCard = (props) => {
             <Card.Body className='taskCard'>
               <Card.Title style={{ margin: 0 }}>{task.category}</Card.Title>
               <Card.Text style={{ marginLeft: 0 }}>{task.description}</Card.Text>
-              <p className='expandTask' onClick={showTaskModal}>
+              <p className='expandTask' onClick={isLoggedIn ? showTaskModal : () => notice()}>
                 click to expand
               </p>
             </Card.Body>
           </Card>
         </Card.Body>
         <div className='btnGrp'>
-          <Button className='taskCardDetailsBtn' onClick={showPinModal}>View Details</Button>
-          <Button className='taskCardAcceptBtn' onClick={showDoneModal}>Accept Task</Button>
+          <Button className='taskCardDetailsBtn' onClick={isLoggedIn ? showPinModal : () => notice()}>View Details</Button>
+          <Button className='taskCardAcceptBtn' onClick={isLoggedIn ? acceptTask : () => notice()}>Accept Task</Button>
         </div>
       </Card>
 

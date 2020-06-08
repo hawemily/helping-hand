@@ -6,15 +6,14 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 const PinMain = (props) => {
   return (
-    <Container>
-      <h1 className='header'>Get Help</h1>
-      <p className='body'>
-        If you need contact-free support to get groceries, walking your pets, or
-        simply help around the house, submit your requests here.
-      </p>
-      <h4 className='banner'>What do you need help with?</h4>
+    <div>
+      <div className='background'>
+        <h1 className='header'>Get Help</h1>
+        <p className='body'>Contact-free support, whenever, wherever.</p>
+      </div>
+      <h4 className='section-title'>What do you need help with?</h4>
       <Services />
-    </Container>
+    </div>
   );
 };
 

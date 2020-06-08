@@ -37,7 +37,6 @@ const Register = (props) => {
     if (radioValue == 'volunteer') {
       axios.post("/volunteers", volunteer)
       .then((result) => {
-        console.log(result);
         if (result.data.success) {
           registerResult = 'Registration successful! Please login now to access our services.';
         } else {
