@@ -1,0 +1,12 @@
+#error-msg {
+  color: red;
+  display: none;
+}
+
+#error-msg.error {
+  display: block;
+}
+
+.submitBtn {
+  @include primary-button
+}

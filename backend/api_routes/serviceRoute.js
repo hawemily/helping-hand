@@ -124,7 +124,7 @@ router.post("/groceries", (req, res) => {
       date: date,
       time: time,
       basket: basket,
-      category: "groceries",
+      category: "Groceries",
       optionOne: substitutions
     });
     newService

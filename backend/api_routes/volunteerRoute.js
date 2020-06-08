@@ -10,23 +10,62 @@ router.get("/", (req, res) => {
   Volunteer.find().then((volunteers) => res.json(volunteers));
 });
 
+//@route POST /volunteers/login
+//@desc Post volunteer login authentication
+//@access Public
+router.post("/login", (req, res) => {
+  const { email, password } = req.body;
+  Volunteer.find({ email: email })
+    .then((item) => {
+      if (item != null && item.length > 0 && item[0].password == password) {
+          res.json({
+            success: true,
+            id: item[0]._id,
+            type: 'volunteer'
+          })
+      } else {
+        res.status(404).json({
+          success: false,
+          error: 'Wrong combo'
+        })
+      }
+    })
+    .catch(err =>
+      {
+        res.status(404).json({
+        success: false,
+        error: err
+      });});
+})
+
+// router.delete("/del", (req,res)=>{
+//   Volunteer.find({}).then((list) => {
+//     list.forEach((e) => {
+//       e.remove();
+//     })
+//   })
+//   .then((item) => res.json({success: true}))
+// })
+
 //@route Post /volunteers
 //@desc Post A volunteers
 //@access Public
 router.post("/", (req, res) => {
-  const { name, email, phoneNumber } = req.body;
+  const { firstName, lastName, email, phoneNumber, password } = req.body;
   const newVolunteer = new Volunteer({
-    name: name,
+    firstName: firstName,
+    lastName: lastName,
     email: email,
     phoneNumber: phoneNumber,
+    password: password,
   });
   newVolunteer
     .save()
-    .then((item) => res.json(item))
+    .then((item) => res.json({ success: true, id: item._id}))
     .catch((err) =>
       res.status(400).json({
+        success: false,
         error: err,
-        message: "Error creating Volunteer",
       })
     );
 });
