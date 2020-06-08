@@ -25,32 +25,15 @@ const HomePage = (props) => {
 
   return (
     <Container>
-      <h1
-        style={{
-          marginTop: "125px",
-          textAlign: "center",
-          color: "#39587a",
-          fontFamily: "Rasa",
-          fontSize: "64px",
-          lineHeight: "78px",
-        }}
+      <Container
+        fluid
+        // style={{ textAlign: "centre", color: "#39587a" }}
+        className='banner text-centre'
       >
-        HelpingHand
-      </h1>
-      <p
-        style={{
-          margin: "auto",
-          marginBottom: "75px",
-          width: "920px",
-          textAlign: "center",
-          color: "#39587a",
-          fontFamily: "Rasa",
-          fontSize: "32px",
-          lineHeight: "39px",
-        }}
-      >
-        Lending a hand to those who need it most
-      </p>
+        <h1 className='header'>HelpingHand</h1>
+        <p className='body'>Lending a hand to those who need it most</p>
+      </Container>
+
       <Row>
         {initialOptions.map((option) => (
           <Col sm={12} lg={4}>

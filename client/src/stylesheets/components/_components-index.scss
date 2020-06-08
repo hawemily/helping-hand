@@ -1,8 +1,10 @@
 // links all scss for components
 
 // General components
-@import './general/taskRequestList';
+@import "./general/taskRequestList";
+@import "./homepage";
+
 // Volunteers
-@import './volunteers/volunteerTaskCard';
+@import "./volunteers/volunteerTaskCard";
 
 // Person In Neeed
