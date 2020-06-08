@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { Nav, Container, Card, Button, Table, Row, Col } from "react-bootstrap";
 import TaskItem from "./TaskItem";
-import DetailsModal from "./DetailsModal";
+import DetailsModal from "../DetailsModal";
 import ReportIssueModal from "./ReportIssueModal";
 import { TiTick } from "react-icons/ti";
 import { GiEmptyHourglass } from "react-icons/gi";
-import { MdDoneAll } from "react-icons/md";
+import { FaExclamationCircle, FaHourglass } from "react-icons/fa";
 
 import { IconContext } from "react-icons";
 
@@ -90,9 +90,9 @@ const TaskRequestList = (props) => {
                       {task.isCompleted ? (
                         <TiTick />
                       ) : task.volunteerId == null ? (
-                        <GiEmptyHourglass />
+                        <FaExclamationCircle />
                       ) : (
-                        <MdDoneAll />
+                        <GiEmptyHourglass />
                       )}
                     </div>
                   </IconContext.Provider>

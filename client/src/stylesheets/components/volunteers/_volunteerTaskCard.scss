@@ -54,3 +54,13 @@
         @include tertiary-button;
     }
 }
+
+.modalBtn {
+    @include secondary-button;
+}
+
+@media only screen and (max-width: 1000px) {
+    .taskCardHeader p {
+        display: none;
+    }
+}

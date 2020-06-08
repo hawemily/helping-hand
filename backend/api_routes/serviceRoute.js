@@ -76,6 +76,7 @@ router.delete("/deleteAll", (req, res) => {
 
 // END TESTING ROUTES
 
+
 //@route GET /getHelp/service/:id
 //@desc get individual service item using task id
 //@access public
@@ -123,7 +124,7 @@ router.post("/groceries", (req, res) => {
       date: date,
       time: time,
       basket: basket,
-      category: "groceries",
+      category: "Groceries",
       optionOne: substitutions
     });
     newService

@@ -1,0 +1,31 @@
+.pin-banner {
+  background-image: url("../../../assets/bannerPhotos/group.jpg");
+  padding-top: 7rem;
+  padding-bottom: 2rem;
+  margin-bottom: 3rem;
+  background-position: center;
+  background-size: 100% auto;
+}
+
+.serviceBtn {
+  @include primary-button;
+  font-size: 1.5rem;
+}
+
+.service-cards {
+  img {
+    object-fit: cover;
+    height: 250px;
+    width: auto;
+  }
+}
+
+@media screen and (max-width: 545px) {
+  .pin-banner {
+    background-size: auto 100%;
+  }
+
+  .service-cards img {
+    height: 300px;
+  }
+}
