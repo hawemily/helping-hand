@@ -8,28 +8,33 @@ const Service = require("../models/serviceSchema");
 //@desc Get All tasks
 //@access Public
 router.get("/", (req, res) => {
-  Task.find().then((tasks) => res.json({
-    success: true,
-    tasks: tasks
-  }));
+  Task.find().then((tasks) =>
+    res.json({
+      success: true,
+      tasks: tasks,
+    })
+  );
 });
 
 // @route POST /tasks/assign/:id
 // @desc assign volunteer id to task item
 // @access Public
 router.post("/assign", (req, res) => {
-  const {volunteerId, id} = req.body;
-  Task.findByIdAndUpdate(id, {volunteerId: volunteerId}).then((task) => {
-    res.json({
-      success: true,
-      task: task
+  const { volunteerId, id } = req.body;
+  Task.findByIdAndUpdate(id, { volunteerId: volunteerId })
+    .then((task) => {
+      res.json({
+        success: true,
+        task: task,
+      });
     })
-  })
-  .catch(err => res.status(404).json({
-    success: false,
-    error: err
-  }))
-})
+    .catch((err) =>
+      res.status(404).json({
+        success: false,
+        error: err,
+      })
+    );
+});
 
 //@route GET /tasks/getService/:id
 //@desc Get associated service
@@ -93,6 +98,28 @@ router.delete("/:id", (req, res) => {
       res.status(404).json({
         success: false,
         error: err,
+      })
+    );
+});
+
+//@route get /tasks/:id
+//@desc get all tasks of a volunteer
+//@access Public
+router.get("/:id", (req, res) => {
+  const services = [];
+  const findService = (task) => {
+    Service.findOne({ taskId: task._id }, (err, service) => {
+      services.push(service);
+    });
+  };
+
+  Task.findById(req.params.id)
+    .then((tasks) => tasks.map((task) => findService(task)))
+    .then(() => res.json(services))
+    .catch((err) =>
+      res.status(404).json({
+        success: false,
+        errMessage: "could not retrieve tasks of user",
       })
     );
 });
