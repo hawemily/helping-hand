@@ -14,6 +14,7 @@ const GroceryForm = (props) => {
   const [store, setStore] = useState("");
   const [date, setDate] = useState(new Date());
   const [time, setTime] = useState();
+  const [checked, setChecked] = useState(false);
 
   const [redirectToTaskList, setRedirectToTaskList] = useState(false);
 
@@ -42,12 +43,12 @@ const GroceryForm = (props) => {
     }
     axios
       .post("/services/groceries", {
-        pinId: "tempPinId",
-        area: "some area",
+        pinId: localStorage.getItem("id_token"),
         store: store,
         date: date,
         time: time,
         basket: JSON.stringify(basket),
+        subs: checked,
       })
       .then(() => {
         alert("Grocery request has been submitted");
@@ -63,7 +64,7 @@ const GroceryForm = (props) => {
   };
 
   if (redirectToTaskList) {
-    return <Redirect to='/services/requestList' />;
+    return <Redirect to='/service/requestList' />;
   } else {
     return (
       <Container>
@@ -115,6 +116,8 @@ const GroceryForm = (props) => {
               <Form.Group>
                 <Form.Check
                   type='checkbox'
+                  value={checked}
+                  onChange={(e) => setChecked(e.target.checked)}
                   id='default-checkbox'
                   label='Allow Substitutions'
                 ></Form.Check>
@@ -146,7 +149,7 @@ const GroceryForm = (props) => {
         </Container>
         <br />
         <div>
-          <Button variant='dark' tag={Link} href='/services/requestList'>
+          <Button variant='dark' tag={Link} href='/service/requestList'>
             Return to My Requests
           </Button>
         </div>

@@ -123,28 +123,17 @@ router.get("/service/:id", (req, res) => {
 //@desc post grocery list of user
 //@access public
 router.post("/groceries", (req, res) => {
-  const {
-    area,
-    store,
-    date,
-    time,
-    basket,
-    substitutions,
-    pinId,
-    volunteerId,
-  } = req.body;
+  const { store, date, time, basket, subs, pinId } = req.body;
 
   const createService = (task) => {
     const newService = new Service({
       taskId: task._id,
-      area: area,
       store: store,
       date: date,
       time: time,
       basket: basket,
       category: "Groceries",
-      status: "pending",
-      optionOne: substitutions,
+      optionOne: subs,
     });
     newService
       .save()
@@ -164,8 +153,8 @@ router.post("/groceries", (req, res) => {
   };
 
   const newTask = new Task({
-    volunteerId: volunteerId,
     pinId: pinId,
+    status: "pending",
   });
 
   newTask

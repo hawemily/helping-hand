@@ -10,7 +10,6 @@ const ServiceSchema = new Schema({
   },
   area: {
     type: String,
-    required: true,
   },
   date: {
     type: Date,
@@ -29,10 +28,6 @@ const ServiceSchema = new Schema({
     required: true,
   },
   store: {
-    type: String,
-    required: true,
-  },
-  status: {
     type: String,
     required: true,
   },

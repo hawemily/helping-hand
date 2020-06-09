@@ -11,6 +11,9 @@ const TaskSchema = new Schema({
   volunteerId: {
     type: String,
   },
+  status: {
+    type: String,
+  },
 });
 
 var Task = mongoose.model("task", TaskSchema);

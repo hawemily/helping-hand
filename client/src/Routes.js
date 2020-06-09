@@ -65,9 +65,9 @@ const Routes = () => (
           //   : HomePage
         }
       />
-      <Route exact path='/services' component={PinMain} />
-      <Route exact path='/services/groceries' component={GroceryForm} />
-      <Route exact path='/services/requestList' component={PinRequestList} />
+      <Route exact path='/service' component={PinMain} />
+      <Route exact path='/service/groceries' component={GroceryForm} />
+      <Route exact path='/service/requestList' component={PinRequestList} />
       <Route exact path='/volunteer' component={Volunteer} />
       <Route
         exact

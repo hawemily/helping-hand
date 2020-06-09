@@ -27,15 +27,15 @@ const NavBar = (props) => {
 
   const generalItems = [
     { title: "Volunteer", link: "/volunteer" },
-    { title: "Get Help", link: "/services" },
+    { title: "Get Help", link: "/service" },
     { title: "Contact Us" },
     { title: "Login", onClick: () => showLoginModal() },
     { title: "Register", onClick: () => showRegisterModal() },
   ];
 
   const pinItems = [
-    { title: "Get Help", link: "/services" },
-    { title: "All Requests", link: "/services/requestList" },
+    { title: "Get Help", link: "/service" },
+    { title: "All Requests", link: "/service/requestList" },
     { title: "Contact Us" },
     { title: "My Account", onClick: () => showAccountModal() },
     { title: "Logout", onClick: () => logout() },
