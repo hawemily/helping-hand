@@ -1,16 +1,13 @@
 import React, { useState } from "react";
 import { Nav, Container, Card, Button, Table, Row, Col } from "react-bootstrap";
-import TaskItem from "./TaskItem";
 import DetailsModal from "../DetailsModal";
 import ReportIssueModal from "./ReportIssueModal";
 import { TiTick } from "react-icons/ti";
 import { GiEmptyHourglass } from "react-icons/gi";
 import { FaExclamationCircle, FaHourglass } from "react-icons/fa";
-import Days from "./Day";
+import * as formatter from "./dateTimeFormatter";
 
 import { IconContext } from "react-icons";
-
-import { array } from "prop-types";
 
 const TaskRequestList = (props) => {
   const tasks = props.tasks;
@@ -20,32 +17,6 @@ const TaskRequestList = (props) => {
   // TODO: try componentwillupdateprops alternative
   const [detailsModalShow, setDetailsModalShow] = useState(false);
   const [reportModalShow, setReportModalShow] = useState(false);
-
-  const formatDate = (dateStr) => {
-    if (typeof dateStr === "undefined") {
-      return;
-    }
-
-    const date = new Date(dateStr);
-    console.log(typeof date.getFullYear());
-    return `${Days[date.getDay()]}, 
-       ${date.getDate()}/${date.getMonth()}/${(date.getFullYear() + "").slice(
-      -2
-    )}, `;
-  };
-
-  const formatTime = (timeStr) => {
-    const time = new Date(timeStr);
-    var hours = time.getHours();
-    var mins = time.getMinutes();
-    if (hours < 10) {
-      hours = "0" + hours;
-    }
-    if (mins < 10) {
-      mins = "0" + mins;
-    }
-    return `${hours}:${mins}`;
-  };
 
   return (
     <Container variant='flush'>
@@ -81,8 +52,8 @@ const TaskRequestList = (props) => {
                 key={taskId}
               >
                 <td className='align-middle'>
-                  {formatDate(date)}
-                  {formatTime(time)}
+                  {formatter.formatDate(date)}
+                  {formatter.formatTime(time)}
                 </td>
                 <td className='align-middle'>#{taskId}</td>
                 <td className='align-middle'>{`${category}`}</td>
