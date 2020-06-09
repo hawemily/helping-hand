@@ -9,7 +9,7 @@ import axios from "axios";
 
 // TODO: alert saying the request has been submitted doesn't register
 const LaundryForm = (props) => {
-    const { register, handleSubmit, errors } = useForm();
+    const { register, handleSubmit, errors } = useForm()
 
     const [dateOfPickup, setDateOfPickup] = useState(new Date());
     const [timeOfPickup, setTimeOfPickup] = useState();
@@ -30,7 +30,13 @@ const LaundryForm = (props) => {
                 dateOfPickup: dateOfPickup,
                 timeOfPickup: timeOfPickup,
                 dateOfDropoff: dateOfDropoff,
-                timeOfDropoff: timeOfDropoff
+                timeOfDropoff: timeOfDropoff,
+                tops: data.tops,
+                bottoms: data.bottoms,
+                shoes: data.shoes,
+                socks: data.socks,
+                outerwear: data.outerwear,
+                intimates: data.intimates
             })
             .then(() => {
                 alert("Laundry request has been submitted");
