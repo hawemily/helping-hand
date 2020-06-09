@@ -25,7 +25,7 @@ export default class Auth {
       })
       .catch(err => {console.error(err); resolve(false);});
 
-      axios.post("/pin/login", creds)
+      axios.post("/pins/login", creds)
       .then((item)=> {
         console.log(item);
         if (item.data.success) {          

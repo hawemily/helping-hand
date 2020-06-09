@@ -22,6 +22,25 @@ router.get("/", (req, res) => {
   })
 })
 
+//@route GET /pin/:id
+//@desc get a pin's info by pin id
+//@access public
+router.get("/:id", (req, res) => {
+  Pin.findById(req.params.id)
+  .then((pin) => {
+    res.json({
+      success: true,
+      pin: pin
+    })
+  })
+  .catch((err) => {
+    res.json({
+      success: false,
+      error: err
+    })
+  })
+})
+
 //@route POST /pin
 //@desc create new pin account
 //@access public

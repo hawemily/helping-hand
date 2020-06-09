@@ -26,7 +26,7 @@ mongoose
 app.use("/volunteers", volunteerApi);
 app.use("/tasks", taskApi);
 app.use("/services", servicesApi);
-app.use("/pin", pinApi);
+app.use("/pins", pinApi);
 
 //Serve static assets if in production
 if (process.env.NODE_ENV === "production") {

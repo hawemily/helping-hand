@@ -1,11 +1,19 @@
 import React from "react";
+import axios from 'axios';
 import { Modal, Button } from "react-bootstrap";
 import ViewOnlyBasket from "./volunteers/ViewOnlyBasket";
 
 const DetailsModal = (props) => {
   if (localStorage.getItem("user_type") == "volunteer") {
+    // For Volunteers
     const { pinId, volunteerId, id } = props.task.task;
     const {  time, category, area, basket, date, optionOne, store, taskId } = props.task.service;
+
+    const getPinInfo = () => {
+      // if (props.show) {
+      //   axios.get("/pins/")
+      // }
+    }
 
     return (
       <div id={id}>
@@ -25,7 +33,7 @@ const DetailsModal = (props) => {
             <ViewOnlyBasket basket={basket} />
             <br />
             <h4>Person You Will Help</h4>
-            <p>{pinId}</p>
+            <p>{() => getPinInfo()}</p>
           </Modal.Body>
           <Modal.Footer>
             <Button onClick={props.onHide}>Close</Button>
@@ -34,6 +42,7 @@ const DetailsModal = (props) => {
       </div>
     );
   } else {
+    // For PINs
     const { category, taskId, basket, volunteerId } = props.task;
     console.log(basket);
 
@@ -52,6 +61,7 @@ const DetailsModal = (props) => {
           </Modal.Header>
           <Modal.Body>
             <h4>{category}</h4>
+            {/* use another thingy cus ViewOnlyBasket doesnt allow edits cus i made it only with volunteers in mind or u can modify it */}
             <ViewOnlyBasket basket={basket} />
             <br />
             <h4>Your Volunteer</h4>

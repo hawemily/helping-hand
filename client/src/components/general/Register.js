@@ -61,7 +61,7 @@ const Register = (props) => {
         address: address.current.value
       };
 
-      axios.post("/pin", pin)
+      axios.post("/pins", pin)
       .then((result) => {
         if (result.data.success) {
           registerResult = 'Registration successful! Please login now to access our services.';
