@@ -14,12 +14,23 @@ const GroceryForm = (props) => {
   const [store, setStore] = useState("");
   const [date, setDate] = useState(new Date());
   const [time, setTime] = useState();
+  const [checked, setChecked] = useState(false);
 
   const [redirectToTaskList, setRedirectToTaskList] = useState(false);
 
   const resetList = () => {
     setBasket([]);
   };
+
+  const stores = [
+    "Sainsburys",
+    "Tesco",
+    "M&S",
+    "Aldi",
+    "Lidl",
+    "Waitrose",
+    "Whole Foods",
+  ];
 
   const onSubmit = () => {
     if (store === "") {
@@ -31,109 +42,114 @@ const GroceryForm = (props) => {
       return;
     }
     axios
-      .post("/getHelp/groceries", {
-        pinId: "tempPinId",
-        area: "someLocation",
+      .post("/services/groceries", {
+        pinId: localStorage.getItem("id_token"),
         store: store,
         date: date,
         time: time,
         basket: JSON.stringify(basket),
+        subs: checked,
       })
       .then(() => {
         alert("Grocery request has been submitted");
         window.location.reload();
       })
       .catch((err) => {
-        // alert(
-        //   "Could not submit grocery list. Please try again in a few seconds."
-        // );
+        alert(
+          "Could not submit grocery list. Please try again in a few seconds."
+        );
         console.log(err);
       });
     setRedirectToTaskList(!redirectToTaskList);
   };
 
   if (redirectToTaskList) {
-    return <Redirect to='/getHelp/requestList' />;
+    return <Redirect to='/service/requestList' />;
   } else {
     return (
       <Container>
-        <Container className='border border-dark'>
-          <Container className='m-3'>
-            <Row form>
-              <Col md={6}>
-                <Form.Group controlId='grocer'>
-                  <Form.Label>Preferred Grocery Store:</Form.Label>
-                  <Form.Control
-                    type='text'
-                    name='store'
-                    value={store}
-                    onChange={(e) => setStore(e.target.value)}
-                    placeholder='Enter the Grocery Store'
-                  />
-                </Form.Group>
-                <Form.Group>
-                  <Form.Label>Date:</Form.Label>
-                  <br />
-                  <DatePicker
-                    selected={date}
-                    onChange={(date) => setDate(date)}
-                    minDate={new Date()}
-                    showDisabledMonthNavigation
-                    withPortal
-                  />
-                </Form.Group>
-                <Form.Group>
-                  <Form.Label>Time:</Form.Label>
-                  <br />
-                  <DatePicker
-                    selected={time}
-                    onChange={(time) => setTime(time)}
-                    showTimeSelect
-                    showTimeSelectOnly
-                    minTime={setHours(setMinutes(new Date(), 30), 8)}
-                    maxTime={setHours(setMinutes(new Date(), 30), 17)}
-                    timeIntervals={15}
-                    timeCaption='Time'
-                    dateFormat='h:mm aa'
-                    withPortal
-                  />
-                </Form.Group>
-                <Form.Group>
-                  <Form.Check
-                    type='checkbox'
-                    id='default-checkbox'
-                    label='Allow Substitutions'
-                  ></Form.Check>
-                </Form.Group>
-                <Form.Group>
-                  <Container className='border border-dark'>
-                    <AddItem basket={basket} setBasket={setBasket} />
-                  </Container>
-                </Form.Group>
+        <Container className='border border-dark m-3 p-4'>
+          <Row form>
+            <Col md={6}>
+              <Form.Group controlId='grocer'>
+                <Form.Label>Preferred Grocery Store:</Form.Label>
+                <Form.Control
+                  as='select'
+                  value={store}
+                  onChange={(e) => setStore(e.target.value)}
+                >
+                  <option value={""} disabled selected>
+                    Select your Store:
+                  </option>
+                  {stores.sort().map((store) => (
+                    <option value={store}>{store}</option>
+                  ))}
+                </Form.Control>
+              </Form.Group>
+              <Form.Group>
+                <Form.Label>Date:</Form.Label>
+                <br />
+                <DatePicker
+                  selected={date}
+                  onChange={(date) => setDate(date)}
+                  minDate={new Date()}
+                  showDisabledMonthNavigation
+                  withPortal
+                />
+              </Form.Group>
+              <Form.Group>
+                <Form.Label>Time:</Form.Label>
+                <br />
+                <DatePicker
+                  selected={time}
+                  onChange={(time) => setTime(time)}
+                  showTimeSelect
+                  showTimeSelectOnly
+                  minTime={setHours(setMinutes(new Date(), 30), 8)}
+                  maxTime={setHours(setMinutes(new Date(), 30), 17)}
+                  timeIntervals={15}
+                  timeCaption='Time'
+                  dateFormat='h:mm aa'
+                  withPortal
+                />
+              </Form.Group>
+              <Form.Group>
+                <Form.Check
+                  type='checkbox'
+                  value={checked}
+                  onChange={(e) => setChecked(e.target.checked)}
+                  id='default-checkbox'
+                  label='Allow Substitutions'
+                ></Form.Check>
+              </Form.Group>
+              <Form.Group>
+                <Container className='border border-dark'>
+                  <AddItem basket={basket} setBasket={setBasket} />
+                </Container>
+              </Form.Group>
+            </Col>
+            <Col md={6}>
+              <Basket basket={basket} setBasket={setBasket} />
+            </Col>
+          </Row>
+          <Container className='text-center'>
+            <Row>
+              <Col>
+                <Button variant='dark' dark onClick={onSubmit}>
+                  Submit Request
+                </Button>
               </Col>
-              <Col md={6}>
-                <Basket basket={basket} setBasket={setBasket} />
+              <Col>
+                <Button variant='danger' onClick={resetList}>
+                  Reset Basket
+                </Button>
               </Col>
             </Row>
-            <Container className='text-center'>
-              <Row>
-                <Col>
-                  <Button variant='dark' dark onClick={onSubmit}>
-                    Submit Request
-                  </Button>
-                </Col>
-                <Col>
-                  <Button variant='danger' onClick={resetList}>
-                    Reset Basket
-                  </Button>
-                </Col>
-              </Row>
-            </Container>
           </Container>
         </Container>
         <br />
         <div>
-          <Button variant='dark' tag={Link} href='/getHelp/requestList'>
+          <Button variant='dark' tag={Link} href='/service/requestList'>
             Return to My Requests
           </Button>
         </div>

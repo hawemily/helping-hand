@@ -23,34 +23,34 @@ const NavBar = (props) => {
 
   const logout = () => {
     props.auth.logout();
-  }
+  };
 
   const generalItems = [
     { title: "Volunteer", link: "/volunteer" },
-    { title: "Get Help", link: "/getHelp" },
+    { title: "Get Help", link: "/service" },
     { title: "Contact Us" },
     { title: "Login", onClick: () => showLoginModal() },
-    { title: "Register", onClick: () => showRegisterModal() }
+    { title: "Register", onClick: () => showRegisterModal() },
   ];
 
   const pinItems = [
-    { title: "Get Help", link: "/getHelp" },
-    { title: "All Requests", link: "/getHelp/requestList" },
+    { title: "Get Help", link: "/service" },
+    { title: "All Requests", link: "/service/requestList" },
     { title: "Contact Us" },
     { title: "My Account", onClick: () => showAccountModal() },
-    { title: "Logout", onClick: () => logout()},
-  ]
+    { title: "Logout", onClick: () => logout() },
+  ];
 
   const volunteerItems = [
     { title: "Volunteer", link: "/volunteer" },
     { title: "All Tasks", link: "/volunteer/taskList" },
     { title: "Contact Us" },
     { title: "My Account", onClick: () => showAccountModal() },
-    { title: "Logout", onClick: () => logout()}
-  ]
+    { title: "Logout", onClick: () => logout() },
+  ];
 
   const getNavbarItems = () => {
-    const {isAuthenticated, isPin} = props.auth;
+    const { isAuthenticated, isPin } = props.auth;
     if (isAuthenticated() && isPin()) {
       return pinItems;
     } else if (isAuthenticated() && !isPin()) {
@@ -58,7 +58,7 @@ const NavBar = (props) => {
     } else {
       return generalItems;
     }
-  }
+  };
 
   return (
     <div>
@@ -70,8 +70,12 @@ const NavBar = (props) => {
             <Nav className='ml-auto' navbar>
               {getNavbarItems().map((item) => {
                 return (
-                  <Nav.Item className="navbar-items">
-                    <Nav.Link href={item.link} onClick={item.onClick} className='alert-link'>
+                  <Nav.Item className='navbar-items'>
+                    <Nav.Link
+                      href={item.link}
+                      onClick={item.onClick}
+                      className='alert-link'
+                    >
                       {item.title}
                     </Nav.Link>
                   </Nav.Item>
@@ -87,7 +91,6 @@ const NavBar = (props) => {
       <Register show={showRegister} close={closeRegisterModal} />
 
       <Account show={showAccount} close={closeAccountModal} />
-      
     </div>
   );
 };

@@ -3,16 +3,13 @@ import NavBar from "./general/NavBar";
 import { Container, Card, Button, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-import Volunteer from "./Volunteer";
-
-import "bootstrap/dist/css/bootstrap.min.css";
-
 const HomePage = (props) => {
   const initialOptions = [
     {
       title: "I Need Help",
       body:
         " Make a request through our simple form, and get connected to a volunteer in your area",
+      link: "/service",
       style: "mainBtn",
     },
     {
@@ -20,42 +17,21 @@ const HomePage = (props) => {
       body: "Find volunteering opportunites in your community",
       link: "/volunteer",
       style: "mainBtn",
-
     },
-    { title: "Learn More", style: "unimportantBtn", body: " Read about our story", link: "/" },
+    {
+      title: "Learn More",
+      style: "unimportantBtn",
+      body: " Read about our story",
+      link: "/",
+    },
   ];
 
   return (
     <div>
-      <div className="home-banner">
-          <h1
-            style={{
-              textAlign: "center",
-              color: "white",
-              textShadow: "2px 2px #39587a",
-              fontFamily: "Rasa",
-              fontSize: "64px",
-              lineHeight: "78px",
-            }}
-          >
-            HelpingHand
-          </h1>
-          <p
-            style={{
-              margin: "auto",
-              marginBottom: "75px",
-              width: "920px",
-              textAlign: "center",
-              color: "white",
-              textShadow: "2px 2px #39587a",
-              fontFamily: "Rasa",
-              fontSize: "32px",
-              lineHeight: "39px",
-            }}
-          >
-            Lending a hand to those who need it most
-          </p>
-        </div>
+      <div className='banner-bg'>
+        <h1 className='header'>HelpingHand</h1>
+        <p className='body'>Lending a hand to those who need it most</p>
+      </div>
       <Container>
         <Row>
           {initialOptions.map((option) => (
@@ -78,7 +54,13 @@ const HomePage = (props) => {
                   >
                     {`${option.title}`}
                   </Button>
-                  <p style={{ marginTop: "15px", textAlign: "center", fontSize: "1.3rem" }}>
+                  <p
+                    style={{
+                      marginTop: "15px",
+                      textAlign: "center",
+                      fontSize: "1.3rem",
+                    }}
+                  >
                     {`${option.body}`}
                   </p>
                 </Card.Body>

@@ -1,15 +1,17 @@
-.pin-banner {
+@use "../../layout/homepage" as *;
+
+.background {
+  @include background;
   background-image: url("../../../assets/bannerPhotos/group.jpg");
-  padding-top: 7rem;
-  padding-bottom: 2rem;
-  margin-bottom: 3rem;
-  background-position: center;
-  background-size: 100% auto;
 }
 
+.section-title {
+  text-align: center;
+  color: #39587a;
+  margin-bottom: "2rem";
+}
 .serviceBtn {
-  @include primary-button;
-  font-size: 1.5rem;
+  @include defaultButton;
 }
 
 .service-cards {
@@ -21,8 +23,9 @@
 }
 
 @media screen and (max-width: 545px) {
-  .pin-banner {
+  .background {
     background-size: auto 100%;
+    width: 100%;
   }
 
   .service-cards img {
