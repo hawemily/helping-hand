@@ -13,6 +13,7 @@ const TaskSchema = new Schema({
   },
   status: {
     type: String,
+    default: "pending"
   },
 });
 

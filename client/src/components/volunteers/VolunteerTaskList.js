@@ -37,7 +37,10 @@ class VolunteerTaskList extends React.Component {
         var show = [];
         var validTasks = res.data.services.filter((task) => task.validService);
         validTasks.forEach((e) => {
-          buttonStates.push(this.defaultState);
+          buttonStates.push({
+            colorButton: e.task.status == "complete" ? "success" : "danger",
+            isClicked: e.task.status == 'complete',
+          });
           show.push(false);
         });
         this.setState({
