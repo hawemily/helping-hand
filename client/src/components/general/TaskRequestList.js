@@ -1,50 +1,74 @@
 import React, { useState } from "react";
-import { Nav, Container, Card, Button, Table, Row, Col } from "react-bootstrap";
+import {
+  Nav,
+  Container,
+  Card,
+  Button,
+  Table,
+  ButtonGroup,
+} from "react-bootstrap";
 import TaskItem from "./TaskItem";
-import DetailsModal from "../DetailsModal";
+import ViewDetailsModal from "./ViewDetailsModal";
 import ReportIssueModal from "./ReportIssueModal";
 import { TiTick } from "react-icons/ti";
 import { GiEmptyHourglass } from "react-icons/gi";
 import { FaExclamationCircle, FaHourglass } from "react-icons/fa";
-import Days from "./Day";
+import * as formatter from "./dateTimeFormatter";
 
 import { IconContext } from "react-icons";
 
-import { array } from "prop-types";
+const defaultState = {
+  view: false,
+  report: false,
+};
 
 const TaskRequestList = (props) => {
+  // const tasks = props.tasks;
   const tasks = props.tasks;
+
+  console.log(tasks);
+
   // props passed into task request list should have all the information shown,
   // as well as information on the volunteer who confirmed it
   // THERE IS A BUG where modal only presents first elem of list
   // TODO: try componentwillupdateprops alternative
-  const [detailsModalShow, setDetailsModalShow] = useState(false);
-  const [reportModalShow, setReportModalShow] = useState(false);
 
-  const formatDate = (dateStr) => {
-    if (typeof dateStr === "undefined") {
-      return;
-    }
+  const initialArray = Array(10).fill(0);
+  console.log("INITIALARRAY");
+  console.log(initialArray);
 
-    const date = new Date(dateStr);
-    console.log(typeof date.getFullYear());
-    return `${Days[date.getDay()]}, 
-       ${date.getDate()}/${date.getMonth()}/${(date.getFullYear() + "").slice(
-      -2
-    )}, `;
-  };
+  const arr = [];
+  const [buttonModalShow, setButtonModalShow] = useState(
+    Array(tasks.length).fill(defaultState)
+  );
 
-  const formatTime = (timeStr) => {
-    const time = new Date(timeStr);
-    var hours = time.getHours();
-    var mins = time.getMinutes();
-    if (hours < 10) {
-      hours = "0" + hours;
-    }
-    if (mins < 10) {
-      mins = "0" + mins;
-    }
-    return `${hours}:${mins}`;
+  console.log("TASSKSKKSKS");
+  console.log(typeof tasks);
+  console.log("BUTTONMODAL SHOW", typeof buttonModalShow);
+  console.log(tasks[1]);
+  console.log("buttonmondals");
+  console.log(buttonModalShow);
+
+  // console.log(tasks.length);
+  // console.log(Array(tasks.length).fill(defaultState));
+  // console.log(buttonModalShow);
+
+  const toggleModal = (modalType, index) => {
+    console.log(`modaltype: ${modalType}`);
+    console.log(index);
+
+    const newStates = buttonModalShow.map((button, id) => {
+      if (id === index) {
+        const updatedState = {
+          ...button,
+          [modalType]: !button[modalType],
+        };
+        return updatedState;
+      }
+      return button;
+    });
+    console.log(newStates);
+    setButtonModalShow(newStates);
   };
 
   return (
@@ -60,119 +84,83 @@ const TaskRequestList = (props) => {
           </tr>
         </thead>
         <tbody>
-          {tasks.map((task) => {
-            const {
-              date,
-              time,
-              taskId,
-              category,
-              volunteerId,
-              description,
-            } = task;
-            return (
-              <tr
-                className={`text-center ${
-                  task.isCompleted
-                    ? "completed"
-                    : task.volunteerId == null
-                    ? "pending"
-                    : "confirmed"
-                }`}
-                key={taskId}
-              >
-                <td className='align-middle'>
-                  {formatDate(date)}
-                  {formatTime(time)}
-                </td>
-                <td className='align-middle'>#{taskId}</td>
-                <td className='align-middle'>{`${category}`}</td>
-                <td className='align-middle'>
-                  <Row>
-                    <Col>
+          {console.log(`WHAT IS WEONG${buttonModalShow}`)}
+          {tasks.length !== 0 &&
+            tasks.map((task, index) => {
+              const {
+                date,
+                time,
+                taskId,
+                category,
+                volunteerId,
+                description,
+              } = task;
+              return (
+                <tr
+                  className={`text-center ${
+                    task.isCompleted
+                      ? "completed"
+                      : task.volunteerId == null
+                      ? "pending"
+                      : "confirmed"
+                  }`}
+                  key={taskId}
+                >
+                  <td className='align-middle'>
+                    {formatter.formatDate(date)}
+                    {formatter.formatTime(time)}
+                  </td>
+                  <td className='align-middle'>#{taskId}</td>
+                  <td className='align-middle'>{`${category}`}</td>
+                  <td className='align-middle'>
+                    <ButtonGroup>
                       <Button
                         variant='primary'
-                        onClick={() => setDetailsModalShow(true)}
+                        onClick={() => toggleModal("view", index)}
                       >
                         More Details
                       </Button>
                       <div id={taskId}>
-                        <DetailsModal
-                          show={detailsModalShow}
+                        <ViewDetailsModal
+                          show={buttonModalShow[index].view}
                           task={task}
-                          onHide={() => setDetailsModalShow(false)}
+                          onHide={() => toggleModal("view", index)}
                           ariaLabelledBy={task.taskId}
                         />
                       </div>
-                    </Col>
-
-                    <Col>
                       <Button
                         variant='danger'
-                        onClick={() => {
-                          setReportModalShow(true);
-                        }}
+                        onClick={() => toggleModal("report", index)}
                       >
                         Report Issue
                       </Button>
                       <ReportIssueModal
-                        show={reportModalShow}
+                        show={buttonModalShow[index].report}
                         task={task}
-                        onHide={() => setReportModalShow(false)}
+                        onHide={() => toggleModal("report", index)}
                       />
-                    </Col>
-                  </Row>
-                </td>
-                <td className='align-middle'>
-                  <IconContext.Provider value={{ style: { fontSize: "30px" } }}>
-                    <div>
-                      {task.isCompleted ? (
-                        <TiTick />
-                      ) : task.volunteerId == null ? (
-                        <FaExclamationCircle />
-                      ) : (
-                        <GiEmptyHourglass />
-                      )}
-                    </div>
-                  </IconContext.Provider>
-                </td>
-              </tr>
-            );
-          })}
+                    </ButtonGroup>
+                  </td>
+                  <td className='align-middle'>
+                    <IconContext.Provider
+                      value={{ style: { fontSize: "30px" } }}
+                    >
+                      <div>
+                        {task.isCompleted ? (
+                          <TiTick />
+                        ) : task.volunteerId == null ? (
+                          <FaExclamationCircle />
+                        ) : (
+                          <GiEmptyHourglass />
+                        )}
+                      </div>
+                    </IconContext.Provider>
+                  </td>
+                </tr>
+              );
+            })}
         </tbody>
       </Table>
-      {/* <Card>
-        <Card.Header>
-          <Nav fill justify variant='tabs' defaultActiveKey='#first'>
-            <Nav.Item>
-              <Nav.Link href='#first'>
-                <h4>Date</h4>
-              </Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link href='#first'>
-                <h4>Request No.</h4>
-              </Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link href='#first'>
-                <h4>Service</h4>
-              </Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link href='#first'>
-                <h4>Volunteer</h4>
-              </Nav.Link>
-            </Nav.Item>
-          </Nav>
-        </Card.Header>
-        <Card.Body>
-          <div>
-            {tasks.map((sampleTask) => {
-              return <TaskItem task={sampleTask} />;
-            })}
-          </div>
-        </Card.Body>
-      </Card> */}
     </Container>
   );
 };

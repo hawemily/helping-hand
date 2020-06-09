@@ -7,14 +7,17 @@ const PinRequestList = () => {
   // should include userid
   const [tasks, setTasks] = useState([]);
 
-  useEffect(async () => {
+  // call async functions separately
+  useEffect(() => {
     console.log("doing backend data call");
     axios
       .get("/services/allRequests")
       .then((requests) => {
+        console.log("doing backend call for all requests");
+        console.log(requests.data);
         setTasks(requests.data);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(`ERRORRRR: ${err}`));
   }, []);
 
   return (

@@ -6,6 +6,7 @@ import GroceryForm from "./components/personInNeed/GroceryForm";
 import HomePage from "./components/homepage";
 import PinMain from "./components/personInNeed/pinMain";
 import PinRequestList from "./components/personInNeed/PinRequestList";
+import TaskRequestList from "./components/general/TaskRequestList";
 import VolunteerTaskList from "./components/volunteers/VolunteerTaskList";
 import AllVolunteerTasks from "./components/volunteers/AllVolunteerTasks";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
@@ -53,15 +54,20 @@ const Routes = () => (
   <Router>
     <NavBar auth={auth} />
     <Switch>
-      <Route
-        exact
-        path='/'
-        component={() => <HomePage auth={auth} />}
-      />
+      <Route exact path='/' component={() => <HomePage auth={auth} />} />
       <Route exact path='/service' component={() => <PinMain auth={auth} />} />
       <Route exact path='/service/groceries' component={GroceryForm} />
-      <Route exact path='/service/requestList' component={PinRequestList} />
-      <Route exact path='/volunteer' component={() => <Volunteer auth={auth} />} />
+      {/* <Route exact path='/service/requestList' component={PinRequestList} /> */}
+      <Route
+        exact
+        path='/service/requestList'
+        component={() => <TaskRequestList tasks={sampleTasks} />}
+      />
+      <Route
+        exact
+        path='/volunteer'
+        component={() => <Volunteer auth={auth} />}
+      />
       <Route
         exact
         path='/volunteer/taskList'
