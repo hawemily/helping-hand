@@ -7,7 +7,7 @@ const PinRequestList = () => {
   // should include userid
   const [tasks, setTasks] = useState([]);
 
-  useEffect(() => {
+  useEffect(async () => {
     console.log("doing backend data call");
     axios
       .get("/services/allRequests")

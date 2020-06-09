@@ -7,6 +7,7 @@ import HomePage from "./components/homepage";
 import PinMain from "./components/personInNeed/pinMain";
 import PinRequestList from "./components/personInNeed/PinRequestList";
 import VolunteerTaskList from "./components/volunteers/VolunteerTaskList";
+import AllVolunteerTasks from "./components/volunteers/AllVolunteerTasks";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 const auth = new Auth();
@@ -73,9 +74,8 @@ const Routes = () => (
         path='/volunteer/taskList'
         component={() => <VolunteerTaskList tasks={sampleTasks} />}
       />
+      <Route path='/tasks/:vID' component={AllVolunteerTasks} />
     </Switch>
-
-    {/* <VolunteerTaskCard task={sampleTasks} /> */}
   </Router>
 );
 
