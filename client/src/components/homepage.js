@@ -1,9 +1,11 @@
 import React from "react";
 import NavBar from "./general/NavBar";
 import { Container, Card, Button, Row, Col } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 const HomePage = (props) => {
+  var history = useHistory();
+
   const initialOptions = [
     {
       title: "I Need Help",
@@ -25,6 +27,15 @@ const HomePage = (props) => {
       link: "/",
     },
   ];
+
+  if (props.auth.isAuthenticated()) {
+    if (props.auth.isPin()) {
+      history.push("/service");
+    } else {
+      history.push("/volunteer");
+    }
+  }
+
 
   return (
     <div>

@@ -24,6 +24,17 @@ export default class Auth {
         resolve(false);
       })
       .catch(err => {console.error(err); resolve(false);});
+
+      axios.post("/pin/login", creds)
+      .then((item)=> {
+        console.log(item);
+        if (item.data.success) {          
+          this.setSession(item.data);
+          resolve(true);
+        }
+        resolve(false);
+      })
+      .catch(err => {console.error(err); resolve(false);});
   }
 
   // handleAuthentication = () => {
@@ -45,8 +56,7 @@ export default class Auth {
     localStorage.setItem('id_token', authResult.id);
     localStorage.setItem('user_type', authResult.type);
     localStorage.setItem('expires_at', expiresAt);
-    // navigate to the home route
-    history.replace('/');
+    history.replace(this.isPin() ? '/service' : '/volunteer');
     window.location.reload();
   }
 

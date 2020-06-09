@@ -103,23 +103,57 @@ router.delete("/:id", (req, res) => {
 });
 
 //@route get /tasks/:id
-//@desc get all tasks of a volunteer
+//@desc get all services of a volunteer
 //@access Public
 router.get("/:id", (req, res) => {
-  const services = [];
-  const findService = (task) => {
-    Service.findOne({ taskId: task._id }, (err, service) => {
-      services.push(service);
-    });
+
+  var services = [];
+
+  function findService(task) {
+    return new Promise(((resolve, reject) => {
+      Service.findOne({ taskId: task._id })
+      .then((service) => {
+        services.push({
+          validService: true,
+          task: task,
+          service: service
+        });
+        resolve();
+      })
+      .catch((err) => {
+        services.push({
+          validService: false,
+          task: task,
+          error: err
+        });
+        resolve();
+      });
+    }));   
   };
 
-  Task.findById(req.params.id)
-    .then((tasks) => tasks.map((task) => findService(task)))
-    .then(() => res.json(services))
+  async function mapTaskToService(tasks) {
+    await Promise.all(tasks.map(e => findService(e)));
+  }
+
+  Task.find({volunteerId: req.params.id})
+    .then(tasks => {
+      mapTaskToService(tasks)
+      .then(() => res.json({
+        success: true,
+        services: services
+      }))
+      .catch((err) => {res.json({
+        success: false,
+        error: err
+      });}
+      )
+  })
     .catch((err) =>
       res.status(404).json({
         success: false,
-        errMessage: "could not retrieve tasks of user",
+        error: err,
+        services: null,
+        errMessage: "could not retrieve tasks of volunteer",
       })
     );
 });

@@ -56,19 +56,12 @@ const Routes = () => (
       <Route
         exact
         path='/'
-        component={
-          HomePage
-          // auth.isAuthenticated()
-          //   ? auth.isPin()
-          //     ? PinMain
-          //     : Volunteer
-          //   : HomePage
-        }
+        component={() => <HomePage auth={auth} />}
       />
-      <Route exact path='/service' component={PinMain} />
+      <Route exact path='/service' component={() => <PinMain auth={auth} />} />
       <Route exact path='/service/groceries' component={GroceryForm} />
       <Route exact path='/service/requestList' component={PinRequestList} />
-      <Route exact path='/volunteer' component={Volunteer} />
+      <Route exact path='/volunteer' component={() => <Volunteer auth={auth} />} />
       <Route
         exact
         path='/volunteer/taskList'

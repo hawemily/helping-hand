@@ -1,13 +1,14 @@
 import React, { useState } from "react";
-import { Card, Button, Modal, Table } from "react-bootstrap";
+import { Card, Button, Modal } from "react-bootstrap";
 import TaskAccepted from "./TaskAccepted";
+import ViewOnlyBasket from "./ViewOnlyBasket";
 import axios from "axios";
 
 const VolunteerTaskCard = (props) => {
   var task = props.task;
+  const auth = props.auth;
 
   const volunteerId = localStorage.getItem("id_token");
-  const isLoggedIn = volunteerId != null;
 
   const [showTask, setShowTask] = useState(false);
   const [showPin, setShowPin] = useState(false);
@@ -27,7 +28,6 @@ const VolunteerTaskCard = (props) => {
   const timeFormat = (d) => {
     if (d === null) return "";
     const date = new Date(d);
-    // console.log(task);
     return `${date.getHours()}:${date.getMinutes()}`;
   };
 
@@ -57,33 +57,6 @@ const VolunteerTaskCard = (props) => {
     alert("Please log in or register to access this feature.");
   };
 
-  const ParseBasket = () => {
-    var basket = JSON.parse(task.basket);
-
-    return (
-      <Table>
-        <thead>
-          <tr>
-            <th>No.</th>
-            <th>Item</th>
-            <th>Quantity</th>
-          </tr>
-        </thead>
-        <tbody>
-          {basket.map((element, i) => {
-            return (
-              <tr>
-                <td>{i + 1}</td>
-                <td>{element.item}</td>
-                <td>{element.quantity}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </Table>
-    );
-  };
-
   return (
     <div className='taskCardWrapper'>
       <Card>
@@ -103,8 +76,8 @@ const VolunteerTaskCard = (props) => {
               </Card.Text>
               <p
                 className='expandTask'
-                onClick={true ? showTaskModal : () => notice()}
-                // onClick={isLoggedIn ? showTaskModal : () => notice()}
+                // onClick={auth.isAuthenticated() ? showTaskModal : () => notice()}
+                onClick={showTaskModal}
               >
                 click to expand
               </p>
@@ -114,14 +87,14 @@ const VolunteerTaskCard = (props) => {
         <div className='btnGrp'>
           <Button
             className='taskCardDetailsBtn'
-            //onClick={isLoggedIn ? showPinModal : () => notice()}
+            // onClick={auth.isAuthenticated() ? showPinModal : () => notice()}
             onClick={showPinModal}
           >
             View Details
           </Button>
           <Button
             className='taskCardAcceptBtn'
-            // onClick={isLoggedIn ? acceptTask : () => notice()}
+            // onClick={auth.isAuthenticated() ? acceptTask : () => notice()}
             onClick={acceptTask}
           >
             Accept Task
@@ -134,7 +107,7 @@ const VolunteerTaskCard = (props) => {
           <Modal.Title>{task.category}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <ParseBasket />
+          <ViewOnlyBasket basket={task.basket} />
         </Modal.Body>
         <Modal.Footer>
           <Button className='modalBtn' onClick={closeTaskModal}>

@@ -66,7 +66,7 @@ class Volunteer extends React.Component {
 
   render() {
     const tasks = this.tasks.map((task, i) => (
-      <VolunteerTaskCard task={task} key={i}>
+      <VolunteerTaskCard task={task} key={i} auth={this.props.auth}>
       </VolunteerTaskCard>
     ));
 

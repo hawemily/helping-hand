@@ -3,115 +3,161 @@ import { Container, Button, Table, Row, Col } from "react-bootstrap";
 import DetailsModal from "../DetailsModal";
 import { TiTick } from "react-icons/ti";
 import { GiEmptyHourglass } from "react-icons/gi";
+import axios from 'axios';
 
 import { IconContext } from "react-icons";
-import TaskRequestList from "../general/TaskRequestList";
 
-const VolunteerTaskList = (props) => {
-  const tasks = props.tasks;
+class VolunteerTaskList extends React.Component {
 
-  const [detailsModalShow, setDetailsModalShow] = useState(false);
+  constructor(props) {
+    super(props);
+    this.state = {
+      tasks: [],
+      detailsModalShow: [],
+      buttonStates: []
+    };
+    this.defaultState = {
+      colorButton: "danger",
+      isClicked: false,
+    };
+  }
 
-  const defaultState = {
-    colorButton: "danger",
-    isClicked: false,
-  };
+  // const [tasks, setTasks] = useState([]);
+  // const [detailsModalShow, setDetailsModalShow] = useState(false);
+  // const [buttonStates, setButtonStates] = useState(
+  //   Array(tasks.length).fill(defaultState)
+  // );
 
-  const [buttonStates, setButtonStates] = useState(
-    Array(tasks.length).fill(defaultState)
-  );
-  console.log("BUTTONSTATESS");
-  console.log(buttonStates);
-
-  const taskComplete = (value) => {
-    console.log(value);
-    const newStates = buttonStates.map((item, index) => {
-      if (index === value) {
-        const updatedState = {
-          ...item,
-          colorButton: "success",
-          isClicked: !item.isClicked,
-        };
-        return updatedState;
+  loadTasks = () => {
+    axios.get("/tasks/" + localStorage.getItem("id_token"))
+    .then((res) => {
+      if (res.data.success) {
+        // tasks = res.data.services;
+        var buttonStates = [];
+        var show = [];
+        res.data.services.forEach((e) => {
+          buttonStates.push(this.defaultState);
+          show.push(false);
+        });
+        this.setState({
+          tasks: res.data.services,
+          buttonStates: buttonStates,
+          detailsModalShow: show
+        });
+        console.log(this.state);
       }
-      return item;
-    });
-    setButtonStates(newStates);
+    })
+  }
+
+  toggleTask = (i) => {
+    var states = this.state.buttonStates.slice(0);
+    var state = {...states[i]};
+    state.isClicked = !state.isClicked;
+    state.colorButton = state.isClicked ? "success" : "danger";
+    states[i] = state;
+
+    // update db
+
+    this.setState((state) => {
+      return {
+        buttonStates: states
+      }
+    })
   };
 
-  return (
-    <Container variant='flush'>
-      <Table>
-        <thead>
-          <tr className='text-center'>
-            <th>Date</th>
-            <th>Request No.</th>
-            <th>Service</th>
-            <th>Actions</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {tasks.map((task, index) => {
-            const { date, id, category, volunteerId, description } = task;
-            return (
-              <tr
-                className={`text-center ${
-                  buttonStates[index].isClicked ? "confirmed" : "pending"
-                }`}
-                key={id}
-              >
-                <td className='align-middle'>{date}</td>
-                <td className='align-middle'>#{id}</td>
-                <td className='align-middle'>{`${category}`}</td>
-                <td className='align-middle'>
-                  <Row>
-                    <Col>
-                      <Button
-                        variant='primary'
-                        onClick={() => setDetailsModalShow(true)}
-                      >
-                        More Details
-                      </Button>
-                      <div id={id}>
-                        <DetailsModal
-                          show={detailsModalShow}
-                          task={task}
-                          onHide={() => setDetailsModalShow(false)}
-                          ariaLabelledBy={task.id}
-                        />
-                      </div>
-                    </Col>
+  showDetailsModal = (index) => {
+    var show = this.state.detailsModalShow;
+    show[index] = true;
+    this.setState({detailsModalShow: show});
+  }
 
-                    <Col>
-                      <Button
-                        variant={buttonStates[index].colorButton}
-                        onClick={() => taskComplete(index)}
-                        disabled={buttonStates[index].isClicked}
-                      >
-                        Not Completed
-                      </Button>
-                    </Col>
-                  </Row>
-                </td>
-                <td className='align-middle'>
-                  <IconContext.Provider value={{ style: { fontSize: "30px" } }}>
-                    <div>
-                      {buttonStates[index].isClicked ? (
-                        <TiTick />
-                      ) : (
-                        <GiEmptyHourglass />
-                      )}
-                    </div>
-                  </IconContext.Provider>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </Table>
-    </Container>
-  );
+  closeDetailsModal = (index) => {
+    var show = this.state.detailsModalShow;
+    show[index] = false;
+    this.setState({detailsModalShow: show});
+  }
+
+  componentDidMount() {
+    this.loadTasks();
+  }
+
+  render() {
+    return (
+      <Container variant='flush'>
+        <Table>
+          <thead>
+            <tr className='text-center'>
+              <th>Date</th>
+              <th>Request No.</th>
+              <th>Service</th>
+              <th>Actions</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              this.state.tasks.map((task, index) => {
+              const { time, category, area, basket, date, optionOne, store, taskId } = task.service;
+              return (
+                <tr
+                  className={`text-center ${
+                    this.state.buttonStates[index].isClicked ? "confirmed" : "pending"
+                  }`}
+                  key={index}
+                >
+                  <td className='align-middle'>{date}</td>
+                  <td className='align-middle'>#{taskId}</td>
+                  <td className='align-middle'>{`${category}`}</td>
+                  <td className='align-middle'>
+                    <Row>
+                      <Col>
+                        <Button
+                          variant='primary'
+                          onClick={() => this.showDetailsModal(index)}
+                        >
+                          More Details
+                        </Button>
+                        <div id={taskId}>
+                          <DetailsModal
+                            show={this.state.detailsModalShow[index]}
+                            task={task}
+                            onHide={() => this.closeDetailsModal(index)}
+                            ariaLabelledBy={task.id}
+                          />
+                        </div>
+                      </Col>
+
+                      <Col>
+                        <Button
+                          variant={this.state.buttonStates[index].colorButton}
+                          onClick={() => this.toggleTask(index)}
+                          // disabled={buttonStates[index].isClicked}
+                        >
+                          {this.state.buttonStates[index].isClicked ? "Completed" : "Not Completed"}
+                        </Button>
+                      </Col>
+                    </Row>
+                  </td>
+                  <td className='align-middle'>
+                    <IconContext.Provider value={{ style: { fontSize: "30px" } }}>
+                      <div>
+                        {this.state.buttonStates[index].isClicked ? (
+                          <TiTick />
+                        ) : (
+                          <GiEmptyHourglass />
+                        )}
+                      </div>
+                    </IconContext.Provider>
+                  </td>
+                </tr>
+              );
+            })
+            }
+          </tbody>
+        </Table>
+      </Container>
+    );
+  }
 };
 
 export default VolunteerTaskList;

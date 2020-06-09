@@ -9,7 +9,7 @@ const PinMain = (props) => {
         <p className='body'>Contact-free support, whenever, wherever.</p>
       </div>
       <h4 className='section-title'>What do you need help with?</h4>
-      <Services />
+      <Services auth={props.auth}/>
     </div>
   );
 };

@@ -32,6 +32,6 @@ const PinSchema = new Schema({
   },
 });
 
-const Pin = mongoose.model("pin", PinSchema);
+var Pin = mongoose.model("pin", PinSchema);
 
-modules.export = Pin;
+module.exports = Pin;
