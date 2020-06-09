@@ -9,6 +9,7 @@ import PinMain from "./components/personInNeed/pinMain";
 import TaskRequestList from "./components/general/TaskRequestList";
 import VolunteerTaskList from "./components/volunteers/VolunteerTaskList";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import LaundryForm from "./components/personInNeed/LaundryForm";
 
 const auth = new Auth();
 
@@ -56,12 +57,14 @@ const Routes = () => (
     <Route exact path='/' component={auth.isAuthenticated() ? (auth.isPin() ? PinMain : Volunteer) : HomePage} />
     <Route exact path='/getHelp' component={PinMain} />
     <Route exact path='/getHelp/groceries' component={GroceryForm} />
+    <Route exact path='/getHelp/laundry' component={LaundryForm}/>
     <Route
       exact
       path='/getHelp/requestList'
       component={() => <TaskRequestList tasks={sampleTasks} />}
     />
     <Route exact path='/volunteer' component={Volunteer} />
+
     <Route
       exact
       path='/volunteer/taskList'

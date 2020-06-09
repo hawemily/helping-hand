@@ -11,7 +11,7 @@ const Services = (props) => {
 
   const services = [
     { name: "Groceries", link: "/getHelp/groceries", image: groceries, alt: "groceries"},
-    { name: "Laundry", image: laundry, alt: "laundry" },
+    { name: "Laundry", link: "/getHelp/laundry", image: laundry, alt: "laundry" },
     { name: "Transport", image: transport, alt: "transport" },
     { name: "Pet Care", image: pets, alt: "pet care"},
   ];

@@ -171,6 +171,12 @@ router.post("/laundry", (req, res) => {
     timeOfPickup,
     dateOfDropoff,
     timeOfDropoff,
+    tops,
+    bottoms,
+    shoes,
+    socks,
+    outerwear,
+    intimates,
     detergent,
     pinId,
     volunteerId
@@ -186,7 +192,13 @@ router.post("/laundry", (req, res) => {
       dateOfDropoff: dateOfDropoff,
       timeOfDropoff: timeOfDropoff,
       category: "laundry",
-      optionOne: detergent
+      optionOne: detergent,
+      tops: tops,
+      bottoms: bottoms,
+      shoes: shoes,
+      socks: socks,
+      outerwear: outerwear,
+      intimates: intimates
     });
     newService
         .save()
