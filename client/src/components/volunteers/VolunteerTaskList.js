@@ -35,34 +35,40 @@ class VolunteerTaskList extends React.Component {
         // tasks = res.data.services;
         var buttonStates = [];
         var show = [];
-        res.data.services.forEach((e) => {
+        var validTasks = res.data.services.filter((task) => task.validService);
+        validTasks.forEach((e) => {
           buttonStates.push(this.defaultState);
           show.push(false);
         });
         this.setState({
-          tasks: res.data.services,
+          tasks: validTasks,
           buttonStates: buttonStates,
           detailsModalShow: show
         });
-        console.log(this.state);
+        // console.log(this.state);
       }
     })
   }
 
-  toggleTask = (i) => {
+  taskComplete = (i) => {
     var states = this.state.buttonStates.slice(0);
     var state = {...states[i]};
     state.isClicked = !state.isClicked;
     state.colorButton = state.isClicked ? "success" : "danger";
     states[i] = state;
 
-    // update db
-
-    this.setState((state) => {
-      return {
-        buttonStates: states
+    axios.post("/tasks/complete/" + this.state.tasks[i].task._id)
+    .then((res) => {
+      if (res.data.success) {
+        this.setState((state) => {
+          return {
+            buttonStates: states
+          }
+        });
       }
     })
+    .catch((err) => console.error(err));
+   
   };
 
   showDetailsModal = (index) => {
@@ -130,8 +136,8 @@ class VolunteerTaskList extends React.Component {
                       <Col>
                         <Button
                           variant={this.state.buttonStates[index].colorButton}
-                          onClick={() => this.toggleTask(index)}
-                          // disabled={buttonStates[index].isClicked}
+                          onClick={() => this.taskComplete(index)}
+                          disabled={this.state.buttonStates[index].isClicked}
                         >
                           {this.state.buttonStates[index].isClicked ? "Completed" : "Not Completed"}
                         </Button>

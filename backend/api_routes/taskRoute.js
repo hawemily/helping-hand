@@ -158,4 +158,23 @@ router.get("/:id", (req, res) => {
     );
 });
 
+//@route POST /tasks/:id
+//@desc modify a task's status
+//@access Public
+router.post("/complete/:id", (req, res) => {
+  Task.findByIdAndUpdate(req.params.id, { status: "complete" })
+    .then((task) => {
+      res.json({
+        success: true,
+        task: task,
+      });
+    })
+    .catch((err) =>
+      res.status(404).json({
+        success: false,
+        error: err,
+      })
+    );
+})
+
 module.exports = router;
