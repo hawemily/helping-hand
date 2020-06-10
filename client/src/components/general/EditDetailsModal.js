@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import { Modal, ButtonToolbar, Form, Button } from "react-bootstrap";
+import { Modal, ButtonToolbar, Form, Button, Table } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { setHours, setMinutes } from "date-fns";
 import DatePicker from "react-datepicker";
+import { formatTime, formatDate } from "./dateTimeFormatter";
+import Basket from "./Basket";
 
 const stores = [
   "Sainsburys",
@@ -15,46 +17,54 @@ const stores = [
 ];
 const EditDetailsModal = (props) => {
   const task = props.task;
-  const { handleSubmit, register, errors } = useForm();
+  const { register, handleSubmit, errors } = useForm();
   const [readOnly, setReadOnly] = useState(true);
-  const [date, setDate] = useState(new Date());
-  const [slot, setSlot] = useState(new Date());
+  const [date, setDate] = useState(new Date(task.date));
+  const [slot, setSlot] = useState(new Date(task.time));
+  const [basket, setBasket] = useState(task.basket);
 
+  console.log(typeof basket);
   // do tmr - change this to class and implement date and time
   // getDerivedStateFromProps(nextProps, prevState) {
   //   if (nextProps.task.date != prevState.task.date) {}
   // }
   // need readonly for each request -- do tmr!
-  const submit = () => {
+  const onSubmit = (data) => {
     // do axios call;
+    console.log(data);
     if (!readOnly) {
       setReadOnly(!readOnly);
     }
+
+    props.onHide();
   };
 
-  const changeDetails = () => {
+  const changeDetails = (e) => {
     setReadOnly(!readOnly);
+    e.preventDefault();
   };
 
   const closeModal = () => {
     props.onHide();
   };
 
-  const fields = ["taskId", "category", "store", "basket"];
   return (
-    <Modal {...props} size='lg' aria-labelledby='details-modal' centered>
+    <Modal {...props} size='lg' aria-abelledby='details-modal' centered>
       <Modal.Header>
         <Modal.Title aria-labelledby='details-modal'>
           Edit Details of Request
         </Modal.Title>
       </Modal.Header>
-      <Form onSubmit={handleSubmit(submit)}>
+      <Form onSubmit={handleSubmit(onSubmit)}>
         <Modal.Body>
           <h6>Details of service</h6>
           <Form.Group>
             <Form.Label>Date:</Form.Label>
             {readOnly ? (
-              <Form.Control readOnly={readOnly} placeholder={task.date} />
+              <Form.Control
+                readOnly={readOnly}
+                placeholder={formatDate(task.date)}
+              />
             ) : (
               <DatePicker
                 selected={date}
@@ -68,7 +78,10 @@ const EditDetailsModal = (props) => {
           <Form.Group>
             <Form.Label>Time:</Form.Label>
             {readOnly ? (
-              <Form.Control readOnly={readOnly} placeholder={task.date} />
+              <Form.Control
+                readOnly={readOnly}
+                placeholder={formatTime(task.time)}
+              />
             ) : (
               <DatePicker
                 selected={slot}
@@ -116,36 +129,30 @@ const EditDetailsModal = (props) => {
             {errors.store && <Form.Text>{errors.store.message}</Form.Text>}
           </Form.Group>
           <Form.Group>
-            <Form.Label>Store:</Form.Label>
+            <Form.Label>Your Purchased Items:</Form.Label>
             <Form.Control
-              ref={register({
-                required: {
-                  value: true,
-                  message: "This field is required",
-                },
-              })}
               readOnly={readOnly}
-              defaultValue={task.basket}
-              name='basket'
-            />
-            {errors.basket && <Form.Text>{errors.basket.message}</Form.Text>}
+              placeholder={basket}
+            ></Form.Control>
+            {/* <Basket basket={basket} setBasket={setBasket} /> */}
           </Form.Group>
         </Modal.Body>
-      </Form>
-      <Modal.Footer className='text-center'>
-        <ButtonToolbar>
-          {readOnly ? (
-            <Button onClick={changeDetails}>Click to Change</Button>
-          ) : (
-            <Button variant='success' type='submit'>
-              Submit
+
+        <Modal.Footer className='text-center'>
+          <ButtonToolbar>
+            {readOnly ? (
+              <Button onClick={(e) => changeDetails(e)}>Click to Change</Button>
+            ) : (
+              <Button variant='success' type='submit'>
+                Submit
+              </Button>
+            )}
+            <Button variant='secondary' onClick={closeModal}>
+              Close
             </Button>
-          )}
-          <Button variant='secondary' onClick={closeModal}>
-            Close
-          </Button>
-        </ButtonToolbar>
-      </Modal.Footer>
+          </ButtonToolbar>
+        </Modal.Footer>
+      </Form>
     </Modal>
   );
 };

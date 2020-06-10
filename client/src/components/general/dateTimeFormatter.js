@@ -5,11 +5,9 @@ const formatDate = (dateStr) => {
   }
 
   const date = new Date(dateStr);
-  console.log(typeof date.getFullYear());
-  return `${Days[date.getDay()]}, 
-       ${date.getDate()}/${date.getMonth()}/${(date.getFullYear() + "").slice(
-    -2
-  )}, `;
+  return `${Days[date.getDay()]}, ${date.getDate()}/${date.getMonth()}/${(
+    date.getFullYear() + ""
+  ).slice(-2)} `;
 };
 
 const formatTime = (timeStr) => {

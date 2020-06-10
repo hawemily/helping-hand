@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Col, Row, Container, Form, Button, Image, Card } from "react-bootstrap";
+import {
+  Col,
+  Row,
+  Container,
+  Form,
+  Button,
+  Image,
+  Card,
+} from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import { setHours, setMinutes } from "date-fns";
 import axios from "axios";
@@ -7,7 +15,7 @@ import { Redirect, Link } from "react-router-dom";
 
 import AddItem from "./AddItem";
 import Basket from "../general/Basket";
-import InformationTooltip from "./moreInfo"
+import InformationTooltip from "./moreInfo";
 
 const GroceryForm = (props) => {
   const [basket, setBasket] = useState([]);
@@ -101,6 +109,7 @@ const GroceryForm = (props) => {
                   minDate={new Date()}
                   showDisabledMonthNavigation
                   withPortal
+                  dateFormat='dd/MM/yy'
                 />
               </Form.Group>
               <Form.Group>
@@ -131,8 +140,11 @@ const GroceryForm = (props) => {
                 </Form.Row>
               </Form.Group>
               <Form.Group>
-                <Card bg="light">
-                  <Card.Header as="h5">Request items one at a time then click the 'Add Item' button below to add it to your grocery basket above</Card.Header>
+                <Card bg='light'>
+                  <Card.Header as='h5'>
+                    Request items one at a time then click the 'Add Item' button
+                    below to add it to your grocery basket above
+                  </Card.Header>
                   <Card.Body>
                     <AddItem basket={basket} setBasket={setBasket} />
                   </Card.Body>
