@@ -47,7 +47,7 @@ const LearnMore = (props) => {
                 <h1 className='header'>Learn More</h1>
                 <p className='body'>Need more information about our cause?</p>
             </div>
-            <Container>
+            <Container fluid>
                 <Row>
                     {infoCards.map((option ) => (
                             <Col sm={12} lg={14}>
@@ -56,7 +56,7 @@ const LearnMore = (props) => {
                                         className={option.cardStyle}
                                         style={{
                                             textAlign: "center",
-                                            height:"450px"
+                                            height:"200px"
                                         }}>
                                         <Card.Header><h4>{option.title}</h4></Card.Header>
                                         <Card.Body>
