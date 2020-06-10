@@ -47,32 +47,33 @@ const LearnMore = (props) => {
                 <h1 className='header'>Learn More</h1>
                 <p className='body'>Need more information about our cause?</p>
             </div>
-            <Container fluid>
-                <Row>
-                    {infoCards.map((option ) => (
-                            <Col sm={12} lg={14}>
-                                <div>
+            <Container fluid classname='banner text-center'>
+                <Row fluid>
+                    {infoCards.map((option) => (
+                        <Col sm={12} lg={14}>
+                            <div>
+                                <Container fluid='xl' >
                                     <Card
                                         className={option.cardStyle}
                                         style={{
                                             textAlign: "center",
-                                            height:"200px"
+                                            height: "auto"
                                         }}>
                                         <Card.Header><h4>{option.title}</h4></Card.Header>
                                         <Card.Body>
                                             <p
                                                 style={{
-                                                    marginTop:"15px",
                                                     textAlign: "center",
                                                     fontSize: "1.3rem"
                                                 }}>
-                                                {option.body}
+                                                    {option.body}
                                             </p>
                                         </Card.Body>
                                     </Card>
-                                </div>
-                            </Col>
-                        ))}
+                                </Container>
+                            </div>
+                        </Col>
+                    ))}
                 </Row>
                 <Button
                     center
