@@ -1,6 +1,7 @@
 import React from "react";
 import { Form, Container, Button, Row, Col } from "react-bootstrap";
 import { useForm } from "react-hook-form";
+import InformationTooltip from "./moreInfo"
 
 const AddItem = (props) => {
   const { register, handleSubmit, errors, reset } = useForm();
@@ -27,12 +28,14 @@ const AddItem = (props) => {
   const legends = [
     {
       name: "Item",
+      tooltip: "Input an item that you need. Be as specific as possible to help your shopper!",
       pattern: /^[A-Za-z ]+$/,
       regexMessage: "This field can only accept alphabets",
       type: "text",
     },
     {
       name: "Quantity",
+      tooltip: "Input the amount that you need (only numbers are allowed)",
       pattern: /^[1-9][0-9]*$/,
       regexMessage: "This field cannot be 0, and can only contain numbers",
       type: "number",
@@ -48,7 +51,10 @@ const AddItem = (props) => {
         const name = legend.name;
         return (
           <Form.Group controlId={`formGroup${name}`}>
-            <Form.Label>{name}:</Form.Label>
+            <Form.Row>
+              <Form.Label>{name}:</Form.Label>
+              <InformationTooltip message={legend.tooltip} />
+            </Form.Row>
             <Form.Control
               type={legend.type}
               min={legend.min}

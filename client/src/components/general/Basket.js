@@ -7,19 +7,12 @@ const Basket = (props) => {
     props.setBasket(props.basket.filter((el, value) => value !== id));
   };
   return (
-    <Container>
-      <Container className='text-centre'>
-        <Row>
-          <Col>
-            <h6>Groceries Basket</h6>
-          </Col>
-        </Row>
-      </Container>
-
+    <Container className='border'>
+      <h4 style={{marginTop: "10px"}}>Grocery Basket:</h4>
       <Table bordered hover>
         <thead>
           <tr>
-            <th></th>
+            <th style={{width: "50px"}}></th>
             <th>Item</th>
             <th>Quantity</th>
           </tr>
