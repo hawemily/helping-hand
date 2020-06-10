@@ -16,6 +16,7 @@ const Basket = (props) => {
             <th style={{ width: "50px" }}></th>
             <th>Item</th>
             <th>Quantity</th>
+            <th>Unit</th>
           </tr>
         </thead>
         <tbody>
@@ -28,6 +29,7 @@ const Basket = (props) => {
               </td>
               <td>{e.item}</td>
               <td>{e.quantity}</td>
+              <td>{e.unit}</td>
             </tr>
           ))}
         </tbody>

@@ -27,7 +27,7 @@ const AddItem = (props) => {
 
   const legends = [
     {
-      name: "Purchase Item",
+      name: "Item",
       placeholder: "Enter your purchase item",
       tooltip:
         "Input an item that you need. Be as specific as possible to help your shopper!",
@@ -46,7 +46,21 @@ const AddItem = (props) => {
     },
   ];
 
-  const units = ["kg", "pints", "grams", "litres"];
+  const units = [
+    "Kg",
+    "g",
+    "litre",
+    "ml",
+    "pints",
+    "packet",
+    "bag",
+    "roll",
+    "unit",
+    "units",
+    "bottle",
+    "can",
+    "bunch",
+  ];
 
   return (
     <Form className='mb-3 mt-3' onSubmit={handleSubmit(onSubmit)}>
