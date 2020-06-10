@@ -3,8 +3,9 @@ import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
-import {Button} from "react-bootstrap";
+import {Button, CardColumns, CardGroup} from "react-bootstrap";
 import {Link} from "react-router-dom";
+import CardDeck from "react-bootstrap/CardDeck";
 
 const LearnMore = (props) => {
 
@@ -47,33 +48,58 @@ const LearnMore = (props) => {
                 <h1 className='header'>Learn More</h1>
                 <p className='body'>Need more information about our cause?</p>
             </div>
-            <Container>
-                <Row>
-                    {infoCards.map((option ) => (
-                            <Col sm={12} lg={14}>
-                                <div>
-                                    <Card
-                                        className={option.cardStyle}
-                                        style={{
-                                            textAlign: "center",
-                                            height:"450px"
-                                        }}>
-                                        <Card.Header><h4>{option.title}</h4></Card.Header>
-                                        <Card.Body>
-                                            <p
-                                                style={{
-                                                    marginTop:"15px",
-                                                    textAlign: "center",
-                                                    fontSize: "1.3rem"
-                                                }}>
-                                                {option.body}
-                                            </p>
-                                        </Card.Body>
-                                    </Card>
-                                </div>
-                            </Col>
-                        ))}
-                </Row>
+            <Container fluid classname='banner text-center' style={{
+                marginTop: '50px'
+            }}>
+                {/*<Row>*/}
+                {/*    {infoCards.map((option) => (*/}
+                {/*        <Col sm={12} lg={14}>*/}
+                {/*            <div>*/}
+                {/*                <Container fluid='xl' >*/}
+                {/*                    <Card*/}
+                {/*                        className={option.cardStyle}*/}
+                {/*                        style={{*/}
+                {/*                            textAlign: "center",*/}
+                {/*                            height: "auto"*/}
+                {/*                        }}>*/}
+                {/*                        <Card.Header><h4>{option.title}</h4></Card.Header>*/}
+                {/*                        <Card.Body>*/}
+                {/*                            <p*/}
+                {/*                                style={{*/}
+                {/*                                    textAlign: "center",*/}
+                {/*                                    fontSize: "1.3rem"*/}
+                {/*                                }}>*/}
+                {/*                                    {option.body}*/}
+                {/*                            </p>*/}
+                {/*                        </Card.Body>*/}
+                {/*                    </Card>*/}
+                {/*                </Container>*/}
+                {/*            </div>*/}
+                {/*        </Col>*/}
+                {/*    ))}*/}
+                {/*</Row>*/}
+                <CardDeck classname='card-deck'>
+                    {infoCards.map((option) => (
+                        <Card fluid
+                        className={option.cardStyle}
+                        style={{
+                            marginTop: '15px',
+                            textAlign: 'center',
+                            height: 'auto',
+                            marginBottom:'15px'
+                        }}>
+                                <Card.Body>
+                                    <Card.Header><h4>{option.title}</h4></Card.Header>
+                                    <Card.Text><p style={{
+                                        marginTop: '20px',
+                                        textAlign: 'center',
+                                        fontSize: "1.3rem"
+                                    }}>{option.body}</p></Card.Text>
+                                </Card.Body>
+                        </Card>
+
+                    ))}
+                </CardDeck>
                 <Button
                     center
                     outline
