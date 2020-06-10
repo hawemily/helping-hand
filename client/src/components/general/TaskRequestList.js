@@ -26,6 +26,7 @@ const TaskRequestList = (props) => {
   // const tasks = props.tasks;
   const tasks = props.tasks;
 
+  console.log("PROPS")
   console.log(tasks);
 
   // props passed into task request list should have all the information shown,
@@ -38,15 +39,12 @@ const TaskRequestList = (props) => {
   console.log(initialArray);
 
   const arr = [];
-  const [buttonModalShow, setButtonModalShow] = useState(
-    Array(tasks.length).fill(defaultState)
-  );
+  // const [buttonModalShow, setButtonModalShow] = useState(
+  //   Array(tasks.length).fill(defaultState)
+  // );
+  var buttonModalShow = Array(tasks.length).fill(defaultState)
 
-  console.log("TASSKSKKSKS");
-  console.log(typeof tasks);
-  console.log("BUTTONMODAL SHOW", typeof buttonModalShow);
-  console.log(tasks[1]);
-  console.log("buttonmondals");
+  console.log("button modals");
   console.log(buttonModalShow);
 
   // console.log(tasks.length);
@@ -68,7 +66,8 @@ const TaskRequestList = (props) => {
       return button;
     });
     console.log(newStates);
-    setButtonModalShow(newStates);
+    // setButtonModalShow(newStates);
+    buttonModalShow = newStates
   };
 
   return (
@@ -84,7 +83,6 @@ const TaskRequestList = (props) => {
           </tr>
         </thead>
         <tbody>
-          {console.log(`WHAT IS WEONG${buttonModalShow}`)}
           {tasks.length !== 0 &&
             tasks.map((task, index) => {
               const {

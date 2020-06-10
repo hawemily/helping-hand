@@ -57,12 +57,12 @@ const Routes = () => (
       <Route exact path='/' component={() => <HomePage auth={auth} />} />
       <Route exact path='/service' component={() => <PinMain auth={auth} />} />
       <Route exact path='/service/groceries' component={GroceryForm} />
-      {/* <Route exact path='/service/requestList' component={PinRequestList} /> */}
-      <Route
+      <Route exact path='/service/requestList' component={PinRequestList} />
+      {/* <Route
         exact
         path='/service/requestList'
         component={() => <TaskRequestList tasks={sampleTasks} />}
-      />
+      /> */}
       <Route
         exact
         path='/volunteer'
