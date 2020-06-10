@@ -13,7 +13,12 @@ const TaskSchema = new Schema({
   },
   status: {
     type: String,
-    default: "pending"
+    default: "pending",
+  },
+  service: {
+    type: Schema.Types.ObjectId,
+    ref: "Service",
+    required: true,
   },
 });
 

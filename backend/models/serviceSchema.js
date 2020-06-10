@@ -2,15 +2,7 @@
 //naming is a bij
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-
 const ServiceSchema = new Schema({
-  taskId: {
-    type: String,
-    required: true,
-  },
-  area: {
-    type: String,
-  },
   date: {
     type: Date,
     required: true,
@@ -22,19 +14,12 @@ const ServiceSchema = new Schema({
   category: {
     type: String,
     required: true,
+    enum: ["Laundry", "Grocery"],
   },
-  basket: {
-    type: String,
+  details: {
+    type: Schema.Types.ObjectId,
     required: true,
-  },
-  store: {
-    type: String,
-    required: true,
-  },
-  // for options such as allowing substitutions for groceries
-  optionOne: {
-    type: Boolean,
-    default: false,
+    refPath: "category",
   },
 });
 
