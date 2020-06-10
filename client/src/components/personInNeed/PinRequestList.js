@@ -5,7 +5,7 @@ import { Container } from "react-bootstrap";
 
 const PinRequestList = () => {
   // should include userid
-  const [tasks, setTasks] = useState([]);
+  const [tasks, setTasks] = useState([{}]);
 
   // call async functions separately
   useEffect(() => {
