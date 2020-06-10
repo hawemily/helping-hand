@@ -10,7 +10,7 @@ const LearnMore = (props) => {
 
     const infoCards = [
         {
-            title: "Why we made HelpingHand?",
+            title: "Why did we create HelpingHand?",
             body: "Due to the preventative measures taken as a result of the coronavirus, 2.16 million people have been told not to\n" +
                 "leave their house until at least the end of June,\n" +
                 "meaning they can no longer access essential services themselves. Not everyone in this group is able to get help\n" +
@@ -48,39 +48,35 @@ const LearnMore = (props) => {
                 <p className='body'>Need more information about our cause?</p>
             </div>
             <Container fluid>
-                <Row>
+                <Row style={{height: "fit-content", margin: '0 2rem'}}>
                     {infoCards.map((option ) => (
-                            <Col sm={12} lg={14}>
-                                <div>
+                            <Col sm={12} lg={4} style={{marginBottom: '2rem'}}>
                                     <Card
                                         className={option.cardStyle}
                                         style={{
-                                            textAlign: "center",
-                                            height:"200px"
+                                            margin: '2rem 0',
+                                            height:"100%"
                                         }}>
-                                        <Card.Header><h4>{option.title}</h4></Card.Header>
+                                        <Card.Header style={{textAlign: "center"}}><h4>{option.title}</h4></Card.Header>
                                         <Card.Body>
                                             <p
                                                 style={{
-                                                    marginTop:"15px",
-                                                    textAlign: "center",
                                                     fontSize: "1.3rem"
                                                 }}>
                                                 {option.body}
                                             </p>
                                         </Card.Body>
                                     </Card>
-                                </div>
                             </Col>
                         ))}
                 </Row>
-                <Button
+                {/* <Button
                     center
                     outline
                     variant='dark'
                     tag={Link}
                     href='/'
-                >Back to Main Page</Button>
+                >Back to Main Page</Button> */}
             </Container>
         </div>
     );
