@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Col, Row, Container, Form, Button } from "react-bootstrap";
+import { Col, Row, Container, Form, Button, Image, Card } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import { setHours, setMinutes } from "date-fns";
 import axios from "axios";
@@ -7,6 +7,7 @@ import { Redirect, Link } from "react-router-dom";
 
 import AddItem from "./AddItem";
 import Basket from "../general/Basket";
+import InformationTooltip from "./moreInfo"
 
 const GroceryForm = (props) => {
   const [basket, setBasket] = useState([]);
@@ -72,7 +73,10 @@ const GroceryForm = (props) => {
           <Row form>
             <Col md={6}>
               <Form.Group controlId='grocer'>
-                <Form.Label>Preferred Grocery Store:</Form.Label>
+                <Form.Row>
+                  <Form.Label>Preferred Grocery Store:</Form.Label>
+                  <InformationTooltip message='Specify where you want your groceries from' />
+                </Form.Row>
                 <Form.Control
                   as='select'
                   value={store}
@@ -87,8 +91,10 @@ const GroceryForm = (props) => {
                 </Form.Control>
               </Form.Group>
               <Form.Group>
-                <Form.Label>Date:</Form.Label>
-                <br />
+                <Form.Row>
+                  <Form.Label>Date:</Form.Label>
+                  <InformationTooltip message='Select the date and time when you want your groceries to be delivered' />
+                </Form.Row>
                 <DatePicker
                   selected={date}
                   onChange={(date) => setDate(date)}
@@ -99,7 +105,6 @@ const GroceryForm = (props) => {
               </Form.Group>
               <Form.Group>
                 <Form.Label>Time:</Form.Label>
-                <br />
                 <DatePicker
                   selected={time}
                   onChange={(time) => setTime(time)}
@@ -114,18 +119,24 @@ const GroceryForm = (props) => {
                 />
               </Form.Group>
               <Form.Group>
-                <Form.Check
-                  type='checkbox'
-                  value={checked}
-                  onChange={(e) => setChecked(e.target.checked)}
-                  id='default-checkbox'
-                  label='Allow Substitutions'
-                ></Form.Check>
+                <Form.Row>
+                  <Form.Check
+                    type='checkbox'
+                    value={checked}
+                    onChange={(e) => setChecked(e.target.checked)}
+                    id='default-checkbox'
+                    label='Allow Substitutions'
+                  ></Form.Check>
+                  <InformationTooltip message="Tick if you want your shopper to get similar items if what you requested isn't available" />
+                </Form.Row>
               </Form.Group>
               <Form.Group>
-                <Container className='border border-dark'>
-                  <AddItem basket={basket} setBasket={setBasket} />
-                </Container>
+                <Card bg="light">
+                  <Card.Header as="h5">Request items one at a time then click the 'Add Item' button below to add it to your grocery basket above</Card.Header>
+                  <Card.Body>
+                    <AddItem basket={basket} setBasket={setBasket} />
+                  </Card.Body>
+                </Card>
               </Form.Group>
             </Col>
             <Col md={6}>
@@ -135,13 +146,13 @@ const GroceryForm = (props) => {
           <Container className='text-center'>
             <Row>
               <Col>
-                <Button variant='dark' dark onClick={onSubmit}>
-                  Submit Request
+                <Button variant='danger' onClick={resetList}>
+                  Reset Basket
                 </Button>
               </Col>
               <Col>
-                <Button variant='danger' onClick={resetList}>
-                  Reset Basket
+                <Button variant='dark' dark onClick={onSubmit}>
+                  Submit Request
                 </Button>
               </Col>
             </Row>
