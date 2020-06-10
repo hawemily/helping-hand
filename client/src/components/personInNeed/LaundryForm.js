@@ -18,12 +18,47 @@ const LaundryForm = (props) => {
 
     const [redirectToTaskList, setRedirectToTaskList] = useState(false);
 
+    const clothingOptions =[
+        {
+            type: 'number',
+            name: 'tops',
+            placeholder:'Enter number of tops'
+        },
+        {
+            type: 'number',
+            name: 'bottoms',
+            placeholder:'Enter number of bottoms'
+        },
+        {
+            type: 'number',
+            name: 'shoes',
+            placeholder:'Enter number of shoes (in pairs)'
+        },
+        {
+            type: 'number',
+            name: 'socks',
+            placeholder:'Enter number of socks (in pairs)'
+        },
+        {
+            type: 'number',
+            name: 'outerwear',
+            placeholder:'Enter number of outerwear'
+        },
+        {
+            type: 'number',
+            name: 'intimates',
+            placeholder:'Enter number of intimates'
+        }
+    ]
+
 
     const onSubmit = (data) => {
-        console.log(data);
-
+        if (data.load === "") {
+            alert("Number of loads cannot be empty!");
+            return;
+        }
         axios
-            .post("/getHelp/laundry", {
+            .post("/service/laundry", {
                 pinId: 'tempPinId',
                 area: 'someLocation',
                 load: data.load,
@@ -43,6 +78,9 @@ const LaundryForm = (props) => {
                 window.location.reload();
             })
             .catch((err) => {
+                alert(
+                    "Could not submit laundry request. Please try again in a few seconds."
+                );
                 console.log(err);
             });
         setRedirectToTaskList(!redirectToTaskList);
@@ -133,72 +171,19 @@ const LaundryForm = (props) => {
                             </Col>
                             <Col md={6}>
                                 <h6>Number of items:</h6>
-                                <Form.Group>
-                                    <Form.Control
-                                        type='number'
-                                        name='tops'
-                                        ref={register({ required: true, min: 0})}
-                                        placeholder='Enter number of tops'
-                                        />
-                                    {errors.tops && errors.tops.type === "min" && (
-                                        <p>Minimum number of tops is 0.</p>
-                                    )}
-                                </Form.Group>
-                                <Form.Group>
-                                    <Form.Control
-                                        type='number'
-                                        name='bottoms'
-                                        ref={register({ required: true, min: 0})}
-                                        placeholder='Enter number of bottoms'
-                                    />
-                                    {errors.bottoms && errors.bottoms.type === "min" && (
-                                        <p>Minimum number of bottoms is 0.</p>
-                                    )}
-                                </Form.Group>
-                                <Form.Group>
-                                    <Form.Control
-                                        type='number'
-                                        name='shoes'
-                                        ref={register({ required: true, min: 0})}
-                                        placeholder='Enter number of shoes (in pairs)'
-                                    />
-                                    {errors.shoes && errors.shoes.type === "min" && (
-                                        <p>Minimum number of shoes is 0.</p>
-                                    )}
-                                </Form.Group>
-                                <Form.Group>
-                                    <Form.Control
-                                        type='number'
-                                        name='socks'
-                                        ref={register({ required: true, min: 1})}
-                                        placeholder='Enter number of socks (in pairs)'
-                                    />
-                                    {errors.socks && errors.socks.type === "min" && (
-                                        <p>Minimum number of socks is 0.</p>
-                                    )}
-                                </Form.Group>
-                                <Form.Group>
-                                    <Form.Control
-                                        type='number'
-                                        name='outerwear'
-                                        ref={register({ required: true, min: 0})}
-                                        placeholder='Enter number of outerwear'
-                                    />
-                                    {errors.outerwear && errors.outerwear.type === "min" && (
-                                        <p>Minimum number of outerwear is 0.</p>
-                                    )}
-                                </Form.Group>
-                                <Form.Group>
-                                    <Form.Control
-                                        type='number'
-                                        name='intimates'
-                                        ref={register({ required: true, min: 0})}
-                                        placeholder='Enter number of intimates'
-                                    />
-                                    {errors.intimates && errors.intimates.type === "min" && (
-                                        <p>Minimum number of intimates is 0.</p>
-                                    )}
-                                </Form.Group>
+                                {clothingOptions.map((option) => (
+                                    <Form.Group>
+                                        <Form.Control
+                                            type={option.type}
+                                            name={option.name}
+                                            ref={register({ required: true, min: 0})}
+                                            placeholder={option.placeholder}
+                                            />
+                                        {errors.name && errors.option.name.type === "min" && (
+                                            <p>Minimum number of {option.name} is 0.</p>
+                                        )}
+                                    </Form.Group>
+                                ))}
                                 <Form.Group>
                                     <Form.Check
                                         type='checkbox'
@@ -211,7 +196,7 @@ const LaundryForm = (props) => {
                         <Container className='text-center'>
                             <Row>
                                 <Col>
-                                    <Button variant='dark' dark type='submit'>
+                                    <Button variant='dark' dark type='submit' onClick={onSubmit}>
                                         Submit Request
                                     </Button>
                                 </Col>
@@ -222,7 +207,7 @@ const LaundryForm = (props) => {
                 <br />
                 <br />
                 <div>
-                    <Button variant='dark' tag={Link} href='/getHelp/requestList'>
+                    <Button variant='dark' tag={Link} href='/service/requestList'>
                         Return to My Requests
                     </Button>
                 </div>

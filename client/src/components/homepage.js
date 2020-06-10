@@ -24,7 +24,7 @@ const HomePage = (props) => {
       title: "Learn More",
       style: "unimportantBtn",
       body: " Read about our story",
-      link: "/",
+      link: "/learnMore",
     },
   ];
 

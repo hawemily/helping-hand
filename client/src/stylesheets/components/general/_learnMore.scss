@@ -1,0 +1,51 @@
+@use "../../layout/homepage" as *;
+
+
+.why-card {
+  background-color: rgba($grey-blue, 0.3);
+  text-alight: center;
+}
+
+.how-card {
+  background-color: rgba($salmon, 0.3);
+  text-alight: center;
+}
+
+.other-how-card {
+  background-color: rgba($dark-blue, 0.3);
+  text-alight: center;
+}
+
+
+.people {
+  @include background;
+  background-image: url("../../../assets/bannerPhotos/nature.jpg");
+}
+
+.section-title {
+  text-align: center;
+  color: #39587a;
+  margin-bottom: "2rem";
+}
+.serviceBtn {
+  @include defaultButton;
+}
+
+.service-cards {
+  img {
+    object-fit: cover;
+    height: 250px;
+    width: auto;
+  }
+}
+
+@media screen and (max-width: 545px) {
+  .background {
+    background-size: auto 100%;
+    width: 100%;
+  }
+
+  .service-cards img {
+    height: 300px;
+  }
+}

@@ -9,6 +9,8 @@ import PinRequestList from "./components/personInNeed/PinRequestList";
 import VolunteerTaskList from "./components/volunteers/VolunteerTaskList";
 import AllVolunteerTasks from "./components/volunteers/AllVolunteerTasks";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import LaundryForm from "./components/personInNeed/LaundryForm";
+import LearnMore from "./components/general/LearnMore";
 
 const auth = new Auth();
 
@@ -58,8 +60,10 @@ const Routes = () => (
         path='/'
         component={() => <HomePage auth={auth} />}
       />
+      <Route exact path='/learnMore' component={LearnMore} />
       <Route exact path='/service' component={() => <PinMain auth={auth} />} />
       <Route exact path='/service/groceries' component={GroceryForm} />
+      <Route exact path='/service/laundry' component={LaundryForm} />
       <Route exact path='/service/requestList' component={PinRequestList} />
       <Route exact path='/volunteer' component={() => <Volunteer auth={auth} />} />
       <Route
