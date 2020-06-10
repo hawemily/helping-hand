@@ -23,7 +23,7 @@ const EditDetailsModal = (props) => {
   const [slot, setSlot] = useState(new Date(task.time));
   const [basket, setBasket] = useState(task.basket);
 
-  console.log(typeof basket);
+  // console.log(typeof basket);
   // do tmr - change this to class and implement date and time
   // getDerivedStateFromProps(nextProps, prevState) {
   //   if (nextProps.task.date != prevState.task.date) {}
