@@ -6,20 +6,31 @@ import { Container } from "react-bootstrap";
 const PinRequestList = () => {
   // should include userid
   const [tasks, setTasks] = useState([]);
+  const [modalStates, setModalStates] = useState([]);
 
-  useEffect(async () => {
+  const defaultState = {
+    view: false,
+    report: false,
+  };
+
+  useEffect(() => {
     console.log("doing backend data call");
     axios
       .get("/services/allRequests")
       .then((requests) => {
-        setTasks(requests.data);
+        setTasks((tasks) => tasks.concat(requests.data));
+        setModalStates(Array(requests.data.length).fill(defaultState));
       })
       .catch((err) => console.log(err));
   }, []);
 
   return (
     <Container variant='flush'>
-      <TaskRequestList tasks={tasks}></TaskRequestList>
+      <TaskRequestList
+        tasks={tasks}
+        modalStates={modalStates}
+        setModalStates={setModalStates}
+      ></TaskRequestList>
     </Container>
   );
 };
