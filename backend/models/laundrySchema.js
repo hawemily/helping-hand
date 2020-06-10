@@ -28,4 +28,4 @@ const LaundrySchema = new Schema({
   },
 });
 
-module.exports = Laundry = mongoose.model("laundry", LaundrySchema);
+module.exports = Laundry = mongoose.model("Laundry", LaundrySchema);

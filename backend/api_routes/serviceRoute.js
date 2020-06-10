@@ -5,6 +5,7 @@ const Service = require("../models/serviceSchema");
 const Task = require("../models/taskSchema");
 const Grocery = require("../models/grocerySchema");
 const Laundry = require("../models/laundrySchema");
+const PinSchema = require("../models/pinSchema");
 
 // root route /services
 
@@ -15,6 +16,8 @@ const createTask = (service, pinId, res) => {
     pinId: pinId,
     service: service._id,
   });
+
+  PinSchema.findByIdAndUpdate(pinId, { $push: { requests: newTask._id } });
 
   newTask
     .save()
@@ -96,19 +99,57 @@ router.get("/", (req, res) => {
 });
 
 //TODO: emily tmr -> add id for each user
-router.get("/allRequests", (req, res) => {
-  Service.find().then((item) => {
-    const compareDates = (x, y) => {
-      if (typeof x.date === "undefined" || typeof y.date === "undefined") {
-        return 0;
+router.get("/allRequests/:id", (req, res) => {
+  const pinId = req.params.id;
+  console.log(pinId);
+  Task.find({ pinId: pinId })
+    .populate({
+      path: "service",
+      populate: { path: "details" },
+    })
+    .exec(function (err, tasks) {
+      if (err) {
+        console.log(404);
+        res.status(404).json({ success: false, error: err });
+        return;
       }
-      return x.date > y.date ? -1 : x.time > y.time ? -1 : 1;
-    };
+      if (tasks.length !== 0) {
+        var detailsArr = [];
 
-    item.sort((x, y) => compareDates(x, y));
+        console.log(`taskslen:${tasks.length}`);
+        tasks.map((task) => {
+          const service = task.service;
+          const details = task.service.details;
+          detailsArr.push({
+            date: service.date,
+            time: service.time,
+            category: service.category,
+            store: details.store,
+            basket: details.basket,
+            volunteerId: task.volunteerId,
+            taskId: task._id,
+          });
+        });
+        res.json(detailsArr);
+      } else {
+        console.log(405);
+        console.log(task);
+        res.status(405).json({ success: false, error: err });
+      }
+    });
 
-    res.json(item);
-  });
+  // Service.find().then((item) => {
+  //   const compareDates = (x, y) => {
+  //     if (typeof x.date === "undefined" || typeof y.date === "undefined") {
+  //       return 0;
+  //     }
+  //     return x.date > y.date ? -1 : x.time > y.time ? -1 : 1;
+  //   };
+
+  //   item.sort((x, y) => compareDates(x, y));
+
+  //   res.json(item);
+  // });
 });
 
 // FOR TESTING ONLY NEED TO DELETE LATER
@@ -158,6 +199,8 @@ router.post("/groceries", (req, res) => {
   const { store, date, time, basket, subs, pinId } = req.body;
   console.log("backend groceries api hit");
 
+  // TODO: emily - add this request to requests of pin in pin model
+
   // create new details record
   const newGroceryRun = new Grocery({
     basket: basket,
@@ -185,7 +228,7 @@ router.post("/laundry", (req, res) => {
     basket,
   } = req.body;
 
-  // Dhivs -- create new laundry runs and call create service in each one
+  // TODO: Dhivs -- create new laundry runs and call create service in each one
   // refer to router.post("/groceries to see how it works")
   // also changed the tops bottoms thing to one whole basket -> should be easier to store
 });
