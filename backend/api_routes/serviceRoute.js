@@ -8,6 +8,36 @@ const Laundry = require("../models/laundrySchema");
 
 // root route /services
 
+//recurring task creation functions
+//create new task
+const createTask = (service, pinId, res) => {
+  const newTask = new Task({
+    pinId: pinId,
+    service: service._id,
+  });
+
+  newTask
+    .save()
+    .then((task) => res.json({ success: true, task: task }))
+    .catch((err) => {
+      console.log(err);
+      res.status(400).json({ success: false, error: err });
+    });
+};
+
+// create service record
+const createService = (groceryRun, category, pinId, date, time, res) => {
+  const newService = new Service({
+    date: date,
+    time: time,
+    category: category,
+    details: groceryRun._id,
+  });
+  newService.save().then((service) => {
+    createTask(service, pinId, res);
+  });
+};
+
 //@route GET /services
 //@desc get all tasks from all users
 //@access public
@@ -124,76 +154,9 @@ router.get("/service/:id", (req, res) => {
 //@route POST /services/groceries
 //@desc post grocery list of user
 //@access public
-// router.post("/groceries", (req, res) => {
-//   const { store, date, time, basket, subs, pinId } = req.body;
-//   console.log("backend groceeries api hit");
-//   const createTask = (service) => {
-//     const newTask = new Task({
-//       pinId: pinId,
-//       // service: service._id,
-//     });
-//     newTask
-//       .save()
-//       .then((task) =>
-//         res.json({
-//           success: true,
-//           // task: task,
-//           // service: task.service,
-//         })
-//       )
-//       .catch((err) => {
-//         console.log(err);
-//         res.status(400).json({ success: false, error: err });
-//       });
-//   };
-//   const newService = new Service({
-//     store: store,
-//     date: date,
-//     time: time,
-//     basket: basket,
-//     category: "Groceries",
-//     optionOne: subs,
-//     // details: groceryRun._id,
-//   });
-//   newService
-//     .save()
-//     .then((service) => createTask(service))
-//     .catch((err) => console.log(err));
-// });
 router.post("/groceries", (req, res) => {
   const { store, date, time, basket, subs, pinId } = req.body;
   console.log("backend groceries api hit");
-  console.log(req.body);
-  //create task record
-  const createTask = (service) => {
-    const newTask = new Task({
-      pinId: pinId,
-      service: service._id,
-    });
-    newTask
-      .save()
-      .then((task) =>
-        res.json({
-          success: true,
-          task: task,
-          service: task.service,
-        })
-      )
-      .catch((err) => res.status(400).json({ success: false, error: err }));
-  };
-
-  // create service record
-  const createService = (groceryRun) => {
-    const newService = new Service({
-      date: date,
-      time: time,
-      category: "Grocery",
-      details: groceryRun._id,
-    });
-    newService.save().then((service) => {
-      createTask(service);
-    });
-  };
 
   // create new details record
   const newGroceryRun = new Grocery({
@@ -203,7 +166,7 @@ router.post("/groceries", (req, res) => {
   });
 
   newGroceryRun.save().then((groceryRun) => {
-    createService(groceryRun);
+    createService(groceryRun, "Grocery", pinId, date, time, res);
   });
 });
 
@@ -222,52 +185,9 @@ router.post("/laundry", (req, res) => {
     basket,
   } = req.body;
 
-  const createService = (task) => {
-    const newService = new Service({
-      taskId: task._id,
-      area: area,
-      load: load,
-      dateOfPickup: dateOfPickup,
-      timeOfPickup: timeOfPickup,
-      dateOfDropoff: dateOfDropoff,
-      timeOfDropoff: timeOfDropoff,
-      category: "laundry",
-      detergent: detergent,
-      basket: basket,
-    });
-    newService
-      .save()
-      .then((item) =>
-        res.json({
-          success: true,
-          task: task,
-          service: item,
-        })
-      )
-      .catch((err) =>
-        res.status(400).json({
-          success: false,
-          error: err,
-        })
-      );
-  };
-
-  const newTask = new Task({
-    volunteerId: volunteerId,
-    pinId: pinId,
-  });
-
-  newTask
-    .save()
-    .then((item) => {
-      createService(item);
-    })
-    .catch((err) =>
-      res.status(400).json({
-        success: false,
-        error: err,
-      })
-    );
+  // Dhivs -- create new laundry runs and call create service in each one
+  // refer to router.post("/groceries to see how it works")
+  // also changed the tops bottoms thing to one whole basket -> should be easier to store
 });
 
 module.exports = router;
