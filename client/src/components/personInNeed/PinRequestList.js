@@ -15,9 +15,11 @@ const PinRequestList = () => {
 
   useEffect(() => {
     console.log("doing backend data call");
+    const id = localStorage.getItem("id_token") || "5678";
     axios
-      .get("/services/allRequests")
+      .get("/services/allRequests/" + id)
       .then((requests) => {
+        console.log(requests);
         setTasks((tasks) => tasks.concat(requests.data));
         setModalStates(Array(requests.data.length).fill(defaultState));
       })

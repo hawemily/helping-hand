@@ -50,9 +50,11 @@ const GroceryForm = (props) => {
       alert("Basket cannot be empty!");
       return;
     }
+    console.log("outside post");
     axios
       .post("/services/groceries", {
-        pinId: localStorage.getItem("id_token"),
+        // pinId: localStorage.getItem("id_token"),
+        pinId: localStorage.getItem("id_token") || "5678",
         store: store,
         date: date,
         time: time,
