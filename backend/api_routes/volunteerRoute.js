@@ -20,7 +20,7 @@ router.get("/", (req, res) => {
 //@route GET /volunteers/get/:id
 //@desc Get volunteer info by id
 //@access Public
-router.get("/get/:id", (req, res) => {
+router.get("/:id", (req, res) => {
   Volunteer.findById(req.params.id)
     .then((volunteer) => {
       const { firstName, lastName, email, phoneNumber, password } = volunteer;

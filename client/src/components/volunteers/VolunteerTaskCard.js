@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Card, Button, Modal } from "react-bootstrap";
+import { Card, Button, Modal, Table } from "react-bootstrap";
 import TaskAccepted from "./TaskAccepted";
 import ViewOnlyBasket from "./ViewOnlyBasket";
 import { formatDate, formatTime } from "../general/dateTimeFormatter";
@@ -7,10 +7,15 @@ import axios from "axios";
 
 const VolunteerTaskCard = (props) => {
   var task = props.task;
+  var pinId = task.pinId;
+  var service = task.service;
   const auth = props.auth;
+
+  console.log(task);
 
   const volunteerId = localStorage.getItem("id_token");
 
+  const [loadedPin, setLoadedPin] = useState({});
   const [showTask, setShowTask] = useState(false);
   const [showPin, setShowPin] = useState(false);
   const [showAllDone, setShowDone] = useState(false);
@@ -19,7 +24,9 @@ const VolunteerTaskCard = (props) => {
   const showTaskModal = () => setShowTask(true);
 
   const closePinModal = () => setShowPin(false);
-  const showPinModal = () => setShowPin(true);
+  const showPinModal = () => { 
+    loadPinInfo(pinId).then(() => setShowPin(true));
+  }
 
   const showDoneModal = () => setShowDone(true);
   const closeDoneModal = () => setShowDone(false);
@@ -27,10 +34,20 @@ const VolunteerTaskCard = (props) => {
   // must calculate distance based on current location and area given
   // and parse date before passing in through props
 
+  const loadPinInfo = (pinId) => {
+    return new Promise((resolve, reject) => {
+      axios.get("/pins/" + pinId)
+      .then((pin) => {
+        setLoadedPin(pin.data.pin);
+        resolve();
+      });
+    });
+  }
+
   const acceptTask = () => {
     axios
       .post("/tasks/assign", {
-        id: task.taskId,
+        id: task._id,
         volunteerId: volunteerId,
       })
       .then((res) => {
@@ -51,23 +68,22 @@ const VolunteerTaskCard = (props) => {
     <div className='taskCardWrapper'>
       <Card>
         <Card.Header className='taskCardHeader'>
-          <h5>{task.area}</h5>
+          <h5>{service.category}</h5>
           <p>
-            {formatDate(task.date)},{formatTime(task.date)}, {task.distance} km
-            away
+            {formatDate(service.date)},{formatTime(service.date)}
           </p>
         </Card.Header>
         <Card.Body style={{ padding: "0.5rem 1rem" }}>
           <Card>
             <Card.Body className='taskCard'>
-              <Card.Title style={{ margin: 0 }}>{task.category}</Card.Title>
+              <Card.Title style={{ margin: 0 }}>{service.category}</Card.Title>
               <Card.Text style={{ marginLeft: 0 }}>
                 {task.description}
               </Card.Text>
               <p
                 className='expandTask'
-                // onClick={auth.isAuthenticated() ? showTaskModal : () => notice()}
-                onClick={showTaskModal}
+                onClick={auth.isAuthenticated() ? showTaskModal : () => notice()}
+                // onClick={showTaskModal}
               >
                 click to expand
               </p>
@@ -77,15 +93,15 @@ const VolunteerTaskCard = (props) => {
         <div className='btnGrp'>
           <Button
             className='taskCardDetailsBtn'
-            // onClick={auth.isAuthenticated() ? showPinModal : () => notice()}
-            onClick={showPinModal}
+            onClick={auth.isAuthenticated() ? showPinModal : () => notice()}
+            // onClick={showPinModal}
           >
             View Details
           </Button>
           <Button
             className='taskCardAcceptBtn'
-            // onClick={auth.isAuthenticated() ? acceptTask : () => notice()}
-            onClick={acceptTask}
+            onClick={auth.isAuthenticated() ? acceptTask : () => notice()}
+            // onClick={acceptTask}
           >
             Accept Task
           </Button>
@@ -94,10 +110,10 @@ const VolunteerTaskCard = (props) => {
 
       <Modal className='taskModal' show={showTask} onHide={closeTaskModal}>
         <Modal.Header closeButton>
-          <Modal.Title>{task.category}</Modal.Title>
+          <Modal.Title>{service.category}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <ViewOnlyBasket basket={task.basket} />
+          <ViewOnlyBasket basket={service.details.basket} />
         </Modal.Body>
         <Modal.Footer>
           <Button className='modalBtn' onClick={closeTaskModal}>
@@ -108,9 +124,44 @@ const VolunteerTaskCard = (props) => {
 
       <Modal className='pinModal' show={showPin} onHide={closePinModal}>
         <Modal.Header closeButton>
-          <Modal.Title>This is the person they're gonna help lol</Modal.Title>
+          <Modal.Title>Person You're Helping</Modal.Title>
         </Modal.Header>
-        <Modal.Body>PIN id is {task.pinId}</Modal.Body>
+        <Modal.Body>
+          <Table>
+            <tr>
+              <td>
+                Name
+              </td>
+              <td>
+                {loadedPin.firstName + loadedPin.lastName}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Address
+              </td>
+              <td>
+                {loadedPin.firstAddress + ", " + loadedPin.streetName + " " + loadedPin.postCode}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Contact Number
+              </td>
+              <td>
+                {loadedPin.phoneNumber}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Email Address
+              </td>
+              <td>
+                {loadedPin.email}
+              </td>
+            </tr>
+          </Table>
+        </Modal.Body>
         <Modal.Footer>
           <Button className='modalBtn' onClick={closePinModal}>
             Close

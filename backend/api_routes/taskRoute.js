@@ -111,7 +111,7 @@ router.get("/:id", (req, res) => {
     .populate({ path: "service", populate: { path: "details" } })
     .then((tasks) => {
       console.log(tasks);
-      res.json({ tasks: tasks });
+      res.json({ success: true, tasks: tasks });
     })
     .catch((err) =>
       res.status(404).json({

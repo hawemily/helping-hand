@@ -12,6 +12,8 @@ const PinSchema = require("../models/pinSchema");
 //recurring task creation functions
 //create new task
 const createTask = (service, pinId, res) => {
+  console.log('creating task');
+
   const newTask = new Task({
     pinId: pinId,
     service: service._id,
@@ -36,6 +38,7 @@ const createService = (groceryRun, category, pinId, date, time, res) => {
     category: category,
     details: groceryRun._id,
   });
+  console.log('creating service');
   newService.save().then((service) => {
     createTask(service, pinId, res);
   });
@@ -47,56 +50,61 @@ const createService = (groceryRun, category, pinId, date, time, res) => {
 // need to research how to send id of user over
 // todo generate
 // hi emolo think it's better to limit to just calling them tasks and services in the backend or else v confusing
-router.get("/", (req, res) => {
-  var services = [];
-  const { pinId } = req.body;
+// router.get("/", (req, res) => {
+//   var services = [];
+//   const { pinId } = req.body;
 
-  const findService = (elem) => {
-    return new Promise((resolve, reject) => {
-      Service.findOne({
-        taskId: elem._id,
-      })
-        .then((serv) => {
-          if (serv != null) {
-            services.push({
-              valid: true,
-              task: elem,
-              service: serv,
-            });
-          }
-          resolve();
-        })
-        .catch((err) => {
-          services.push({
-            valid: false,
-            task: elem,
-            error: err,
-          });
-          console.error(err);
-          resolve();
-        });
-    });
-  };
+//   const findService = (elem) => {
+//     return new Promise((resolve, reject) => {
+//       Service.findOne({
+//         taskId: elem._id,
+//       })
+//         .then((serv) => {
+//           if (serv != null) {
+//             services.push({
+//               valid: true,
+//               task: elem,
+//               service: serv,
+//             });
+//           }
+//           resolve();
+//         })
+//         .catch((err) => {
+//           services.push({
+//             valid: false,
+//             task: elem,
+//             error: err,
+//           });
+//           console.error(err);
+//           resolve();
+//         });
+//     });
+//   };
 
-  Task.find(
-    {
-      pinId: pinId,
-    },
-    async function (err, result) {
-      const promises = result.map(findService);
-      await Promise.all(promises);
-      res.json({
-        success: true,
-        services: services,
-      });
-    }
-  ).catch((err) => {
-    res.status(400).json({
-      success: false,
-      error: err,
-    });
-  });
-});
+//   Task.find(
+//     {
+//       pinId: pinId,
+//     },
+//     async function (err, result) {
+//       const promises = result.map(findService);
+//       await Promise.all(promises);
+//       res.json({
+//         success: true,
+//         services: services,
+//       });
+//     }
+//   ).catch((err) => {
+//     res.status(400).json({
+//       success: false,
+//       error: err,
+//     });
+//   });
+// });
+
+router.get("/", (req,res) => {
+  Service.find()
+  .then((items) => res.json({success: true, services: items}))
+})
 
 //TODO: emily tmr -> add id for each user
 router.get("/allRequests/:id", (req, res) => {
@@ -113,27 +121,42 @@ router.get("/allRequests/:id", (req, res) => {
         res.status(404).json({ success: false, error: err });
         return;
       }
+      console.log(tasks);
+      console.log(tasks.length);
       if (tasks.length !== 0) {
         var detailsArr = [];
 
         console.log(`taskslen:${tasks.length}`);
+        console.log(tasks);
         tasks.map((task) => {
           const service = task.service;
-          const details = task.service.details;
-          detailsArr.push({
-            date: service.date,
-            time: service.time,
-            category: service.category,
-            store: details.store,
-            basket: details.basket,
-            volunteerId: task.volunteerId,
-            taskId: task._id,
-          });
+          if (service != null) {
+            const details = task.service.details;
+            detailsArr.push({
+              date: service.date,
+              time: service.time,
+              category: service.category,
+              store: details.store,
+              basket: details.basket,
+              volunteerId: task.volunteerId,
+              taskId: task._id,
+            });
+          } else {
+            detailsArr.push({
+              // date: service.date,
+              // time: service.time,
+              // category: service.category,
+              // store: details.store,
+              // basket: details.basket,
+              volunteerId: task.volunteerId,
+              taskId: task._id,
+            });
+          }
         });
         res.json(detailsArr);
       } else {
         console.log(405);
-        console.log(task);
+        // console.log(task);
         res.status(405).json({ success: false, error: err });
       }
     });
@@ -163,6 +186,11 @@ router.get("/allServices", (req, res) => {
 router.delete("/deleteAll", (req, res) => {
   Service.remove({}).then((item) => res.json(item));
 });
+
+router.delete("/:id", (req, res) => {
+  Service.findById(req.params.id).then((item) => item.remove())
+  .then(res.json({success: true}))
+})
 
 // END TESTING ROUTES
 

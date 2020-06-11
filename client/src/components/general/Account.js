@@ -8,11 +8,14 @@ class Account extends React.Component {
     super(props);
     this.state = {
       idToken: localStorage.getItem('id_token'),
-      userType: localStorage.getItem("user_type") + "s",
+      userType: localStorage.getItem("user_type"),
       firstName: '',
       lastName: '',
       email: '',
       phoneNumber: '',
+      firstAddress: '',
+      streetName: '',
+      postCode: '',
       password: '',
       passwordLength: 0,
       dirty: false,
@@ -23,10 +26,10 @@ class Account extends React.Component {
 
   componentWillMount() {
     if (this.state.idToken != null) {
-      axios.get("/" + this.state.userType + "/get/" + this.state.idToken)
+      axios.get("/" + this.state.userType + "s/" + this.state.idToken)
       .then((res) => {
         if (res.data.success) {
-          this.setState(res.data.volunteer);
+          this.setState(res.data[this.state.userType]);
           this.makePlaceholderPassword();
         }
       })
@@ -52,6 +55,21 @@ class Account extends React.Component {
   setPhoneNumber = (e) => {
     this.state.dirty = true;
     this.setState({phoneNumber: e.target.value});
+  }
+
+  setFirstAddress = (e) => {
+    this.state.dirty = true;
+    this.setState({firstAddress: e.target.value});
+  }
+
+  setStreetName = (e) => {
+    this.state.dirty = true;
+    this.setState({streetName: e.target.value});
+  }
+
+  setPostCode = (e) => {
+    this.state.dirty = true;
+    this.setState({postCode: e.target.value});
   }
 
   setPassword = (e) => {
@@ -128,6 +146,27 @@ class Account extends React.Component {
             <Form.Label>Contact Number</Form.Label>
             <Form.Control value={this.state.phoneNumber} placeholder="Contact Number" onChange={e => this.setPhoneNumber(e)} />
           </Form.Group>
+
+          {this.state.userType == 'pin' ?
+            <Form.Group>
+              <Form.Label>First Line of Address</Form.Label>
+              <Form.Control value={this.state.firstAddress} placeholder="First Line of Address" onChange={e => this.setFirstAddress(e)} />
+            </Form.Group> : <div /> 
+          }
+
+          {this.state.userType == 'pin' ?
+            <Form.Group>
+              <Form.Label>Street</Form.Label>
+              <Form.Control value={this.state.streetName} placeholder="Street" onChange={e => this.setStreetName(e)} />
+            </Form.Group> : <div /> 
+          }
+
+          {this.state.userType == 'pin' ?
+            <Form.Group>
+              <Form.Label>Postcode</Form.Label>
+              <Form.Control value={this.state.postCode} placeholder="Postcode" onChange={e => this.setPostCode(e)} />
+            </Form.Group> : <div /> 
+          }
 
           <Form.Group id="result-msg">
             <Form.Text>{this.editResult}</Form.Text>
