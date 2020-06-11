@@ -24,7 +24,6 @@ const VolunteerSchema = new Schema({
     type: String,
     required: true,
   },
-  tasks: [{ type: Schema.Types.ObjectId, ref: "task" }],
 });
 
 const Volunteer = mongoose.model("volunteer", VolunteerSchema);

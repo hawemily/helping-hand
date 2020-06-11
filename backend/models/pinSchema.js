@@ -38,7 +38,6 @@ const PinSchema = new Schema({
     required: true,
     type: String,
   },
-  requests: [{ type: Schema.Types.ObjectId, ref: "Task" }],
 });
 
 var Pin = mongoose.model("pin", PinSchema);

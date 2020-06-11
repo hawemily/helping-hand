@@ -8,12 +8,13 @@ const Volunteer = require("../models/volunteerSchema");
 //@access Public
 router.get("/", (req, res) => {
   Volunteer.find()
-    .then((volunteers) =>
+    .then((volunteers) => {
+      console.log(volunteers[0]);
       res.json({
         success: true,
         volunteers: volunteers,
-      })
-    )
+      });
+    })
     .catch((err) => res.status(404).json({ success: false, error: err }));
 });
 

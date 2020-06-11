@@ -8,77 +8,91 @@ const Pin = require("../models/pinSchema");
 //@access public
 router.get("/", (req, res) => {
   Pin.find()
-  .then((pins) => {
-    res.json({
-      success: true,
-      pins: pins
+    .then((pins) => {
+      res.json({
+        success: true,
+        pins: pins,
+      });
     })
-  })
-  .catch((err) => {
-    res.json({
-      success: false,
-      error: err
-    })
-  })
-})
+    .catch((err) => {
+      res.json({
+        success: false,
+        error: err,
+      });
+    });
+});
 
 //@route GET /pins/:id
 //@desc get a pin's info by pin id
 //@access public
 router.get("/:id", (req, res) => {
   Pin.findById(req.params.id)
-  .then((pin) => {
-    res.json({
-      success: true,
-      pin: pin
+    .then((pin) => {
+      res.json({
+        success: true,
+        pin: pin,
+      });
     })
-  })
-  .catch((err) => {
-    res.json({
-      success: false,
-      error: err
-    })
-  })
-})
+    .catch((err) => {
+      res.json({
+        success: false,
+        error: err,
+      });
+    });
+});
 
 //@route POST /pins
 //@desc create new pin account
 //@access public
 router.post("/", (req, res) => {
-  const { firstName, lastName, firstAddress, streetName, postCode, phoneNumber, password, email, niNo } = req.body;
+  const {
+    firstName,
+    lastName,
+    firstAddress,
+    streetName,
+    postCode,
+    phoneNumber,
+    password,
+    email,
+    niNo,
+  } = req.body;
   const newPin = new Pin({
     firstName: firstName,
     lastName: lastName,
     firstAddress: firstAddress,
     streetName: streetName,
-    postCode: postCode, 
+    postCode: postCode,
     phoneNumber: phoneNumber,
     password: password,
     email: email,
-    niNo: niNo
+    niNo: niNo,
   });
   newPin
-  .save()
-  .then((item) => res.json({ success: true, id: item._id }))
-  .catch((err) =>
-    res.status(400).json({
-      success: false,
-      error: err,
-    })
-  );
-})
+    .save()
+    .then((item) => res.json({ success: true, id: item._id }))
+    .catch((err) =>
+      res.status(400).json({
+        success: false,
+        error: err,
+      })
+    );
+});
 
 //@route POST /pins/login
 //@desc Post pin login authentication
 //@access Public
 router.post("/login", (req, res) => {
+  console.log("login in pins");
   const { email, password } = req.body;
-  Pin.find({ email: email })
+  console.log(req.body);
+  Pin.findOne({ email: email })
     .then((item) => {
-      if (item != null && item.length > 0 && item[0].password == password) {
+      console.log(item);
+      if (item != null && item.password === password) {
+        console.log("suucess");
         res.json({
           success: true,
-          id: item[0]._id,
+          id: item._id,
           type: "pin",
         });
       } else {
