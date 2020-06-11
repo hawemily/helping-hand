@@ -60,14 +60,7 @@ const TaskRequestList = (props) => {
         </thead>
         <tbody>
           {tasks.map((task, index) => {
-            const {
-              date,
-              time,
-              taskId,
-              category,
-              volunteerId,
-              description,
-            } = task;
+            const { date, time, taskId, category } = task;
 
             return (
               <tr

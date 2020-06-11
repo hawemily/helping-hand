@@ -11,7 +11,7 @@ const LearnMore = (props) => {
 
     const infoCards = [
         {
-            title: "Why we made HelpingHand?",
+            title: "Why did we create HelpingHand?",
             body: "Due to the preventative measures taken as a result of the coronavirus, 2.16 million people have been told not to\n" +
                 "leave their house until at least the end of June,\n" +
                 "meaning they can no longer access essential services themselves. Not everyone in this group is able to get help\n" +
@@ -79,7 +79,7 @@ const LearnMore = (props) => {
                     variant='dark'
                     tag={Link}
                     href='/'
-                >Back to Main Page</Button>
+                >Back to Main Page</Button> */}
             </Container>
         </div>
     );

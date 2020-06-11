@@ -1,7 +1,7 @@
 import React from "react";
 import { Form, Container, Button, Row, Col } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import InformationTooltip from "./moreInfo"
+import InformationTooltip from "./moreInfo";
 
 const AddItem = (props) => {
   const { register, handleSubmit, errors, reset } = useForm();
@@ -12,6 +12,7 @@ const AddItem = (props) => {
   // });
 
   const onSubmit = (data) => {
+    console.log(data);
     console.log(
       `item: ${data.Item}, quantity: ${data.Quantity}, units:${data.Units}`
     );
@@ -28,13 +29,16 @@ const AddItem = (props) => {
   const legends = [
     {
       name: "Item",
-      tooltip: "Input an item that you need. Be as specific as possible to help your shopper!",
+      placeholder: "Enter your purchase item",
+      tooltip:
+        "Input an item that you need. Be as specific as possible to help your shopper!",
       pattern: /^[A-Za-z ]+$/,
       regexMessage: "This field can only accept alphabets",
       type: "text",
     },
     {
       name: "Quantity",
+      placeholder: "Enter your quantity",
       tooltip: "Input the amount that you need (only numbers are allowed)",
       pattern: /^[1-9][0-9]*$/,
       regexMessage: "This field cannot be 0, and can only contain numbers",
@@ -43,7 +47,21 @@ const AddItem = (props) => {
     },
   ];
 
-  const units = ["kg", "pints", "grams", "litres"];
+  const units = [
+    "Kg",
+    "g",
+    "litre",
+    "ml",
+    "pints",
+    "packet",
+    "bag",
+    "roll",
+    "unit",
+    "units",
+    "bottle",
+    "can",
+    "bunch",
+  ];
 
   return (
     <Form className='mb-3 mt-3' onSubmit={handleSubmit(onSubmit)}>
@@ -58,7 +76,7 @@ const AddItem = (props) => {
             <Form.Control
               type={legend.type}
               min={legend.min}
-              placeholder={`Enter ${name}`}
+              placeholder={legend.placeholder}
               name={name}
               ref={register({
                 required: true,
