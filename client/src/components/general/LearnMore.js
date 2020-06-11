@@ -49,7 +49,8 @@ const LearnMore = (props) => {
                 <p className='body'>Need more information about our cause?</p>
             </div>
             <Container fluid classname='banner text-center' style={{
-                marginTop: '50px'
+                marginTop: '50px',
+                justifyContent: 'center'
             }}>
                 <CardDeck classname='card-deck'>
                     {infoCards.map((option) => (
@@ -66,6 +67,8 @@ const LearnMore = (props) => {
                                     <Card.Text><p style={{
                                         marginTop: '20px',
                                         textAlign: 'center',
+                                        justifyContent: 'center',
+                                        display: 'flex',
                                         fontSize: "1.3rem"
                                     }}>{option.body}</p></Card.Text>
                                 </Card.Body>
@@ -79,7 +82,7 @@ const LearnMore = (props) => {
                     variant='dark'
                     tag={Link}
                     href='/'
-                >Back to Main Page</Button> */}
+                >Back to Main Page</Button>
             </Container>
         </div>
     );

@@ -3,6 +3,7 @@ import {Navbar, Nav, Container, ButtonToolbar, Button} from "react-bootstrap";
 import {FaPhoneAlt, FaEnvelope, FaExclamationCircle} from "react-icons/fa";
 import {IconContext} from "react-icons";
 import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
 
 
 const ContactUsBar = (props) => {
@@ -33,39 +34,42 @@ const ContactUsBar = (props) => {
                 <Container fluid style={{
                     paddingTop: "10px",
                 }}>
-                <Col>
-                    <h6> Always here to help! Contact us at: </h6>
-                    <thead>
-                    <tbody>
-                    {icons.map((icon) => (
-                        <tr className='align-middle'>
-                            <td>
-                                <IconContext.Provider value={{ style: { fontSize: "45px"} }}>
-                                    <div>
-                                        {icon.phone ? <FaPhoneAlt/> : <FaEnvelope/>}
-                                    </div>
-                                </IconContext.Provider>
-                            </td>
-                            <td className='align-middle' style={{
-                                paddingLeft: "10px"
-                            }}>
-                                <p style={{
-                                    margin: '10px'
-                                }}>
-                                <p style={{
-                                    margin: '-5px'
-                                }}>
-                                    <h5>{icon.header}</h5></p>
-                                <p style={{
-                                    margin: '-5px'
-                                }}>
-                                    <h6>{icon.body}</h6></p></p>
-                            </td>
-                        </tr>
-                    ))}
-                    </tbody>
-                    </thead>
-                </Col>
+                    <Row>
+                        <Col md={12}>
+                            <h6> Always here to help! Contact us at: </h6>
+                            <thead>
+                            <tbody>
+                            {icons.map((icon) => (
+                                <tr className='align-middle'>
+                                    <td>
+                                        <IconContext.Provider value={{style: {fontSize: "45px"}}}>
+                                            <div>
+                                                {icon.phone ? <FaPhoneAlt/> : <FaEnvelope/>}
+                                            </div>
+                                        </IconContext.Provider>
+                                    </td>
+                                    <td className='align-middle' style={{
+                                        paddingLeft: "10px"
+                                    }}>
+                                        <p style={{
+                                            margin: '10px'
+                                        }}>
+                                            <p style={{
+                                                margin: '-5px'
+                                            }}>
+                                                <h5>{icon.header}</h5></p>
+                                            <p style={{
+                                                margin: '-5px'
+                                            }}>
+                                                <h6>{icon.body}</h6></p>
+                                        </p>
+                                    </td>
+                                </tr>
+                            ))}
+                            </tbody>
+                            </thead>
+                        </Col>
+                    </Row>
                 </Container>
             </Navbar>
         </div>

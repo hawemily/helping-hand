@@ -11,7 +11,6 @@ import AllVolunteerTasks from "./components/volunteers/AllVolunteerTasks";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import LaundryForm from "./components/personInNeed/LaundryForm";
 import LearnMore from "./components/general/LearnMore";
-import ContactUsBar from "./components/general/ContactUsBar";
 
 const auth = new Auth();
 
@@ -74,7 +73,6 @@ const Routes = () => (
       />
       <Route path='/tasks/:vID' component={AllVolunteerTasks} />
     </Switch>
-    <ContactUsBar/>
   </Router>
 );
 
