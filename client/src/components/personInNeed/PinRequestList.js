@@ -11,6 +11,7 @@ const PinRequestList = () => {
   const defaultState = {
     view: false,
     report: false,
+    rate: false,
   };
 
   useEffect(() => {

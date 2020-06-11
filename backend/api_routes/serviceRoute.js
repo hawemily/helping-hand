@@ -85,6 +85,7 @@ router.get("/allRequests/:id", (req, res) => {
             basket: details.basket,
             volunteerId: task.volunteerId,
             taskId: task._id,
+            status: task.status,
           });
         });
         res.json(detailsArr);

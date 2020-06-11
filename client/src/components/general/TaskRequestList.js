@@ -9,6 +9,7 @@ import {
 } from "react-bootstrap";
 import EditDetailsModal from "./EditDetailsModal";
 import ReportIssueModal from "./ReportIssueModal";
+import StarRatingModal from "./StarRatingModal";
 import { TiTick } from "react-icons/ti";
 import { GiEmptyHourglass } from "react-icons/gi";
 import { FaExclamationCircle } from "react-icons/fa";
@@ -19,8 +20,6 @@ import { IconContext } from "react-icons";
 const TaskRequestList = (props) => {
   // props passed into task request list should have all the information shown,
   // as well as information on the volunteer who confirmed it
-  // THERE IS A BUG where modal only presents first elem of list
-  // TODO: try componentwillupdateprops alternative
 
   const tasks = props.tasks;
   const modalStates = props.modalStates;
@@ -80,24 +79,25 @@ const TaskRequestList = (props) => {
                 <td className='align-middle'>#{taskId}</td>
                 <td className='align-middle'>{`${category}`}</td>
                 <td className='align-middle'>
-                  <ButtonToolbar>
+                  <ButtonToolbar style={{ margin: "auto", display: "block" }}>
                     <Button
                       variant='primary'
                       onClick={() => toggleModal("view", index)}
+                      className='mr-2'
                     >
                       More Details
                     </Button>
-                    <div id={taskId}>
-                      <EditDetailsModal
-                        show={modalStates[index].view}
-                        task={task}
-                        onHide={() => toggleModal("view", index)}
-                        ariaLabelledBy={task.taskId}
-                      />
-                    </div>
+
+                    <EditDetailsModal
+                      show={modalStates[index].view}
+                      task={task}
+                      onHide={() => toggleModal("view", index)}
+                      ariaLabelledBy={task.taskId}
+                    />
                     <Button
                       variant='danger'
                       onClick={() => toggleModal("report", index)}
+                      className='mr-2'
                     >
                       Report Issue
                     </Button>
@@ -105,6 +105,18 @@ const TaskRequestList = (props) => {
                       show={modalStates[index].report}
                       task={task}
                       onHide={() => toggleModal("report", index)}
+                    />
+                    <Button
+                      variant='secondary'
+                      onClick={() => toggleModal("rate", index)}
+                      className='mr-2'
+                    >
+                      Rate
+                    </Button>
+                    <StarRatingModal
+                      show={modalStates[index].rate}
+                      taskId={task._id}
+                      onHide={() => toggleModal("rate", index)}
                     />
                   </ButtonToolbar>
                 </td>
