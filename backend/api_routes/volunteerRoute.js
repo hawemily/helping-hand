@@ -113,15 +113,29 @@ router.post("/", (req, res) => {
     phoneNumber: phoneNumber,
     password: password,
   });
-  newVolunteer
-    .save()
-    .then((item) => res.json({ success: true, id: item._id }))
-    .catch((err) =>
-      res.status(400).json({
-        success: false,
-        error: err,
-      })
-    );
+
+  Volunteer.find({ email: email })
+    .then((v) => {
+      res.json(
+        res
+          .status(403)
+          .json({
+            success: false,
+            error: "Email already exists! Please login.",
+          })
+      );
+    })
+    .catch((err) => {
+      newVolunteer
+        .save()
+        .then((item) => res.json({ success: true, id: item._id }))
+        .catch((err) =>
+          res.status(400).json({
+            success: false,
+            error: err,
+          })
+        );
+    });
 });
 
 //@route delete /volunteers/:id

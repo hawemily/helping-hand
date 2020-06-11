@@ -33,6 +33,7 @@ const PinSchema = new Schema({
   email: {
     required: true,
     type: String,
+    unique: true,
   },
   niNo: {
     required: true,

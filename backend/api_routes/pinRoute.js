@@ -67,15 +67,24 @@ router.post("/", (req, res) => {
     email: email,
     niNo: niNo,
   });
-  newPin
-    .save()
-    .then((item) => res.json({ success: true, id: item._id }))
-    .catch((err) =>
-      res.status(400).json({
-        success: false,
-        error: err,
-      })
-    );
+
+  Pin.find({ email: email })
+    .then(() => {
+      res
+        .status(403)
+        .json({ success: false, error: "Email already exists! Please login." });
+    })
+    .catch((err) => {
+      newPin
+        .save()
+        .then((item) => res.json({ success: true, id: item._id }))
+        .catch((err) =>
+          res.status(400).json({
+            success: false,
+            error: err,
+          })
+        );
+    });
 });
 
 //@route POST /pins/login
