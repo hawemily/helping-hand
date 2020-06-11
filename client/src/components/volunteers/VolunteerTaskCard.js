@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Card, Button, Modal } from "react-bootstrap";
 import TaskAccepted from "./TaskAccepted";
 import ViewOnlyBasket from "./ViewOnlyBasket";
+import { formatDate, formatTime } from "../general/dateTimeFormatter";
 import axios from "axios";
 
 const VolunteerTaskCard = (props) => {
@@ -25,22 +26,11 @@ const VolunteerTaskCard = (props) => {
 
   // must calculate distance based on current location and area given
   // and parse date before passing in through props
-  const timeFormat = (d) => {
-    if (d === null) return "";
-    const date = new Date(d);
-    return `${date.getHours()}:${date.getMinutes()}`;
-  };
-
-  const dateFormat = (d) => {
-    if (d === null) return "";
-    const date = new Date(d);
-    return `${date.getDate()}/${date.getMonth()}/${date.getYear()}`;
-  };
 
   const acceptTask = () => {
     axios
       .post("/tasks/assign", {
-        id: task.task._id,
+        id: task.taskId,
         volunteerId: volunteerId,
       })
       .then((res) => {
@@ -63,7 +53,7 @@ const VolunteerTaskCard = (props) => {
         <Card.Header className='taskCardHeader'>
           <h5>{task.area}</h5>
           <p>
-            {dateFormat(task.date)},{timeFormat(task.date)}, {task.distance} km
+            {formatDate(task.date)},{formatTime(task.date)}, {task.distance} km
             away
           </p>
         </Card.Header>
@@ -120,7 +110,7 @@ const VolunteerTaskCard = (props) => {
         <Modal.Header closeButton>
           <Modal.Title>This is the person they're gonna help lol</Modal.Title>
         </Modal.Header>
-        <Modal.Body>PIN id is {task.task.pinId}</Modal.Body>
+        <Modal.Body>PIN id is {task.pinId}</Modal.Body>
         <Modal.Footer>
           <Button className='modalBtn' onClick={closePinModal}>
             Close

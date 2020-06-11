@@ -3,26 +3,55 @@ const router = express.Router();
 
 const Task = require("../models/taskSchema");
 const Service = require("../models/serviceSchema");
+const Volunteer = require("../models/volunteerSchema");
 
 //@route GET /tasks
-//@desc Get All tasks
+//@desc Get All tasks where volunteer id is null
 //@access Public
 router.get("/", (req, res) => {
-  Task.find().then((tasks) =>
-    res.json({
-      success: true,
-      tasks: tasks,
+  Task.where("service")
+    .ne(null)
+    .where("volunteerId")
+    .eq(null)
+    .populate({
+      path: "service",
+      populate: { path: "details" },
     })
-  );
+    .then((tasks) => {
+      console.log(tasks);
+      res.json({
+        success: true,
+        tasks: tasks,
+      });
+    });
 });
 
-// @route POST /tasks/assign/:id
+// @route POST /tasks/assign
 // @desc assign volunteer id to task item
 // @access Public
 router.post("/assign", (req, res) => {
   const { volunteerId, id } = req.body;
-  Task.findByIdAndUpdate(id, { volunteerId: volunteerId })
+  // this should work with real ids
+  // to test tmr thursday
+  // Volunteer.findByIdAndUpdate(volunteerId, { $push: { tasks: id } })
+  //   .then((volunteer) => {
+  //     console.log(volunteer);
+  //     res.json({
+  //       success: true,
+  //       task: task,
+  //     });
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
+  //     res.status(404).json({
+  //       success: false,
+  //       error: err,
+  //     });
+  //   });
+
+  Task.findByIdAndUpdate(id, { volunteerId: volunteerId, status: "confirmed" })
     .then((task) => {
+      console.log(task);
       res.json({
         success: true,
         task: task,
@@ -32,55 +61,6 @@ router.post("/assign", (req, res) => {
       res.status(404).json({
         success: false,
         error: err,
-      })
-    );
-});
-
-//@route GET /tasks/getService/:id
-//@desc Get associated service
-//@access Public
-router.get("/getService/:id", (req, res) => {
-  const taskId = req.params.id;
-  Service.findOne({
-    taskId: taskId,
-  })
-    .then((result) => {
-      if (result != null) {
-        res.json({
-          success: true,
-          service: result,
-        });
-      } else {
-        res.status(404).json({
-          success: false,
-          error: result,
-        });
-      }
-    })
-    .catch((err) =>
-      res.status(404).json({
-        success: false,
-        error: err,
-      })
-    );
-});
-
-//@route Post /tasks
-//@desc Post A tasks
-//@access Public
-router.post("/", (req, res) => {
-  const { pinId, volunteerId } = req.body;
-  const newTask = new Task({
-    pinId: pinId,
-    volunteerId: volunteerId,
-  });
-  newTask
-    .save()
-    .then((item) => res.json(item))
-    .catch((err) =>
-      res.status(400).json({
-        error: err,
-        message: "Error creating Task",
       })
     );
 });
@@ -106,48 +86,33 @@ router.delete("/:id", (req, res) => {
 //@desc get all services of a volunteer
 //@access Public
 router.get("/:id", (req, res) => {
+  // to think tmr - how to nest populates? eg call populate on individual volunteer
+  // TODO: add task to volunteer when accepting task!!
+  // Volunteer.findById(req.params.id)
+  //   .populate({
+  //     path: "tasks",
+  //     populate: { path: "service", populate: { path: "details" } },
+  //   })
+  //   .then((volunteer) => {
+  //     console.log("TASKS");
+  //     console.log(volunteer.tasks);
+  //     res.json({ tasks: volunteer.tasks });
+  //   })
+  //   .catch((err) => {
+  //     console.log("volunteer id cannot be found");
+  //     console.log(req.params.id);
+  //     res.json({
+  //       success: false,
+  //       error: err,
+  //     });
+  //   });
 
-  var services = [];
-
-  function findService(task) {
-    return new Promise(((resolve, reject) => {
-      Service.findOne({ taskId: task._id })
-      .then((service) => {
-        services.push({
-          validService: true,
-          task: task,
-          service: service
-        });
-        resolve();
-      })
-      .catch((err) => {
-        services.push({
-          validService: false,
-          task: task,
-          error: err
-        });
-        resolve();
-      });
-    }));   
-  };
-
-  async function mapTaskToService(tasks) {
-    await Promise.all(tasks.map(e => findService(e)));
-  }
-
-  Task.find({volunteerId: req.params.id})
-    .then(tasks => {
-      mapTaskToService(tasks)
-      .then(() => res.json({
-        success: true,
-        services: services
-      }))
-      .catch((err) => {res.json({
-        success: false,
-        error: err
-      });}
-      )
-  })
+  Task.find({ volunteerId: req.params.id })
+    .populate({ path: "service", populate: { path: "details" } })
+    .then((tasks) => {
+      console.log(tasks);
+      res.json({ tasks: tasks });
+    })
     .catch((err) =>
       res.status(404).json({
         success: false,
@@ -175,6 +140,6 @@ router.post("/complete/:id", (req, res) => {
         error: err,
       })
     );
-})
+});
 
 module.exports = router;

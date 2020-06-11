@@ -49,3 +49,8 @@
     height: 300px;
   }
 }
+.card-deck {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  grid-gap: .5rem
+}
