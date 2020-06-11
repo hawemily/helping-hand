@@ -5,6 +5,7 @@ const Service = require("../models/serviceSchema");
 const Task = require("../models/taskSchema");
 const Grocery = require("../models/grocerySchema");
 const Laundry = require("../models/laundrySchema");
+const Volunteer = require("../models/volunteerSchema");
 
 // root route /services
 
@@ -195,6 +196,20 @@ router.post("/laundry", (req, res) => {
   // TODO: Dhivs -- create new laundry runs and call create service in each one
   // refer to router.post("/groceries to see how it works")
   // also changed the tops bottoms thing to one whole basket -> should be easier to store
+});
+
+//@route POST /services/rating
+//@desc post rating of service of volunteer
+//@access public
+router.post("/rating", (req, res) => {
+  console.log("rating api hit");
+  const { service, taskId, time } = req.body;
+  Task.findById(taskId, "volunteerId").then((id) => {
+    Volunteer.findByIdAndUpdate(id, {
+      $push: { onTime: time },
+      $push: { serviceQuality: service },
+    });
+  });
 });
 
 module.exports = router;

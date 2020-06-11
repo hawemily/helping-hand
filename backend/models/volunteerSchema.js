@@ -25,6 +25,12 @@ const VolunteerSchema = new Schema({
     type: String,
     required: true,
   },
+  onTime: {
+    type: [Number],
+  },
+  serviceQuality: {
+    type: [Number],
+  },
 });
 
 const Volunteer = mongoose.model("volunteer", VolunteerSchema);

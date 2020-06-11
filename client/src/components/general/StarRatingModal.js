@@ -7,7 +7,15 @@ const StarRatingModal = (props) => {
   const [ratings, setRatings] = useState(Array(2).fill(0));
 
   const handleSubmit = () => {
-    // do axios call here
+    axios
+      .post("/services/rating", {
+        time: ratings[0],
+        service: ratings[1],
+        taskId: props.taskId,
+      })
+      .then((res) => {
+        console.log(res);
+      });
     props.onHide();
   };
 
