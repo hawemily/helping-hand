@@ -3,18 +3,17 @@ import { Container, Button, Table, Row, Col } from "react-bootstrap";
 import DetailsModal from "../DetailsModal";
 import { TiTick } from "react-icons/ti";
 import { GiEmptyHourglass } from "react-icons/gi";
-import axios from 'axios';
+import axios from "axios";
 
 import { IconContext } from "react-icons";
 
 class VolunteerTaskList extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
       tasks: [],
       detailsModalShow: [],
-      buttonStates: []
+      buttonStates: [],
     };
     this.defaultState = {
       colorButton: "danger",
@@ -29,62 +28,61 @@ class VolunteerTaskList extends React.Component {
   // );
 
   loadTasks = () => {
-    axios.get("/tasks/" + localStorage.getItem("id_token"))
-    .then((res) => {
+    axios.get("/tasks/" + localStorage.getItem("id_token")).then((res) => {
       if (res.data.success) {
         // tasks = res.data.services;
         var buttonStates = [];
         var show = [];
-        var validTasks = res.data.services.filter((task) => task.validService);
+        var validTasks = res.data.services;
         validTasks.forEach((e) => {
           buttonStates.push({
             colorButton: e.task.status == "complete" ? "success" : "danger",
-            isClicked: e.task.status == 'complete',
+            isClicked: e.task.status == "complete",
           });
           show.push(false);
         });
         this.setState({
           tasks: validTasks,
           buttonStates: buttonStates,
-          detailsModalShow: show
+          detailsModalShow: show,
         });
         // console.log(this.state);
       }
-    })
-  }
+    });
+  };
 
   taskComplete = (i) => {
     var states = this.state.buttonStates.slice(0);
-    var state = {...states[i]};
+    var state = { ...states[i] };
     state.isClicked = !state.isClicked;
     state.colorButton = state.isClicked ? "success" : "danger";
     states[i] = state;
 
-    axios.post("/tasks/complete/" + this.state.tasks[i].task._id)
-    .then((res) => {
-      if (res.data.success) {
-        this.setState((state) => {
-          return {
-            buttonStates: states
-          }
-        });
-      }
-    })
-    .catch((err) => console.error(err));
-   
+    axios
+      .post("/tasks/complete/" + this.state.tasks[i].task._id)
+      .then((res) => {
+        if (res.data.success) {
+          this.setState((state) => {
+            return {
+              buttonStates: states,
+            };
+          });
+        }
+      })
+      .catch((err) => console.error(err));
   };
 
   showDetailsModal = (index) => {
     var show = this.state.detailsModalShow;
     show[index] = true;
-    this.setState({detailsModalShow: show});
-  }
+    this.setState({ detailsModalShow: show });
+  };
 
   closeDetailsModal = (index) => {
     var show = this.state.detailsModalShow;
     show[index] = false;
-    this.setState({detailsModalShow: show});
-  }
+    this.setState({ detailsModalShow: show });
+  };
 
   componentDidMount() {
     this.loadTasks();
@@ -104,13 +102,23 @@ class VolunteerTaskList extends React.Component {
             </tr>
           </thead>
           <tbody>
-            {
-              this.state.tasks.map((task, index) => {
-              const { time, category, area, basket, date, optionOne, store, taskId } = task.service;
+            {this.state.tasks.map((task, index) => {
+              const {
+                time,
+                category,
+                area,
+                basket,
+                date,
+                optionOne,
+                store,
+                taskId,
+              } = task.service;
               return (
                 <tr
                   className={`text-center ${
-                    this.state.buttonStates[index].isClicked ? "confirmed" : "pending"
+                    this.state.buttonStates[index].isClicked
+                      ? "confirmed"
+                      : "pending"
                   }`}
                   key={index}
                 >
@@ -142,13 +150,17 @@ class VolunteerTaskList extends React.Component {
                           onClick={() => this.taskComplete(index)}
                           disabled={this.state.buttonStates[index].isClicked}
                         >
-                          {this.state.buttonStates[index].isClicked ? "Completed" : "Not Completed"}
+                          {this.state.buttonStates[index].isClicked
+                            ? "Completed"
+                            : "Not Completed"}
                         </Button>
                       </Col>
                     </Row>
                   </td>
                   <td className='align-middle'>
-                    <IconContext.Provider value={{ style: { fontSize: "30px" } }}>
+                    <IconContext.Provider
+                      value={{ style: { fontSize: "30px" } }}
+                    >
                       <div>
                         {this.state.buttonStates[index].isClicked ? (
                           <TiTick />
@@ -160,13 +172,12 @@ class VolunteerTaskList extends React.Component {
                   </td>
                 </tr>
               );
-            })
-            }
+            })}
           </tbody>
         </Table>
       </Container>
     );
   }
-};
+}
 
 export default VolunteerTaskList;

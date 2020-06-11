@@ -12,6 +12,7 @@ const AddItem = (props) => {
   // });
 
   const onSubmit = (data) => {
+    console.log(data);
     console.log(
       `item: ${data.Item}, quantity: ${data.Quantity}, units:${data.Units}`
     );
