@@ -43,8 +43,8 @@ const Services = (props) => {
                   outline
                   color='primary'
                   block
-                  // onClick={() => redirect(service.link)}
-                  onClick={auth.isAuthenticated() ? redirect(service.link) : () => notice()}
+                  onClick={() => redirect(service.link)}
+                  // onClick={auth.isAuthenticated() ? redirect(service.link) : () => notice()}
                 >
                   {service.name}
                 </Button>
