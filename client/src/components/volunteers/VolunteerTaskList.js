@@ -27,29 +27,6 @@ class VolunteerTaskList extends React.Component {
   //   Array(tasks.length).fill(defaultState)
   // );
 
-  loadTasks = () => {
-    axios.get("/tasks/" + localStorage.getItem("id_token")).then((res) => {
-      if (res.data.success) {
-        // tasks = res.data.services;
-        var buttonStates = [];
-        var show = [];
-        var validTasks = res.data.tasks;
-        validTasks.forEach((e) => {
-          buttonStates.push({
-            colorButton: e.status == "complete" ? "success" : "danger",
-            isClicked: e.status == "complete",
-          });
-          show.push(false);
-        });
-        this.setState({
-          tasks: validTasks,
-          buttonStates: buttonStates,
-          detailsModalShow: show,
-        });
-      }
-    });
-  };
-
   taskComplete = (i) => {
     var states = this.state.buttonStates.slice(0);
     var state = { ...states[i] };
@@ -58,7 +35,7 @@ class VolunteerTaskList extends React.Component {
     states[i] = state;
 
     axios
-      .post("/tasks/complete/" + this.state.tasks[i].task._id)
+      .post("/tasks/complete/" + this.state.tasks[i]._id)
       .then((res) => {
         if (res.data.success) {
           this.setState((state) => {
@@ -83,7 +60,63 @@ class VolunteerTaskList extends React.Component {
     this.setState({ detailsModalShow: show });
   };
 
+  loadTasks = () => {
+    axios.get("/tasks/" + localStorage.getItem("id_token")).then((res) => {
+      if (res.data.success) {
+        // tasks = res.data.services;
+        var buttonStates = [];
+        var show = [];
+        var validTasks = res.data.tasks;
+        validTasks.forEach((e) => {
+          buttonStates.push({
+            colorButton: e.status == "complete" ? "success" : "danger",
+            isClicked: e.status == "complete",
+          });
+          show.push(false);
+        });
+        this.setState({
+          tasks: validTasks,
+          buttonStates: buttonStates,
+          detailsModalShow: show,
+        });
+      }
+    });
+  };
+
   componentDidMount() {
+    // function mapStates(buttonStates, show, task) {
+    //   return new Promise((res, rej) => {
+    //     buttonStates.push({
+    //       colorButton: task.status == "complete" ? "success" : "danger",
+    //       isClicked: task.status == "complete",
+    //     });
+    //     show.push(false);
+    //     res();
+    //   });
+    // }
+
+    // axios
+    //   .get("/tasks/" + localStorage.getItem("id_token"))
+    //   .then(async (res) => {
+    //     if (res.data.success) {
+    //       // tasks = res.data.services;
+    //       var buttonStates = [];
+    //       var show = [];
+    //       var validTasks = res.data.tasks;
+
+    //       const promises = validTasks.map((task) =>
+    //         mapStates(buttonStates, show, task)
+    //       );
+
+    //       await Promise.all(promises);
+
+    //       this.setState({
+    //         tasks: validTasks,
+    //         buttonStates: buttonStates,
+    //         detailsModalShow: show,
+    //       });
+    //     }
+    //   });
     this.loadTasks();
   }
 
@@ -102,11 +135,7 @@ class VolunteerTaskList extends React.Component {
           </thead>
           <tbody>
             {this.state.tasks.map((task, index) => {
-              const {
-                category,
-                details,
-                date,
-              } = task.service;
+              const { category, details, date } = task.service;
               return (
                 <tr
                   className={`text-center ${

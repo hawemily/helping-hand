@@ -1,40 +1,6 @@
-$confirmed-color: rgb(50, 205, 50);
-$completed-color: rgb(128, 128, 128);
-$pending-color: rgb(255, 165, 0);
-
-.taskListConfirmed {
-  padding: 1rem;
-  padding-bottom: 0.5rem;
-  cursor: pointer;
-  background-color: #aef359;
-
-  &:hover {
-    background-color: darken($lime, 10%);
-  }
-}
-
-.taskListPending {
-  padding: 1rem;
-  padding-bottom: 0.5rem;
-  cursor: pointer;
-  background-color: #fada5e;
-
-  &:hover {
-    background-color: lighten($yellow, 10%);
-  }
-}
-
-.taskListCompleted {
-  padding: 1rem;
-  padding-bottom: 0.5rem;
-  cursor: pointer;
-  background-color: darkgrey;
-  color: white;
-
-  &:hover {
-    background-color: darken($darkgrey, 10%);
-  }
-}
+$confirmed-color: rgb(255, 165, 0);
+$completed-color: rgb(50, 205, 50);
+$pending-color: rgb(220, 20, 60);
 
 .completed {
   background-color: rgba($completed-color, 0.3);
@@ -54,6 +20,6 @@ $pending-color: rgb(255, 165, 0);
 .pending {
   background-color: rgba($pending-color, 0.25);
   &:hover {
-    background-color: adjust-color($pending-color, $alpha: -0.4);
+    background-color: adjust-color($pending-color, $alpha: -0.5);
   }
 }
