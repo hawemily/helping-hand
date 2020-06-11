@@ -51,33 +51,6 @@ const LearnMore = (props) => {
             <Container fluid classname='banner text-center' style={{
                 marginTop: '50px'
             }}>
-                {/*<Row>*/}
-                {/*    {infoCards.map((option) => (*/}
-                {/*        <Col sm={12} lg={14}>*/}
-                {/*            <div>*/}
-                {/*                <Container fluid='xl' >*/}
-                {/*                    <Card*/}
-                {/*                        className={option.cardStyle}*/}
-                {/*                        style={{*/}
-                {/*                            textAlign: "center",*/}
-                {/*                            height: "auto"*/}
-                {/*                        }}>*/}
-                {/*                        <Card.Header><h4>{option.title}</h4></Card.Header>*/}
-                {/*                        <Card.Body>*/}
-                {/*                            <p*/}
-                {/*                                style={{*/}
-                {/*                                    textAlign: "center",*/}
-                {/*                                    fontSize: "1.3rem"*/}
-                {/*                                }}>*/}
-                {/*                                    {option.body}*/}
-                {/*                            </p>*/}
-                {/*                        </Card.Body>*/}
-                {/*                    </Card>*/}
-                {/*                </Container>*/}
-                {/*            </div>*/}
-                {/*        </Col>*/}
-                {/*    ))}*/}
-                {/*</Row>*/}
                 <CardDeck classname='card-deck'>
                     {infoCards.map((option) => (
                         <Card fluid

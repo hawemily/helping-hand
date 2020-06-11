@@ -62,9 +62,9 @@ const VolunteerTaskCard = (props) => {
       <Card>
         <Card.Header className='taskCardHeader'>
           <h5>{task.area}</h5>
-          <p>
+          <p><h4>
             {dateFormat(task.date)},{timeFormat(task.date)}, {task.distance} km
-            away
+            away </h4>
           </p>
         </Card.Header>
         <Card.Body style={{ padding: "0.5rem 1rem" }}>
