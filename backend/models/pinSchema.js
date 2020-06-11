@@ -10,7 +10,15 @@ const PinSchema = new Schema({
     required: true,
     type: String,
   },
-  address: {
+  firstAddress: {
+    required: true,
+    type: String,
+  },
+  streetName: {
+    required: true,
+    type: String,
+  },
+  postCode: {
     required: true,
     type: String,
   },

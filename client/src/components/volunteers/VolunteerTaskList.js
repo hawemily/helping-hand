@@ -33,11 +33,11 @@ class VolunteerTaskList extends React.Component {
         // tasks = res.data.services;
         var buttonStates = [];
         var show = [];
-        var validTasks = res.data.services;
+        var validTasks = res.data.tasks;
         validTasks.forEach((e) => {
           buttonStates.push({
-            colorButton: e.task.status == "complete" ? "success" : "danger",
-            isClicked: e.task.status == "complete",
+            colorButton: e.status == "complete" ? "success" : "danger",
+            isClicked: e.status == "complete",
           });
           show.push(false);
         });
@@ -46,7 +46,6 @@ class VolunteerTaskList extends React.Component {
           buttonStates: buttonStates,
           detailsModalShow: show,
         });
-        // console.log(this.state);
       }
     });
   };
@@ -104,14 +103,9 @@ class VolunteerTaskList extends React.Component {
           <tbody>
             {this.state.tasks.map((task, index) => {
               const {
-                time,
                 category,
-                area,
-                basket,
+                details,
                 date,
-                optionOne,
-                store,
-                taskId,
               } = task.service;
               return (
                 <tr
@@ -123,7 +117,7 @@ class VolunteerTaskList extends React.Component {
                   key={index}
                 >
                   <td className='align-middle'>{date}</td>
-                  <td className='align-middle'>#{taskId}</td>
+                  <td className='align-middle'>#{task._id}</td>
                   <td className='align-middle'>{`${category}`}</td>
                   <td className='align-middle'>
                     <Row>
@@ -134,12 +128,14 @@ class VolunteerTaskList extends React.Component {
                         >
                           More Details
                         </Button>
-                        <div id={taskId}>
+                        <div id={task._id}>
                           <DetailsModal
                             show={this.state.detailsModalShow[index]}
-                            task={task}
+                            basket={details.basket}
+                            taskid={task._id}
+                            pin={task.pinId}
                             onHide={() => this.closeDetailsModal(index)}
-                            ariaLabelledBy={task.id}
+                            ariaLabelledBy={task._id}
                           />
                         </div>
                       </Col>

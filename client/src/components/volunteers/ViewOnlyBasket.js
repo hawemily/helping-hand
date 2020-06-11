@@ -2,11 +2,12 @@ import React from 'react';
 import { Card, Button, Modal, Table, Form } from "react-bootstrap";
 
 const ViewOnlyBasket = (props) => {
-  var basket = [];
+  var basket = props.basket;
+
   try {
     basket = JSON.parse(props.basket);
   } catch(err) {
-    console.error(err);    
+    // console.error(err);    
   }
 
   return (
@@ -25,7 +26,7 @@ const ViewOnlyBasket = (props) => {
             <tr>
               <td>{i + 1}</td>
               <td>{element.item}</td>
-              <td>{element.quantity}</td>
+              <td>{element.quantity + " " + element.unit}</td>
               <td>
                 <Form.Group controlId={"checkbox" + i}>
                   <Form.Check type="checkbox" />

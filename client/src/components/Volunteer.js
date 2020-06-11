@@ -16,18 +16,12 @@ class Volunteer extends React.Component {
 
     function loadService(task) {
       return new Promise((resolve, reject) => {
-        const { _id, pinId } = task;
-        const { date, time, category } = task.service;
-        const { store, basket, subs } = task.service.details;
-        taskList.push({
-          taskId: _id,
-          pinId: pinId,
-          store: store,
-          date: date,
-          time: time,
-          category: category,
-          basket: basket,
-        });
+        // const { _id, pinId } = task;
+        // const { date, time, category } = task.service;
+        // const { store, basket, subs } = task.service.details;
+        if (task.status == 'pending') {
+          taskList.push(task);
+        }
         resolve();
       });
     }

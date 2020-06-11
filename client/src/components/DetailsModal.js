@@ -14,11 +14,12 @@ class DetailsModal extends React.Component {
   }
 
   componentWillMount() {
+    console.log(this.props);
     if (localStorage.getItem("user_type") == "volunteer") {
       // For Volunteers
-      const { pinId, volunteerId, id } = this.props.task.task;
+      const { pin, taskId } = this.props;
 
-      axios.get("/pins/" + pinId).then((res) => {
+      axios.get("/pins/" + pin).then((res) => {
         if (res.data.success) {
           this.setState({
             pinInfo: res.data.pin,
@@ -26,10 +27,8 @@ class DetailsModal extends React.Component {
         }
       });
 
-      this.setState({ taskId: id });
+      this.setState({ taskId: taskId });
       // const { firstName, lastName, email, phoneNumber, address } = pinInfo;
-
-      console.log(this.state.pinInfo);
     }
   }
 
@@ -39,7 +38,7 @@ class DetailsModal extends React.Component {
 
     if (localStorage.getItem("user_type") == "volunteer") {
       return (
-        <div id={this.state.id}>
+        <div id={this.state.taskId}>
           <Modal
             {...props}
             size='lg'
@@ -51,7 +50,7 @@ class DetailsModal extends React.Component {
             </Modal.Header>
             <Modal.Body>
               {/* <h4>{category}</h4> */}
-              <ViewOnlyBasket basket={props.task.service.basket} />
+              <ViewOnlyBasket basket={props.basket} />
               <br />
               <h4>Person You Will Help</h4>
               <Table>
@@ -71,7 +70,7 @@ class DetailsModal extends React.Component {
                 </tr>
                 <tr>
                   <td>Address</td>
-                  <td>{pin.address}</td>
+                  <td>{pin.firstAddress + ", " + pin.streetName + " " + pin.postCode}</td>
                 </tr>
               </Table>
             </Modal.Body>

@@ -13,7 +13,9 @@ const Register = (props) => {
   const email = React.createRef();
   const password = React.createRef();
   const phoneNumber = React.createRef();
-  const address = React.createRef();
+  const firstAddress = React.createRef();
+  const streetName = React.createRef();
+  const postCode = React.createRef();
   const niNo = React.createRef();
 
   const radios = [
@@ -58,7 +60,9 @@ const Register = (props) => {
         password: password.current.value,
         phoneNumber: phoneNumber.current.value,
         niNo: niNo.current.value,
-        address: address.current.value
+        firstAddress: firstAddress.current.value,
+        streetName: streetName.current.value,
+        postCode: postCode.current.value
       };
 
       axios.post("/pins", pin)
@@ -124,8 +128,20 @@ const Register = (props) => {
           </Form.Group>
           { radioValue == 'pin' ?
             (<Form.Group>
-              <Form.Label>Address</Form.Label>
-              <Form.Control ref={address} placeholder="Address" />
+              <Form.Label>First Line of Address</Form.Label>
+              <Form.Control ref={firstAddress} placeholder="First Line of Address" />
+            </Form.Group>) : <div />
+          }
+          { radioValue == 'pin' ?
+            (<Form.Group>
+              <Form.Label>Street</Form.Label>
+              <Form.Control ref={streetName} placeholder="Street" />
+            </Form.Group>) : <div />
+          }
+          { radioValue == 'pin' ?
+            (<Form.Group>
+              <Form.Label>Postcode</Form.Label>
+              <Form.Control ref={postCode} placeholder="Postcode" />
             </Form.Group>) : <div />
           }
           <Form.Group>

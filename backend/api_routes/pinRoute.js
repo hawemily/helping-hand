@@ -3,7 +3,7 @@ const router = express.Router();
 
 const Pin = require("../models/pinSchema");
 
-//@route GET /pin
+//@route GET /pins
 //@desc get all pins
 //@access public
 router.get("/", (req, res) => {
@@ -22,7 +22,7 @@ router.get("/", (req, res) => {
   })
 })
 
-//@route GET /pin/:id
+//@route GET /pins/:id
 //@desc get a pin's info by pin id
 //@access public
 router.get("/:id", (req, res) => {
@@ -41,15 +41,17 @@ router.get("/:id", (req, res) => {
   })
 })
 
-//@route POST /pin
+//@route POST /pins
 //@desc create new pin account
 //@access public
 router.post("/", (req, res) => {
-  const { firstName, lastName, address, phoneNumber, password, email, niNo } = req.body;
+  const { firstName, lastName, firstAddress, streetName, postCode, phoneNumber, password, email, niNo } = req.body;
   const newPin = new Pin({
     firstName: firstName,
     lastName: lastName,
-    address: address,
+    firstAddress: firstAddress,
+    streetName: streetName,
+    postCode: postCode, 
     phoneNumber: phoneNumber,
     password: password,
     email: email,
@@ -66,7 +68,7 @@ router.post("/", (req, res) => {
   );
 })
 
-//@route POST /pin/login
+//@route POST /pins/login
 //@desc Post pin login authentication
 //@access Public
 router.post("/login", (req, res) => {
