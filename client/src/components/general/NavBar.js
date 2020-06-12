@@ -3,6 +3,7 @@ import { Navbar, Nav, Container } from "react-bootstrap";
 import Login from "./Login";
 import Register from "./Register";
 import Account from "./Account";
+import logo from "../../assets/general/logo.png";
 
 const NavBar = (props) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -64,7 +65,9 @@ const NavBar = (props) => {
     <div>
       <Navbar bg='light' light expand='sm' className='mb-5'>
         <Container>
-          <Navbar.Brand href='/'>Helping Hand</Navbar.Brand>
+          <Navbar.Brand href='/'>
+            <img src={logo} style={{width: "4rem", marginRight: "0.5rem"}} />
+          Helping Hand</Navbar.Brand>
           <Navbar.Toggle onClick={toggle} />
           <Navbar.Collapse isOpen={isOpen} navbar>
             <Nav className='ml-auto' navbar>
