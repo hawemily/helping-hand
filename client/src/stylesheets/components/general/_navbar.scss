@@ -2,8 +2,14 @@ nav.mb-5 {
   margin-bottom: 0 !important;
 }
 
+a.navbar-brand {
+  a {
+    font-size: 1.3rem;
+  }
+}
+
 .navbar-items {
   a {
-    font-size: 1.1rem;
+    font-size: 1.3rem;
   }
 }

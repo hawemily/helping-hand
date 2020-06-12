@@ -36,14 +36,13 @@ const HomePage = (props) => {
     }
   }
 
-
   return (
     <div>
       <div className='banner-bg'>
         <h1 className='header'>HelpingHand</h1>
         <p className='body'>Lending a hand to those who need it most</p>
       </div>
-      <Container>
+      <Container className='mb-4'>
         <Row>
           {initialOptions.map((option) => (
             <Col sm={12} lg={4}>

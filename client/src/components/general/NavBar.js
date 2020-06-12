@@ -66,8 +66,9 @@ const NavBar = (props) => {
       <Navbar bg='light' light expand='sm' className='mb-5'>
         <Container>
           <Navbar.Brand href='/'>
-            <img src={logo} style={{width: "4rem", marginRight: "0.5rem"}} />
-          Helping Hand</Navbar.Brand>
+            <img src={logo} style={{ width: "4rem", marginRight: "0.5rem" }} />
+            Helping Hand
+          </Navbar.Brand>
           <Navbar.Toggle onClick={toggle} />
           <Navbar.Collapse isOpen={isOpen} navbar>
             <Nav className='ml-auto' navbar>

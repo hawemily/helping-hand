@@ -24,9 +24,9 @@ const VolunteerTaskCard = (props) => {
   const showTaskModal = () => setShowTask(true);
 
   const closePinModal = () => setShowPin(false);
-  const showPinModal = () => { 
+  const showPinModal = () => {
     loadPinInfo(pinId).then(() => setShowPin(true));
-  }
+  };
 
   const showDoneModal = () => setShowDone(true);
   const closeDoneModal = () => setShowDone(false);
@@ -36,13 +36,12 @@ const VolunteerTaskCard = (props) => {
 
   const loadPinInfo = (pinId) => {
     return new Promise((resolve, reject) => {
-      axios.get("/pins/" + pinId)
-      .then((pin) => {
+      axios.get("/pins/" + pinId).then((pin) => {
         setLoadedPin(pin.data.pin);
         resolve();
       });
     });
-  }
+  };
 
   const acceptTask = () => {
     axios
@@ -70,7 +69,7 @@ const VolunteerTaskCard = (props) => {
         <Card.Header className='taskCardHeader'>
           <h5>{service.category}</h5>
           <p>
-            {formatDate(service.date)},{formatTime(service.date)}
+            {formatDate(service.date)} {formatTime(service.date)}
           </p>
         </Card.Header>
         <Card.Body style={{ padding: "0.5rem 1rem" }}>
@@ -82,7 +81,9 @@ const VolunteerTaskCard = (props) => {
               </Card.Text>
               <p
                 className='expandTask'
-                onClick={auth.isAuthenticated() ? showTaskModal : () => notice()}
+                onClick={
+                  auth.isAuthenticated() ? showTaskModal : () => notice()
+                }
                 // onClick={showTaskModal}
               >
                 click to expand
@@ -129,36 +130,26 @@ const VolunteerTaskCard = (props) => {
         <Modal.Body>
           <Table>
             <tr>
+              <td>Name</td>
+              <td>{loadedPin.firstName + loadedPin.lastName}</td>
+            </tr>
+            <tr>
+              <td>Address</td>
               <td>
-                Name
-              </td>
-              <td>
-                {loadedPin.firstName + loadedPin.lastName}
+                {loadedPin.firstAddress +
+                  ", " +
+                  loadedPin.streetName +
+                  " " +
+                  loadedPin.postCode}
               </td>
             </tr>
             <tr>
-              <td>
-                Address
-              </td>
-              <td>
-                {loadedPin.firstAddress + ", " + loadedPin.streetName + " " + loadedPin.postCode}
-              </td>
+              <td>Contact Number</td>
+              <td>{loadedPin.phoneNumber}</td>
             </tr>
             <tr>
-              <td>
-                Contact Number
-              </td>
-              <td>
-                {loadedPin.phoneNumber}
-              </td>
-            </tr>
-            <tr>
-              <td>
-                Email Address
-              </td>
-              <td>
-                {loadedPin.email}
-              </td>
+              <td>Email Address</td>
+              <td>{loadedPin.email}</td>
             </tr>
           </Table>
         </Modal.Body>
