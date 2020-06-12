@@ -2,10 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const LaundrySchema = new Schema({
-  taskId: {
-    type: String,
-    required: true,
-  },
+
   dropOffDate: {
     type: Date,
     required: true,
