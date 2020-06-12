@@ -17,6 +17,7 @@ const Register = (props) => {
   const lastName = React.createRef();
   const email = React.createRef();
   const password = React.createRef();
+  const newPassword= React.createRef();
   const phoneNumber = React.createRef();
   const firstAddress = React.createRef();
   const streetName = React.createRef();
@@ -36,12 +37,17 @@ const Register = (props) => {
     document.getElementById("registerBtn").disabled = true;
 
     if (radioValue == "volunteer") {
+      if (newPassword.current.value != password.current.value) {
+        alert("Passwords do not match!");
+        return;
+      }
+
       var volunteer = {
         firstName: firstName.current.value,
         lastName: lastName.current.value,
         email: email.current.value,
         password: password.current.value,
-        phoneNumber: phoneNumber.current.value,
+        phoneNumber: phoneNumber.current.value
       };
 
       axios
@@ -168,7 +174,14 @@ const Register = (props) => {
               />
             </Form.Group>
           ) : (
-            <div />
+              <Form.Group>
+                <Form.Label>Confirm Password</Form.Label>
+                <Form.Control
+                    ref={newPassword}
+                    type='password'
+                    placeholder='Confirm Your Password'
+                />
+              </Form.Group>
           )}
           {radioValue == "pin" ? (
             <Form.Group>
