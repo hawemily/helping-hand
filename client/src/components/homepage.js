@@ -51,7 +51,7 @@ const HomePage = (props) => {
                 className='align-baseline'
                 style={{
                   textAlign: "center",
-                  height: "200px",
+                  height: "100%",
                 }}
               >
                 <Card.Body>

@@ -69,13 +69,9 @@ router.post("/", (req, res) => {
   });
 
   Pin.find({ email: email })
-    .then(() => {
-      res
-        .status(403)
-        .json({ success: false, error: "Email already exists! Please login." });
-    })
-    .catch((err) => {
-      newPin
+    .then((result) => {
+      if (result.length == 0) {
+        newPin
         .save()
         .then((item) => res.json({ success: true, id: item._id }))
         .catch((err) =>
@@ -84,6 +80,17 @@ router.post("/", (req, res) => {
             error: err,
           })
         );
+      } else {
+        res
+          .status(403)
+          .json({ success: false, error: "Email already exists! Please login." });
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({
+        success: false,
+        error: err,
+      })
     });
 });
 

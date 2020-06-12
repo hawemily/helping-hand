@@ -6,6 +6,8 @@ import {
   Button,
   Table,
   ButtonToolbar,
+  Tooltip,
+  OverlayTrigger
 } from "react-bootstrap";
 import EditDetailsModal from "./EditDetailsModal";
 import ReportIssueModal from "./ReportIssueModal";
@@ -42,6 +44,14 @@ const TaskRequestList = (props) => {
     props.setModalStates(newStates);
   };
 
+  const renderTooltip = (id, status, volunteerId) => {
+    return (
+      <Tooltip id={"pinTooltip" + id}>
+        {status == 'complete' ? "Complete" : (volunteerId == null ? "Pending Confirmation" : "Request Accepted")}
+      </Tooltip>
+    );
+  }
+
   if (modalStates.length === 0) {
     return null;
   }
@@ -64,7 +74,7 @@ const TaskRequestList = (props) => {
             return (
               <tr
                 className={`text-center ${
-                  task.isCompleted
+                  task.status == 'complete'
                     ? "completed"
                     : task.volunteerId == null
                     ? "pending"
@@ -121,9 +131,14 @@ const TaskRequestList = (props) => {
                   </ButtonToolbar>
                 </td>
                 <td className='align-middle'>
-                  <IconContext.Provider value={{ style: { fontSize: "30px" } }}>
+                <IconContext.Provider value={{ style: { fontSize: "30px" } }}>
+                  <OverlayTrigger
+                      placement="right"
+                      delay={{ show: 250, hide: 400 }}
+                      overlay={renderTooltip(index, task.status, task.volunteerId)}
+                    >
                     <div>
-                      {task.isCompleted ? (
+                    {task.status == 'complete' ? (
                         <TiTick />
                       ) : task.volunteerId == null ? (
                         <FaExclamationCircle />
@@ -131,6 +146,7 @@ const TaskRequestList = (props) => {
                         <GiEmptyHourglass />
                       )}
                     </div>
+                  </OverlayTrigger>
                   </IconContext.Provider>
                 </td>
               </tr>

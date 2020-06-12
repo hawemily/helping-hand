@@ -17,7 +17,7 @@ const Register = (props) => {
   const lastName = React.createRef();
   const email = React.createRef();
   const password = React.createRef();
-  const newPassword= React.createRef();
+  const confirmPassword = React.createRef();
   const phoneNumber = React.createRef();
   const firstAddress = React.createRef();
   const streetName = React.createRef();
@@ -37,8 +37,8 @@ const Register = (props) => {
     document.getElementById("registerBtn").disabled = true;
 
     if (radioValue == "volunteer") {
-      if (newPassword.current.value != password.current.value) {
-        alert("Passwords do not match! Please try again.");
+      if (confirmPassword.current.value != password.current.value) {
+        alert("Passwords do not match!");
         return;
       }
 
@@ -75,7 +75,6 @@ const Register = (props) => {
           resultMsg.classList.add("show");
         });
     } else if (radioValue == "pin") {
-      // need to fix data collection fields
       var pin = {
         firstName: firstName.current.value,
         lastName: lastName.current.value,
@@ -165,6 +164,14 @@ const Register = (props) => {
               placeholder='Password'
             />
           </Form.Group>
+          <Form.Group>
+              <Form.Label>Confirm Password</Form.Label>
+              <Form.Control
+                  ref={confirmPassword}
+                  type='password'
+                  placeholder='Confirm Your Password'
+              />
+            </Form.Group>
           {radioValue == "pin" ? (
             <Form.Group>
               <Form.Label>First Line of Address</Form.Label>
@@ -174,14 +181,7 @@ const Register = (props) => {
               />
             </Form.Group>
           ) : (
-              <Form.Group>
-                <Form.Label>Confirm Password</Form.Label>
-                <Form.Control
-                    ref={newPassword}
-                    type='password'
-                    placeholder='Confirm Your Password'
-                />
-              </Form.Group>
+              <div />
           )}
           {radioValue == "pin" ? (
             <Form.Group>

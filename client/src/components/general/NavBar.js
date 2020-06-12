@@ -3,6 +3,7 @@ import { Navbar, Nav, Container } from "react-bootstrap";
 import Login from "./Login";
 import Register from "./Register";
 import Account from "./Account";
+import logo from "../../assets/general/logo.png";
 
 const NavBar = (props) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -28,7 +29,7 @@ const NavBar = (props) => {
   const generalItems = [
     { title: "Volunteer", link: "/volunteer" },
     { title: "Get Help", link: "/service" },
-    { title: "Contact Us" },
+    { title: "About Us", link: "/learnMore" },
     { title: "Login", onClick: () => showLoginModal() },
     { title: "Register", onClick: () => showRegisterModal() },
   ];
@@ -36,7 +37,7 @@ const NavBar = (props) => {
   const pinItems = [
     { title: "Get Help", link: "/service" },
     { title: "All Requests", link: "/service/requestList" },
-    { title: "Contact Us" },
+    { title: "About Us", link: "/learnMore" },
     { title: "My Account", onClick: () => showAccountModal() },
     { title: "Logout", onClick: () => logout() },
   ];
@@ -44,7 +45,7 @@ const NavBar = (props) => {
   const volunteerItems = [
     { title: "Volunteer", link: "/volunteer" },
     { title: "All Tasks", link: "/volunteer/taskList" },
-    { title: "Contact Us" },
+    { title: "About Us", link: "/learnMore" },
     { title: "My Account", onClick: () => showAccountModal() },
     { title: "Logout", onClick: () => logout() },
   ];
@@ -64,7 +65,9 @@ const NavBar = (props) => {
     <div>
       <Navbar bg='light' light expand='sm' className='mb-5'>
         <Container>
-          <Navbar.Brand href='/'>Helping Hand</Navbar.Brand>
+          <Navbar.Brand href='/'>
+            <img src={logo} style={{width: "4rem", marginRight: "0.5rem"}} />
+          Helping Hand</Navbar.Brand>
           <Navbar.Toggle onClick={toggle} />
           <Navbar.Collapse isOpen={isOpen} navbar>
             <Nav className='ml-auto' navbar>
