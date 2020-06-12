@@ -5,8 +5,8 @@ import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import { setHours, setMinutes, addDays } from "date-fns";
 import axios from "axios";
+import InformationTooltip from "./moreInfo";
 
-// TODO: alert saying the request has been submitted doesn't register
 const LaundryForm = (props) => {
   const { register, handleSubmit, errors } = useForm();
   const [load, setLoad] = useState();
@@ -117,7 +117,10 @@ const LaundryForm = (props) => {
             <Row form>
               <Col md={6}>
                 <Form.Group controlId='laundry'>
+                  <Form.Row>
                   <Form.Label>Loads of Laundry:</Form.Label>
+                  <InformationTooltip message='Specify how many loads of laundry you need cleaned' />
+                  </Form.Row>
                   <Form.Control
                     type='number'
                     name='load'
@@ -169,7 +172,7 @@ const LaundryForm = (props) => {
                   <Form.Label>Date of Drop-off:</Form.Label>
                   <br />
                   <DatePicker
-                    selected={addDays(dateOfDropoff, 1)}
+                    selected={addDays(dateOfPickup, 1)}
                     onChange={(dateOfDropoff) =>
                       setDateOfDropoff(dateOfDropoff)
                     }
@@ -199,7 +202,10 @@ const LaundryForm = (props) => {
                 </Form.Group>
               </Col>
               <Col md={6}>
+                <Form.Row>
                 <h6>Number of items:</h6>
+                  <InformationTooltip message='Specify your number of items so you can keep track of your laundry.' />
+                </Form.Row>
                 {clothingOptions.map((option) => (
                   <Form.Group>
                     <Form.Control

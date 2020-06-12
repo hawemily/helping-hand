@@ -120,6 +120,7 @@ const TaskRequestList = (props) => {
                       variant='secondary'
                       onClick={() => toggleModal("rate", index)}
                       className='mr-2'
+                      disabled={!(task.status == 'complete')}
                     >
                       Rate
                     </Button>

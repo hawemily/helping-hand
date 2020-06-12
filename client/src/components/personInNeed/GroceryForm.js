@@ -42,6 +42,7 @@ const GroceryForm = (props) => {
   ];
 
   const onSubmit = () => {
+
     if (store === "") {
       alert("Store cannot be empty!");
       return;
@@ -51,6 +52,7 @@ const GroceryForm = (props) => {
       return;
     }
     console.log("outside post");
+    console.log(basket);
     axios
       .post("/services/groceries", {
         // pinId: localStorage.getItem("id_token"),
