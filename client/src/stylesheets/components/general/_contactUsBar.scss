@@ -1,0 +1,51 @@
+.footer-container {
+  padding: 1rem 3rem 0 3rem !important;
+}
+
+.email-link {
+  font-size: 1rem;
+  width: fit-content;
+  display: inline-block;
+  margin: 0.3rem 0 1rem 0;
+  position: relative;
+  left: -1.5rem;
+}
+
+.contact-section {
+  width: fit-content;
+  margin-left: 0;
+}
+
+.copyright-section {
+  margin-right: 0;
+  p {
+    margin-top: 2.3rem;
+    text-align: right;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .footer-container {
+    padding: 10px 0 0 0 !important;
+  }
+
+  .contact-section {
+    width: 100%;
+    // margin: 0 auto;
+  }
+
+  .copyright-section {
+    // margin: 1rem auto;
+    p {
+      text-align: center;
+      margin-top: 1.5rem;
+    }
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .footer-col {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}

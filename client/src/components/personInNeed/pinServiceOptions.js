@@ -18,8 +18,8 @@ const Services = (props) => {
       alt: "groceries",
     },
     { name: "Laundry", link: "/laundry", image: laundry, alt: "laundry" },
-    { name: "Transport", image: transport, alt: "transport" },
-    { name: "Pet Care", image: pets, alt: "pet care" },
+    { name: "Transport", link: "", image: transport, alt: "transport" },
+    { name: "Pet Care", link: "", image: pets, alt: "pet care" },
   ];
 
   const redirect = (link) => {
@@ -43,8 +43,8 @@ const Services = (props) => {
                   outline
                   color='primary'
                   block
-                  onClick={() => redirect(service.link)}
-                  // onClick={auth.isAuthenticated() ? redirect(service.link) : () => notice()}
+                  // onClick={() => redirect(service.link)}
+                  onClick={auth.isAuthenticated() ? () => redirect(service.link) : () => notice()}
                 >
                   {service.name}
                 </Button>

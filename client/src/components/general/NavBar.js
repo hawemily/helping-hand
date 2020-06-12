@@ -28,7 +28,7 @@ const NavBar = (props) => {
   const generalItems = [
     { title: "Volunteer", link: "/volunteer" },
     { title: "Get Help", link: "/service" },
-    { title: "Contact Us" },
+    { title: "About Us", link: "/learnMore" },
     { title: "Login", onClick: () => showLoginModal() },
     { title: "Register", onClick: () => showRegisterModal() },
   ];
@@ -36,7 +36,7 @@ const NavBar = (props) => {
   const pinItems = [
     { title: "Get Help", link: "/service" },
     { title: "All Requests", link: "/service/requestList" },
-    { title: "Contact Us" },
+    { title: "About Us", link: "/learnMore" },
     { title: "My Account", onClick: () => showAccountModal() },
     { title: "Logout", onClick: () => logout() },
   ];
@@ -44,7 +44,7 @@ const NavBar = (props) => {
   const volunteerItems = [
     { title: "Volunteer", link: "/volunteer" },
     { title: "All Tasks", link: "/volunteer/taskList" },
-    { title: "Contact Us" },
+    { title: "About Us", link: "/learnMore" },
     { title: "My Account", onClick: () => showAccountModal() },
     { title: "Logout", onClick: () => logout() },
   ];

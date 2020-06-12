@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Container, Button, Table, Row, Col } from "react-bootstrap";
+import { Container, Button, Table, Row, Col, Tooltip, OverlayTrigger } from "react-bootstrap";
 import DetailsModal from "../DetailsModal";
 import { TiTick } from "react-icons/ti";
 import { GiEmptyHourglass } from "react-icons/gi";
@@ -120,6 +120,14 @@ class VolunteerTaskList extends React.Component {
     this.loadTasks();
   }
 
+  renderTooltip = (id, clicked) => {
+    return (
+      <Tooltip id={"volunteerTooltip" + id}>
+        {clicked ? "Complete" : "Pending"}
+      </Tooltip>
+    );
+  }
+
   render() {
     return (
       <Container variant='flush'>
@@ -183,8 +191,13 @@ class VolunteerTaskList extends React.Component {
                     </Row>
                   </td>
                   <td className='align-middle'>
-                    <IconContext.Provider
+                  <IconContext.Provider
                       value={{ style: { fontSize: "30px" } }}
+                    >
+                  <OverlayTrigger
+                      placement="right"
+                      delay={{ show: 250, hide: 400 }}
+                      overlay={this.renderTooltip(index, this.state.buttonStates[index].isClicked)}
                     >
                       <div>
                         {this.state.buttonStates[index].isClicked ? (
@@ -193,6 +206,7 @@ class VolunteerTaskList extends React.Component {
                           <GiEmptyHourglass />
                         )}
                       </div>
+                    </OverlayTrigger>
                     </IconContext.Provider>
                   </td>
                 </tr>

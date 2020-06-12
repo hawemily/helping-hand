@@ -23,7 +23,7 @@
 
 .header {
   @extend .banner;
-  margin-top: 125px;
+  margin-top: 4rem;
   font-size: 64px;
   line-height: 78px;
 }
@@ -31,7 +31,7 @@
 .body {
   @extend .banner;
   margin: auto;
-  margin-bottom: 75px;
+  margin-bottom: 6rem;
   font-size: 32px;
   line-height: 39px;
 }

@@ -9,8 +9,10 @@ function App() {
 
   return (
     <div className='App'>
-      <Routes />
-      <ContactUsBar/>
+      <div className="app-wrapper">
+        <Routes />
+      </div>
+      <ContactUsBar />
     </div>
   );
 }
