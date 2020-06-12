@@ -38,7 +38,7 @@ const Register = (props) => {
 
     if (radioValue == "volunteer") {
       if (confirmPassword.current.value != password.current.value) {
-        alert("Passwords do not match!");
+        alert("Passwords do not match! Please try again.");
         return;
       }
 
