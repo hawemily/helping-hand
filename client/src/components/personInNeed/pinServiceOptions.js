@@ -7,7 +7,6 @@ import transport from "../../assets/servicePhotos/transport.jpg";
 import pets from "../../assets/servicePhotos/pets.jpg";
 
 const Services = (props) => {
-
   const auth = props.auth;
 
   const services = [
@@ -44,7 +43,11 @@ const Services = (props) => {
                   color='primary'
                   block
                   // onClick={() => redirect(service.link)}
-                  onClick={auth.isAuthenticated() ? () => redirect(service.link) : () => notice()}
+                  onClick={
+                    auth.isAuthenticated()
+                      ? () => redirect(service.link)
+                      : () => notice()
+                  }
                 >
                   {service.name}
                 </Button>
