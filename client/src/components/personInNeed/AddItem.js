@@ -32,7 +32,7 @@ const AddItem = (props) => {
       placeholder: "Enter your purchase item",
       tooltip:
         "Input an item that you need. Be as specific as possible to help your shopper!",
-      pattern: /^[A-Za-z ]+$/,
+      pattern: /^[A-Za-z- ]+$/,
       regexMessage: "This field can only accept alphabets",
       type: "text",
     },

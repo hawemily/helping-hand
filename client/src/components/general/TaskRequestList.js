@@ -7,7 +7,7 @@ import {
   Table,
   ButtonToolbar,
   Tooltip,
-  OverlayTrigger
+  OverlayTrigger,
 } from "react-bootstrap";
 import EditDetailsModal from "./EditDetailsModal";
 import ReportIssueModal from "./ReportIssueModal";
@@ -47,16 +47,34 @@ const TaskRequestList = (props) => {
   const renderTooltip = (id, status, volunteerId) => {
     return (
       <Tooltip id={"pinTooltip" + id}>
-        {status == 'complete' ? "Complete" : (volunteerId == null ? "Pending Confirmation" : "Request Accepted")}
+        {status == "complete"
+          ? "Complete"
+          : volunteerId == null
+          ? "Pending Confirmation"
+          : "Request Accepted"}
       </Tooltip>
     );
-  }
+  };
 
   if (modalStates.length === 0) {
-    return null;
+    return (
+      <Container className='table-responsive'>
+        <Table>
+          <thead>
+            <tr className='text-center'>
+              <th>Date</th>
+              <th>Request No.</th>
+              <th>Service</th>
+              <th> Actions </th>
+              <th>Status</th>
+            </tr>
+          </thead>
+        </Table>
+      </Container>
+    );
   }
   return (
-    <Container variant='flush'>
+    <Container className='table-responsive'>
       <Table>
         <thead>
           <tr className='text-center'>
@@ -74,7 +92,7 @@ const TaskRequestList = (props) => {
             return (
               <tr
                 className={`text-center ${
-                  task.status == 'complete'
+                  task.status == "complete"
                     ? "completed"
                     : task.volunteerId == null
                     ? "pending"
@@ -120,7 +138,7 @@ const TaskRequestList = (props) => {
                       variant='secondary'
                       onClick={() => toggleModal("rate", index)}
                       className='mr-2'
-                      disabled={!(task.status == 'complete')}
+                      disabled={!(task.status == "complete")}
                     >
                       Rate
                     </Button>
@@ -132,22 +150,26 @@ const TaskRequestList = (props) => {
                   </ButtonToolbar>
                 </td>
                 <td className='align-middle'>
-                <IconContext.Provider value={{ style: { fontSize: "30px" } }}>
-                  <OverlayTrigger
-                      placement="right"
+                  <IconContext.Provider value={{ style: { fontSize: "30px" } }}>
+                    <OverlayTrigger
+                      placement='right'
                       delay={{ show: 250, hide: 400 }}
-                      overlay={renderTooltip(index, task.status, task.volunteerId)}
-                    >
-                    <div>
-                    {task.status == 'complete' ? (
-                        <TiTick />
-                      ) : task.volunteerId == null ? (
-                        <FaExclamationCircle />
-                      ) : (
-                        <GiEmptyHourglass />
+                      overlay={renderTooltip(
+                        index,
+                        task.status,
+                        task.volunteerId
                       )}
-                    </div>
-                  </OverlayTrigger>
+                    >
+                      <div>
+                        {task.status == "complete" ? (
+                          <TiTick />
+                        ) : task.volunteerId == null ? (
+                          <FaExclamationCircle />
+                        ) : (
+                          <GiEmptyHourglass />
+                        )}
+                      </div>
+                    </OverlayTrigger>
                   </IconContext.Provider>
                 </td>
               </tr>

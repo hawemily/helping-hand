@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { Container, Button, Table, Row, Col, Tooltip, OverlayTrigger } from "react-bootstrap";
+import {
+  Container,
+  Button,
+  Table,
+  ButtonGroup,
+  Tooltip,
+  OverlayTrigger,
+} from "react-bootstrap";
 import DetailsModal from "../DetailsModal";
 import { TiTick } from "react-icons/ti";
 import { GiEmptyHourglass } from "react-icons/gi";
@@ -84,39 +91,6 @@ class VolunteerTaskList extends React.Component {
   };
 
   componentDidMount() {
-    // function mapStates(buttonStates, show, task) {
-    //   return new Promise((res, rej) => {
-    //     buttonStates.push({
-    //       colorButton: task.status == "complete" ? "success" : "danger",
-    //       isClicked: task.status == "complete",
-    //     });
-    //     show.push(false);
-    //     res();
-    //   });
-    // }
-
-    // axios
-    //   .get("/tasks/" + localStorage.getItem("id_token"))
-    //   .then(async (res) => {
-    //     if (res.data.success) {
-    //       // tasks = res.data.services;
-    //       var buttonStates = [];
-    //       var show = [];
-    //       var validTasks = res.data.tasks;
-
-    //       const promises = validTasks.map((task) =>
-    //         mapStates(buttonStates, show, task)
-    //       );
-
-    //       await Promise.all(promises);
-
-    //       this.setState({
-    //         tasks: validTasks,
-    //         buttonStates: buttonStates,
-    //         detailsModalShow: show,
-    //       });
-    //     }
-    //   });
     this.loadTasks();
   }
 
@@ -126,11 +100,11 @@ class VolunteerTaskList extends React.Component {
         {clicked ? "Complete" : "Pending"}
       </Tooltip>
     );
-  }
+  };
 
   render() {
     return (
-      <Container variant='flush'>
+      <Container className='table-responsive'>
         <Table>
           <thead>
             <tr className='text-center'>
@@ -157,56 +131,57 @@ class VolunteerTaskList extends React.Component {
                   <td className='align-middle'>#{task._id}</td>
                   <td className='align-middle'>{`${category}`}</td>
                   <td className='align-middle'>
-                    <Row>
-                      <Col>
-                        <Button
-                          variant='primary'
-                          onClick={() => this.showDetailsModal(index)}
-                        >
-                          More Details
-                        </Button>
-                        <div id={task._id}>
-                          <DetailsModal
-                            show={this.state.detailsModalShow[index]}
-                            basket={details.basket}
-                            taskid={task._id}
-                            pin={task.pinId}
-                            onHide={() => this.closeDetailsModal(index)}
-                            ariaLabelledBy={task._id}
-                          />
-                        </div>
-                      </Col>
+                    <ButtonGroup>
+                      <Button
+                        variant='primary'
+                        onClick={() => this.showDetailsModal(index)}
+                        className='mr-2'
+                      >
+                        More Details
+                      </Button>
+                      <div id={task._id}>
+                        <DetailsModal
+                          show={this.state.detailsModalShow[index]}
+                          basket={details.basket}
+                          taskid={task._id}
+                          pin={task.pinId}
+                          onHide={() => this.closeDetailsModal(index)}
+                          ariaLabelledBy={task._id}
+                        />
+                      </div>
 
-                      <Col>
-                        <Button
-                          variant={this.state.buttonStates[index].colorButton}
-                          onClick={() => this.taskComplete(index)}
-                          disabled={this.state.buttonStates[index].isClicked}
-                        >
-                          {this.state.buttonStates[index].isClicked
-                            ? "Completed"
-                            : "Not Completed"}
-                        </Button>
-                      </Col>
-                    </Row>
+                      <Button
+                        variant={this.state.buttonStates[index].colorButton}
+                        onClick={() => this.taskComplete(index)}
+                        disabled={this.state.buttonStates[index].isClicked}
+                        className='mr-2'
+                      >
+                        {this.state.buttonStates[index].isClicked
+                          ? "Completed"
+                          : "Not Completed"}
+                      </Button>
+                    </ButtonGroup>
                   </td>
                   <td className='align-middle'>
-                  <IconContext.Provider
+                    <IconContext.Provider
                       value={{ style: { fontSize: "30px" } }}
                     >
-                  <OverlayTrigger
-                      placement="right"
-                      delay={{ show: 250, hide: 400 }}
-                      overlay={this.renderTooltip(index, this.state.buttonStates[index].isClicked)}
-                    >
-                      <div>
-                        {this.state.buttonStates[index].isClicked ? (
-                          <TiTick />
-                        ) : (
-                          <GiEmptyHourglass />
+                      <OverlayTrigger
+                        placement='right'
+                        delay={{ show: 250, hide: 400 }}
+                        overlay={this.renderTooltip(
+                          index,
+                          this.state.buttonStates[index].isClicked
                         )}
-                      </div>
-                    </OverlayTrigger>
+                      >
+                        <div>
+                          {this.state.buttonStates[index].isClicked ? (
+                            <TiTick />
+                          ) : (
+                            <GiEmptyHourglass />
+                          )}
+                        </div>
+                      </OverlayTrigger>
                     </IconContext.Provider>
                   </td>
                 </tr>
