@@ -44,25 +44,50 @@ const EditDetailsModal = (props) => {
     e.preventDefault();
     console.log(task);
 
-    axios
-      .post("/services/updateGroceries", {
-        basket: basket,
-        date: date,
-        time: slot,
-        store: store,
-        taskId: task.taskId,
-      })
-      .then((res) => {
-        if (res.data.success) {
-          console.log("successful axios post");
-        } else {
-          console.log(res.data.err);
-        }
-      })
-      .catch((err) => {
-        console.log("Could not submit post request");
-        console.log(err);
-      });
+    if (category == 'Grocery') {
+      axios
+          .post("/services/updateGroceries", {
+            basket: basket,
+            date: date,
+            time: slot,
+            store: store,
+            taskId: task.taskId,
+          })
+          .then((res) => {
+            if (res.data.success) {
+              console.log("successful axios post");
+            } else {
+              console.log(res.data.err);
+            }
+          })
+          .catch((err) => {
+            console.log("Could not submit post request");
+            console.log(err);
+          });
+    } else {
+      axios
+          .post("/services/updateLaundry", {
+            basket: basket,
+            date: date,
+            time: slot,
+            dropOffDate: dropOffDate,
+            dropOffTime: dropOffTime,
+            load: load,
+            taskId: task.taskId,
+          })
+          .then((res) => {
+            if (res.data.success) {
+              console.log("successful axios post");
+            } else {
+              console.log(res.data.err);
+            }
+          })
+          .catch((err) => {
+            console.log("Could not submit post request");
+            console.log(err);
+          });
+    }
+
 
     if (!readOnly) {
       setReadOnly(!readOnly);
@@ -214,7 +239,7 @@ const EditDetailsModal = (props) => {
                 />)}
           </Form.Group>
           <Form.Group>
-            <Form.Label>Your Purchased Items:</Form.Label>
+            <Form.Label>Your Items:</Form.Label>
             {readOnly ? (
               <ViewOnlyBasket basket={basket} category={task.category} checkBox={false} />
             ) : (

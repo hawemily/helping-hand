@@ -23,6 +23,11 @@ const EditBasket = (props) => {
     props.setBasket(props.basket.filter((el, value) => value !== id));
   };
 
+  const capitalise = (str) => {
+    var firstLetter = str.slice(0, 1);
+    return firstLetter.toUpperCase() + str.slice(1);
+  }
+
   const setBasketItem = (v, index, header) => {
     const updatedBasket = basket.map((item, id) => {
       if (id === index) {
@@ -49,6 +54,10 @@ const EditBasket = (props) => {
     }
   }
 
+  function itemName(e) {
+    return e.item == null ? capitalise(e.type) : capitalise(e.item);
+  }
+
 
   return (
     <Container className='border'>
@@ -73,7 +82,7 @@ const EditBasket = (props) => {
               <td>
                 <Form.Control
                   type='text'
-                  placeholder={e.item == null ? e.type : e.item}
+                  placeholder={itemName(e)}
                   value={basket[i].item}
                   onChange={(e) => setBasketItem(e.target.value, i, "item")}
                 ></Form.Control>

@@ -347,6 +347,50 @@ router.post("/laundry", (req, res) => {
     })
 });
 
+//@route POST /services/updateGroceries
+//@desc post updated groceries details
+//@access public
+router.post("/updateLaundry", (req, res) => {
+  const {
+    basket,
+    date,
+    time,
+    dropOffDate,
+    dropOffTime,
+    load,
+    taskId
+  } = req.body;
+
+  Task.findById(taskId)
+      .then((task) => {
+        const serviceId = task.service;
+
+        Service.findByIdAndUpdate(serviceId, { date: date, time: time })
+            .then((s) => {
+              const detailsId = s.details;
+              Laundry.findByIdAndUpdate(detailsId, {
+                basket: basket,
+                load: load,
+                dropOffDate: dropOffDate,
+                dropOffTime: dropOffTime
+              }).catch((err) => {
+                console.log("could not find details id");
+                console.log(err);
+              });
+            })
+            .catch((err) => {
+              console.log("could not find service id");
+              console.log(err);
+            });
+        // console.log(serviceId);
+        res.json({ success: true });
+      })
+      .catch((err) => {
+        console.log(err);
+        res.json({ success: false, err: err });
+      });
+});
+
 //@route POST /services/rating
 //@desc post rating of service of volunteer
 //@access public
