@@ -14,6 +14,12 @@ const PinRequestList = () => {
     rate: false,
   };
 
+  const compareDates = (itemX, itemY) => {
+    const x = new Date(itemX.date);
+    const y = new Date(itemY.date);
+    return y - x;
+  };
+
   useEffect(() => {
     console.log("doing backend data call");
     const id = localStorage.getItem("id_token") || "5678";
@@ -21,6 +27,10 @@ const PinRequestList = () => {
       .get("/services/allRequests/" + id)
       .then((requests) => {
         console.log(requests);
+        requests.data.map((d) => console.log(d.date));
+        requests.data.sort((x, y) => compareDates(x, y));
+        console.log("#############");
+        requests.data.map((d) => console.log(d.date));
         setTasks((tasks) => tasks.concat(requests.data));
         setModalStates(Array(requests.data.length).fill(defaultState));
       })

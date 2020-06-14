@@ -25,9 +25,7 @@ const EditDetailsModal = (props) => {
   var taskBasket;
   try {
     taskBasket = JSON.parse(task.basket);
-  } catch (err) {
-    console.log(typeof task.basket);
-  }
+  } catch (err) {}
   const [basket, setBasket] = useState(taskBasket);
 
   // console.log(typeof basket);
@@ -49,11 +47,8 @@ const EditDetailsModal = (props) => {
         taskId: task.taskId,
       })
       .then((res) => {
-        alert("HIII");
-        console.log(res.data);
         if (res.data.success) {
           console.log("successful axios post");
-          console.log(res.data.serviceId);
         } else {
           console.log(res.data.err);
         }
