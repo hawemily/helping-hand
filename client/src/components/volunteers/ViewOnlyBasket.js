@@ -32,8 +32,8 @@ const ViewOnlyBasket = (props) => {
           return (
             <tr>
               <td>{i + 1}</td>
-              <td>{element.item}</td>
-              <td>{element.quantity}</td>
+              <td>{element.item == null ? element.type : element.item}</td>
+              <td>{element.quantity == null ? element.amt : element.quantity}</td>
               <td>{element.unit}</td>
               {checkBox ? (
                 <td>
