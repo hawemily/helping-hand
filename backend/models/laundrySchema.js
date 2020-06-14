@@ -21,7 +21,7 @@ const LaundrySchema = new Schema({
   },
   detergent: {
     type: Boolean,
-    required: true,
+    default: false,
   },
 });
 

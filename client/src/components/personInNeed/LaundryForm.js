@@ -92,7 +92,7 @@ const LaundryForm = (props) => {
         timeOfPickup: timeOfPickup,
         dropOffDate: dateOfDropoff,
         dropOffTime: timeOfDropoff,
-        basket: basket,
+        basket: JSON.stringify(basket),
         detergent: checked,
       })
       .then((res) => {

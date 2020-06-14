@@ -2,12 +2,13 @@ import React from "react";
 import {
   Nav,
   Container,
-  Card,
+  Dropdown,
   Button,
   Table,
   ButtonToolbar,
   Tooltip,
   OverlayTrigger,
+  SplitButton,
 } from "react-bootstrap";
 import EditDetailsModal from "./EditDetailsModal";
 import ReportIssueModal from "./ReportIssueModal";
@@ -15,6 +16,7 @@ import StarRatingModal from "./StarRatingModal";
 import { TiTick } from "react-icons/ti";
 import { GiEmptyHourglass } from "react-icons/gi";
 import { FaExclamationCircle } from "react-icons/fa";
+import { BsFilterLeft } from "react-icons/bs";
 import * as formatter from "./dateTimeFormatter";
 
 import { IconContext } from "react-icons";
@@ -82,6 +84,17 @@ const TaskRequestList = (props) => {
   }
   return (
     <Container className='table-responsive'>
+      <SplitButton title='Filter By:'>
+        <IconContext.Provider value={{ style: { verticalAlign: "middle" } }}>
+          <BsFilterLeft />
+        </IconContext.Provider>
+        <Dropdown.Item eventKey='1'>Pending</Dropdown.Item>
+        <Dropdown.Item eventKey='2'>Confirmed</Dropdown.Item>
+        <Dropdown.Item eventKey='3'>Completed</Dropdown.Item>
+        <Dropdown.Item eventKey='4' active>
+          All
+        </Dropdown.Item>
+      </SplitButton>
       <Table>
         <thead>
           <tr className='text-center'>

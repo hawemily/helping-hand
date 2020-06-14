@@ -90,9 +90,7 @@ router.get("/", (req, res) => {
 //@route GET /services/allRequests/:id
 //@desc get all reqeusts made by user id <id>
 router.get("/allRequests/:id", (req, res) => {
-  console.log("in here");
   const pinId = req.params.id;
-  console.log(pinId);
 
   Task.find({
       pinId: pinId
@@ -113,7 +111,6 @@ router.get("/allRequests/:id", (req, res) => {
         return;
       }
       // console.log(tasks);
-      console.log(tasks.length);
       if (tasks.length !== 0) {
         var detailsArr = [];
 
@@ -271,24 +268,29 @@ router.post("/updateGroceries", (req, res) => {
   Task.findById(taskId)
     .then((task) => {
       const serviceId = task.service;
-      // Service.findById(serviceId)
-      //   .then((service) => {
-      //     const detailsId = service.details;
-      //     Grocery.findByIdAndUpdate(detailsId, {
-      //       basket: basket,
-      //       store: store,
-      //     });
-      //   })
-      //   .update({ date: date, time: time });
+
+      Service.findByIdAndUpdate(serviceId, { date: date, time: time })
+        .then((s) => {
+          const detailsId = s.details;
+          Grocery.findByIdAndUpdate(detailsId, {
+            basket: basket,
+            store: store,
+          }).catch((err) => {
+            console.log("could not find details id");
+            console.log(err);
+          });
+        })
+        .catch((err) => {
+          console.log("could not find service id");
+          console.log(err);
+        });
+      // console.log(serviceId);
+      res.json({ success: true });
     })
-    .then(res.json({
-      success: true,
-      task: task
-    }))
-    .catch((err) => res.json({
-      success: false,
-      err: err
-    }));
+    .catch((err) => {
+      console.log(err);
+      res.json({ success: false, err: err });
+    });
 });
 
 //@route POST /services/laundry

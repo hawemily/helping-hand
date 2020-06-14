@@ -38,6 +38,7 @@ const EditDetailsModal = (props) => {
   // need readonly for each request -- do tmr!
   const onSubmit = (e) => {
     e.preventDefault();
+    console.log(task);
 
     axios
       .post("/services/updateGroceries", {
@@ -45,14 +46,11 @@ const EditDetailsModal = (props) => {
         date: date,
         time: slot,
         store: store,
-        taskId: task._id,
+        taskId: task.taskId,
       })
       .then((res) => {
-        alert("HIII");
-
         if (res.data.success) {
           console.log("successful axios post");
-          console.log(res.data);
         } else {
           console.log(res.data.err);
         }
@@ -128,10 +126,10 @@ const EditDetailsModal = (props) => {
               />
             )}
           </Form.Group>
-          <Form.Group>
+          {/* <Form.Group>
             <Form.Label>TaskId:</Form.Label>
             <Form.Control readOnly defaultValue={task.taskId} />
-          </Form.Group>
+          </Form.Group> */}
           <Form.Group>
             <Form.Label>Category:</Form.Label>
             <Form.Control readOnly defaultValue={task.category} />
