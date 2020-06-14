@@ -11,8 +11,6 @@ const VolunteerTaskCard = (props) => {
   var service = task.service;
   const auth = props.auth;
 
-  console.log(task);
-
   const volunteerId = localStorage.getItem("id_token");
 
   const [loadedPin, setLoadedPin] = useState({});
@@ -25,7 +23,7 @@ const VolunteerTaskCard = (props) => {
 
   const closePinModal = () => setShowPin(false);
   const showPinModal = () => {
-    loadPinInfo(pinId).then(() => setShowPin(true));
+    loadPinInfo(pinId).then(() => {setShowPin(true);});
   };
 
   const showDoneModal = () => setShowDone(true);
@@ -34,10 +32,20 @@ const VolunteerTaskCard = (props) => {
   // must calculate distance based on current location and area given
   // and parse date before passing in through props
 
+  const defaultPin = {
+    firstName: "Not found",
+    lastName: "Not found",
+    streetName: "Not found",
+    firstAddress: "Not found",
+    postCode: "Not found",
+    email: "Not found",
+    phoneNumber: "Not found",
+  }
+
   const loadPinInfo = (pinId) => {
     return new Promise((resolve, reject) => {
       axios.get("/pins/" + pinId).then((pin) => {
-        setLoadedPin(pin.data.pin);
+        setLoadedPin(pin.data.pin != null ? pin.data.pin : defaultPin);
         resolve();
       });
     });
@@ -63,19 +71,29 @@ const VolunteerTaskCard = (props) => {
     alert("Please log in or register to access this feature.");
   };
 
+  const generateDetails = (service) => {
+    if (service.category == 'Grocery') {
+      return "Groceries from " + service.details.store;
+    } else if (service.category == 'Laundry') {
+      return "Laundry (" + service.details.load + " loads)";
+    } else {
+      return "";
+    }
+  }
+
   return (
     <div className='taskCardWrapper'>
       <Card>
         <Card.Header className='taskCardHeader'>
-          <h5>{service.category}</h5>
+          <h5>{service.area}</h5>
           <p>
-            {formatDate(service.date)} {formatTime(service.date)}
+            {formatDate(service.date)}, {formatTime(service.date)}
           </p>
         </Card.Header>
         <Card.Body style={{ padding: "0.5rem 1rem" }}>
           <Card>
             <Card.Body className='taskCard'>
-              <Card.Title style={{ margin: 0 }}>{service.category}</Card.Title>
+              <Card.Title style={{ margin: 0 }}>{generateDetails(service)}</Card.Title>
               <Card.Text style={{ marginLeft: 0 }}>
                 {task.description}
               </Card.Text>
@@ -114,7 +132,7 @@ const VolunteerTaskCard = (props) => {
           <Modal.Title>{service.category}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <ViewOnlyBasket check='true' basket={service.details.basket} />
+          <ViewOnlyBasket check='true' category={service.category} basket={service.details.basket} />
         </Modal.Body>
         <Modal.Footer>
           <Button className='modalBtn' onClick={closeTaskModal}>
@@ -131,16 +149,14 @@ const VolunteerTaskCard = (props) => {
           <Table>
             <tr>
               <td>Name</td>
-              <td>{loadedPin.firstName + loadedPin.lastName}</td>
+              <td>{loadedPin.firstName + " " + loadedPin.lastName}</td>
             </tr>
             <tr>
               <td>Address</td>
               <td>
-                {loadedPin.firstAddress +
-                  ", " +
-                  loadedPin.streetName +
-                  " " +
-                  loadedPin.postCode}
+                  <p className="address-lines">{loadedPin.firstAddress}</p>
+                  <p className="address-lines">{loadedPin.streetName}</p>
+                  <p className="address-lines">{loadedPin.postCode}</p>
               </td>
             </tr>
             <tr>

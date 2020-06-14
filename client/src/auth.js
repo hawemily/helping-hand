@@ -13,28 +13,61 @@ export default class Auth {
   //   scope: 'openid'
   // });
 
-  login = (creds, resolve, reject) => {
+  volunteerLogin = (creds) => {
+    return new Promise((res, rej) => {
       axios.post("/volunteers/login", creds)
       .then((item)=> {
-        console.log(item);
         if (item.data.success) {          
           this.setSession(item.data);
-          resolve(true);
+          res(true);
         }
-        resolve(false);
+        res(false);
       })
-      .catch(err => {console.error(err); resolve(false);});
+      .catch(err => {console.error(err); res(false);});
+    });
+  }
 
+  pinLogin = (creds) => {
+    return new Promise((res, rej) => {
       axios.post("/pins/login", creds)
       .then((item)=> {
-        console.log(item);
         if (item.data.success) {          
           this.setSession(item.data);
-          resolve(true);
+          res(true);
+          res(false);
         }
-        resolve(false);
       })
-      .catch(err => {console.error(err); resolve(false);});
+      .catch(err => {console.error(err); res(false);});
+    })
+  }
+
+  login = (creds, resolve, reject) => {
+
+    this.volunteerLogin(creds)
+    .then((result) => {
+      if (result) {
+        resolve(true);
+      } else {
+        this.pinLogin(creds)
+        .then((result) => {
+          if (result) {
+            resolve(true);
+          } else {
+            resolve(false);
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+          resolve(false);
+        })
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      resolve(false);
+    })
+      
+
   }
 
   // handleAuthentication = () => {

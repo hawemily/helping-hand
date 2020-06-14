@@ -26,7 +26,7 @@ const EditDetailsModal = (props) => {
   try {
     taskBasket = JSON.parse(task.basket);
   } catch (err) {
-    console.log(typeof task.basket);
+    taskBasket = task.basket;
   }
   const [basket, setBasket] = useState(taskBasket);
 
@@ -62,8 +62,6 @@ const EditDetailsModal = (props) => {
         console.log(err);
       });
 
-    console.log(basket);
-
     if (!readOnly) {
       setReadOnly(!readOnly);
     }
@@ -82,12 +80,15 @@ const EditDetailsModal = (props) => {
     <Modal {...props} size='lg' aria-abelledby='details-modal' centered>
       <Modal.Header>
         <Modal.Title aria-labelledby='details-modal'>
-          Edit Details of Request
+          Details of Request
         </Modal.Title>
       </Modal.Header>
       <Form>
         <Modal.Body>
-          <h6>Details of service</h6>
+            <div>
+                <p style={{width: "fit-content", display: "inline-block", marginRight: "3rem"}}>Request No.</p>
+                <p style={{width: "fit-content", display: "inline-block"}}>{task.taskId}</p>
+            </div>
           <Form.Group>
             <Form.Label>Date:</Form.Label>
             {readOnly ? (
@@ -155,7 +156,7 @@ const EditDetailsModal = (props) => {
           <Form.Group>
             <Form.Label>Your Purchased Items:</Form.Label>
             {readOnly ? (
-              <ViewOnlyBasket basket={basket} checkBox={false} />
+              <ViewOnlyBasket basket={basket} category={task.category} checkBox={false} />
             ) : (
               <EditBasket basket={basket} setBasket={setBasket} />
             )}
@@ -165,7 +166,7 @@ const EditDetailsModal = (props) => {
         <Modal.Footer className='text-center'>
           <ButtonToolbar>
             {readOnly ? (
-              <Button onClick={(e) => changeDetails(e)}>Click to Change</Button>
+              <Button disabled={task.status == 'complete'} onClick={(e) => changeDetails(e)}>Click to Edit</Button>
             ) : (
               <Button variant='success' onClick={(e) => onSubmit(e)}>
                 Submit

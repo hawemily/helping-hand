@@ -6,6 +6,7 @@ const Task = require("../models/taskSchema");
 const Grocery = require("../models/grocerySchema");
 const Laundry = require("../models/laundrySchema");
 const Volunteer = require("../models/volunteerSchema");
+const Pin = require("../models/pinSchema");
 
 // root route /services
 
@@ -21,26 +22,55 @@ const createTask = (service, pinId, res) => {
 
   newTask
     .save()
-    .then((task) => res.json({ success: true, task: task }))
+    .then((task) => res.json({
+      success: true,
+      task: task
+    }))
     .catch((err) => {
       console.log(err);
-      res.status(400).json({ success: false, error: err });
+      res.status(400).json({
+        success: false,
+        error: err
+      });
     });
 };
 
 // create service record
-const createService = (taskRun, category, pinId, date, time, res) => {
-  const newService = new Service({
-    date: date,
-    time: time,
-    category: category,
-    details: taskRun._id,
-  });
+const createService = (taskRun, category, pinId, date, time, area, res) => {
+  var newService = {};
+  if (area != null) {
+    newService = new Service({
+      date: date,
+      time: time,
+      category: category,
+      details: taskRun._id,
+      area: area
+    });
+  } else {
+    newService = new Service({
+      date: date,
+      time: time,
+      category: category,
+      details: taskRun._id,
+    });
+  }
   console.log("creating service");
   newService.save().then((service) => {
     createTask(service, pinId, res);
   });
 };
+
+const getArea = (pinId) => {
+  return new Promise((resolve, reject) => {
+    Pin.findById(pinId)
+      .then((pin) => {
+        resolve(pin.streetName);
+      })
+      .catch((err) => {
+        resolve(null);
+      })
+  })
+}
 
 //@route GET /services
 //@desc get all requests from all users
@@ -48,7 +78,12 @@ const createService = (taskRun, category, pinId, date, time, res) => {
 // @route
 router.get("/", (req, res) => {
   Task.find()
-    .populate({ path: "services", populate: { path: "details" } })
+    .populate({
+      path: "services",
+      populate: {
+        path: "details"
+      }
+    })
     .then((tasks) => res.json(tasks));
 });
 
@@ -59,15 +94,22 @@ router.get("/allRequests/:id", (req, res) => {
   const pinId = req.params.id;
   console.log(pinId);
 
-  Task.find({ pinId: pinId })
+  Task.find({
+      pinId: pinId
+    })
     .populate({
       path: "service",
-      populate: { path: "details" },
+      populate: {
+        path: "details"
+      },
     })
     .exec(function (err, tasks) {
       if (err) {
         console.log(404);
-        res.status(404).json({ success: false, error: err });
+        res.status(404).json({
+          success: false,
+          error: err
+        });
         return;
       }
       // console.log(tasks);
@@ -90,6 +132,7 @@ router.get("/allRequests/:id", (req, res) => {
               volunteerId: task.volunteerId,
               taskId: task._id,
               status: task.status,
+              area: service.area
             });
           } else if (type == "Laundry") {
             detailsArr.push({
@@ -103,6 +146,7 @@ router.get("/allRequests/:id", (req, res) => {
               volunteerId: task.volunteerId,
               taskId: task._id,
               status: task.status,
+              area: service.area
             });
           }
         });
@@ -143,7 +187,9 @@ router.delete("/deleteAll", (req, res) => {
 router.delete("/:id", (req, res) => {
   Service.findById(req.params.id)
     .then((item) => item.remove())
-    .then(res.json({ success: true }));
+    .then(res.json({
+      success: true
+    }));
 });
 
 // END TESTING ROUTES
@@ -178,7 +224,14 @@ router.get("/service/:id", (req, res) => {
 //@desc post grocery list of user
 //@access public
 router.post("/groceries", (req, res) => {
-  const { store, date, time, basket, subs, pinId } = req.body;
+  const {
+    store,
+    date,
+    time,
+    basket,
+    subs,
+    pinId
+  } = req.body;
   console.log("backend groceries api hit");
 
   // TODO: emily - add this request to requests of pin in pin model
@@ -190,16 +243,30 @@ router.post("/groceries", (req, res) => {
     subs: subs,
   });
 
-  newGroceryRun.save().then((groceryRun) => {
-    createService(groceryRun, "Grocery", pinId, date, time, res);
-  });
+  getArea(pinId).then((street) => {
+      newGroceryRun.save().then((groceryRun) => {
+        createService(groceryRun, "Grocery", pinId, date, time, street, res);
+      });
+    })
+    .catch((err) => {
+      console.error(err);
+      newGroceryRun.save().then((groceryRun) => {
+        createService(groceryRun, "Grocery", pinId, date, time, null, res);
+      });
+    })
 });
 
 //@route POST /services/updateGroceries
 //@desc post updated groceries details
 //@access public
 router.post("/updateGroceries", (req, res) => {
-  const { basket, date, time, store, taskId } = req.body;
+  const {
+    basket,
+    date,
+    time,
+    store,
+    taskId
+  } = req.body;
 
   Task.findById(taskId)
     .then((task) => {
@@ -214,8 +281,14 @@ router.post("/updateGroceries", (req, res) => {
       //   })
       //   .update({ date: date, time: time });
     })
-    .then(res.json({ success: true, task: task }))
-    .catch((err) => res.json({ success: false, err: err }));
+    .then(res.json({
+      success: true,
+      task: task
+    }))
+    .catch((err) => res.json({
+      success: false,
+      err: err
+    }));
 });
 
 //@route POST /services/laundry
@@ -243,16 +316,33 @@ router.post("/laundry", (req, res) => {
     detergent: detergent,
   });
 
-  newLaundryRun.save().then((laundryRun) => {
-    createService(
-      laundryRun,
-      "Laundry",
-      pinId,
-      dateOfPickup,
-      timeOfPickup,
-      res
-    );
-  });
+  getArea(pinId).then((street) => {
+      newLaundryRun.save().then((laundryRun) => {
+        createService(
+          laundryRun,
+          "Laundry",
+          pinId,
+          dateOfPickup,
+          timeOfPickup,
+          street,
+          res,
+        );
+      });
+    })
+    .catch((err) => {
+      console.error(err);
+      newLaundryRun.save().then((laundryRun) => {
+        createService(
+          laundryRun,
+          "Laundry",
+          pinId,
+          dateOfPickup,
+          timeOfPickup,
+          null,
+          res,
+        );
+      });
+    })
 });
 
 //@route POST /services/rating
@@ -260,11 +350,19 @@ router.post("/laundry", (req, res) => {
 //@access public
 router.post("/rating", (req, res) => {
   console.log("rating api hit");
-  const { service, taskId, time } = req.body;
+  const {
+    service,
+    taskId,
+    time
+  } = req.body;
   Task.findById(taskId, "volunteerId").then((id) => {
     Volunteer.findByIdAndUpdate(id, {
-      $push: { onTime: time },
-      $push: { serviceQuality: service },
+      $push: {
+        onTime: time
+      },
+      $push: {
+        serviceQuality: service
+      },
     });
   });
 });

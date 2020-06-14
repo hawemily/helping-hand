@@ -56,6 +56,14 @@ const TaskRequestList = (props) => {
     );
   };
 
+  const generateService = (task) => {
+    if (task.category == 'Grocery') {
+      return "Groceries from " + task.store;
+    } else if (task.category == 'Laundry') {
+      return "Laundry (" + task.load + (task.load == 1 ? " load)" : " loads)");
+    }
+  }
+
   if (modalStates.length === 0) {
     return (
       <Container className='table-responsive'>
@@ -63,7 +71,6 @@ const TaskRequestList = (props) => {
           <thead>
             <tr className='text-center'>
               <th>Date</th>
-              <th>Request No.</th>
               <th>Service</th>
               <th> Actions </th>
               <th>Status</th>
@@ -79,7 +86,6 @@ const TaskRequestList = (props) => {
         <thead>
           <tr className='text-center'>
             <th>Date</th>
-            <th>Request No.</th>
             <th>Service</th>
             <th> Actions </th>
             <th>Status</th>
@@ -101,11 +107,9 @@ const TaskRequestList = (props) => {
                 key={taskId}
               >
                 <td className='align-middle'>
-                  {formatter.formatDate(date)}
-                  {formatter.formatTime(time)}
+                  {formatter.formatDate(date) + ", " + formatter.formatTime(time)}
                 </td>
-                <td className='align-middle'>#{taskId}</td>
-                <td className='align-middle'>{`${category}`}</td>
+                <td className='align-middle'>{generateService(task)}</td>
                 <td className='align-middle'>
                   <ButtonToolbar style={{ margin: "auto", display: "block" }}>
                     <Button

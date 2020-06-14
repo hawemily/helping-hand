@@ -11,6 +11,7 @@ import DetailsModal from "../DetailsModal";
 import { TiTick } from "react-icons/ti";
 import { GiEmptyHourglass } from "react-icons/gi";
 import axios from "axios";
+import * as formatter from "../general/dateTimeFormatter";
 
 import { IconContext } from "react-icons";
 
@@ -109,7 +110,7 @@ class VolunteerTaskList extends React.Component {
           <thead>
             <tr className='text-center'>
               <th>Date</th>
-              <th>Request No.</th>
+              <th>Area</th>
               <th>Service</th>
               <th>Actions</th>
               <th>Status</th>
@@ -117,7 +118,7 @@ class VolunteerTaskList extends React.Component {
           </thead>
           <tbody>
             {this.state.tasks.map((task, index) => {
-              const { category, details, date } = task.service;
+              const { category, details, date, time, area } = task.service;
               return (
                 <tr
                   className={`text-center ${
@@ -127,8 +128,8 @@ class VolunteerTaskList extends React.Component {
                   }`}
                   key={index}
                 >
-                  <td className='align-middle'>{date}</td>
-                  <td className='align-middle'>#{task._id}</td>
+                  <td className='align-middle'>{formatter.formatDate(date) + ", " + formatter.formatTime(time)}</td>
+                  <td className='align-middle'>{area}</td>
                   <td className='align-middle'>{`${category}`}</td>
                   <td className='align-middle'>
                     <ButtonGroup>
@@ -143,7 +144,8 @@ class VolunteerTaskList extends React.Component {
                         <DetailsModal
                           show={this.state.detailsModalShow[index]}
                           basket={details.basket}
-                          taskid={task._id}
+                          category={category}
+                          taskId={task._id}
                           pin={task.pinId}
                           onHide={() => this.closeDetailsModal(index)}
                           ariaLabelledBy={task._id}

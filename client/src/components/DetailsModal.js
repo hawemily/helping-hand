@@ -35,7 +35,6 @@ class DetailsModal extends React.Component {
   render() {
     const pin = this.state.pinInfo;
     const props = this.props;
-
     if (localStorage.getItem("user_type") == "volunteer") {
       return (
         <div id={this.state.taskId}>
@@ -49,8 +48,11 @@ class DetailsModal extends React.Component {
               <Modal.Title id={props.ariaLabelledBy}>Details</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              {/* <h4>{category}</h4> */}
-              <ViewOnlyBasket check='true' basket={props.basket} />
+                <div>
+                  <p style={{width: "fit-content", display: "inline-block", marginRight: "3rem"}}>Request No.</p>
+                  <p style={{width: "fit-content", display: "inline-block"}}>{this.props.taskId}</p>
+                </div>
+              <ViewOnlyBasket check='true' basket={props.basket} category={props.category} />
               <br />
               <h4>Person You Will Help</h4>
               <Table>
@@ -102,7 +104,10 @@ class DetailsModal extends React.Component {
               <Modal.Title id={props.ariaLabelledBy}>Details</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <h4>{category}</h4>
+              <div>
+                  <p style={{width: "fit-content", display: "inline-block", marginRight: "3rem"}}>Request No.</p>
+                  <p style={{width: "fit-content", display: "inline-block"}}>{taskId}</p>
+              </div>
               {/* use another thingy cus ViewOnlyBasket doesnt allow edits cus i made it only with volunteers in mind or u can modify it */}
               <ViewOnlyBasket check='true' basket={basket} />
               <br />

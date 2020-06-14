@@ -19,6 +19,10 @@ const ServiceSchema = new Schema({
     required: true,
     refPath: "category",
   },
+  area: {
+    type: String,
+    default: "Exhibition Road"
+  }
 });
 
 module.exports = Service = mongoose.model("service", ServiceSchema);
