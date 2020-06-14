@@ -195,6 +195,29 @@ router.post("/groceries", (req, res) => {
   });
 });
 
+//@route POST /services/updateGroceries
+//@desc post updated groceries details
+//@access public
+router.post("/updateGroceries", (req, res) => {
+  const { basket, date, time, store, taskId } = req.body;
+
+  Task.findById(taskId)
+    .then((task) => {
+      const serviceId = task.service;
+      // Service.findById(serviceId)
+      //   .then((service) => {
+      //     const detailsId = service.details;
+      //     Grocery.findByIdAndUpdate(detailsId, {
+      //       basket: basket,
+      //       store: store,
+      //     });
+      //   })
+      //   .update({ date: date, time: time });
+    })
+    .then(res.json({ success: true, task: task }))
+    .catch((err) => res.json({ success: false, err: err }));
+});
+
 //@route POST /services/laundry
 //@desc post laundry request of user
 //@access public
