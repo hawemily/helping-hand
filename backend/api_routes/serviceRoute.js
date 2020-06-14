@@ -135,8 +135,8 @@ router.get("/allRequests/:id", (req, res) => {
             detailsArr.push({
               date: service.date,
               time: service.time,
-              dateOfDropOff: service.dateOfDropOff,
-              timeOfDropOff: service.timeOfDropOff,
+              dropOffDate: details.dropOffDate,
+              dropOffTime: details.dropOffTime,
               category: type,
               load: details.load,
               basket: details.basket,

@@ -37,6 +37,19 @@ const EditBasket = (props) => {
 
   const basket = props.basket;
 
+  function numOfItems(e) {
+    if (e.quantity == null) {
+      if (e.amt == null || e.amt == "") {
+        return '0';
+      } else {
+        return e.amt;
+      }
+    } else {
+      return e.quantity;
+    }
+  }
+
+
   return (
     <Container className='border'>
       <h4 style={{ marginTop: "10px" }}>Grocery Basket:</h4>
@@ -60,7 +73,7 @@ const EditBasket = (props) => {
               <td>
                 <Form.Control
                   type='text'
-                  placeholder={e.item}
+                  placeholder={e.item == null ? e.type : e.item}
                   value={basket[i].item}
                   onChange={(e) => setBasketItem(e.target.value, i, "item")}
                 ></Form.Control>
@@ -68,7 +81,7 @@ const EditBasket = (props) => {
               <td>
                 <Form.Control
                   type='number'
-                  placeholder={e.quantity}
+                  placeholder={numOfItems(e)}
                   value={basket[i].quantity}
                   onChange={(e) => setBasketItem(e.target.value, i, "quantity")}
                 ></Form.Control>

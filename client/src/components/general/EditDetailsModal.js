@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Modal, ButtonToolbar, Form, Button, Table } from "react-bootstrap";
-import { setHours, setMinutes } from "date-fns";
+import { setHours, setMinutes, addDays } from "date-fns";
 import DatePicker from "react-datepicker";
 import { formatTime, formatDate } from "./dateTimeFormatter";
 import EditBasket from "./EditBasket";
@@ -18,8 +18,12 @@ const stores = [
 ];
 const EditDetailsModal = (props) => {
   const task = props.task;
+  const category = task.category;
   const [readOnly, setReadOnly] = useState(true);
   const [store, setStore] = useState(task.store);
+  const [load, setLoad] = useState(task.load);
+  const [dropOffDate, setDropOffDate] = useState(new Date(task.dropOffDate));
+  const [dropOffTime, setDropOffTime] = useState(new Date(task.dropOffTime));
   const [date, setDate] = useState(new Date(task.date));
   const [slot, setSlot] = useState(new Date(task.time));
   var taskBasket;
@@ -88,44 +92,90 @@ const EditDetailsModal = (props) => {
                 <p style={{width: "fit-content", display: "inline-block"}}>{task.taskId}</p>
             </div>
           <Form.Group>
-            <Form.Label>Date:</Form.Label>
+            {category == 'Grocery' ? (<Form.Label>Date:</Form.Label>) :
+                (<Form.Label>Date of PickUp:</Form.Label>)}
             {readOnly ? (
-              <Form.Control
-                readOnly={readOnly}
-                placeholder={formatDate(task.date)}
-              />
+                <Form.Control
+                    readOnly={readOnly}
+                    placeholder={formatDate(task.date)}
+                />
             ) : (
-              <DatePicker
-                selected={date}
-                onChange={(date) => setDate(date)}
-                minDate={new Date()}
-                showDisabledMonthNavigation
-                withPortal
-              />
+                <DatePicker
+                    selected={date}
+                    onChange={(date) => setDate(date)}
+                    minDate={new Date()}
+                    showDisabledMonthNavigation
+                    withPortal
+                />
             )}
           </Form.Group>
           <Form.Group>
-            <Form.Label>Time:</Form.Label>
+            {category == 'Grocery' ? (<Form.Label>Time:</Form.Label>) :
+                (<Form.Label>Time of PickUp:</Form.Label>)}
             {readOnly ? (
-              <Form.Control
-                readOnly={readOnly}
-                placeholder={formatTime(task.time)}
-              />
+                <Form.Control
+                    readOnly={readOnly}
+                    placeholder={formatTime(task.time)}
+                />
             ) : (
-              <DatePicker
-                selected={slot}
-                onChange={(time) => setSlot(time)}
-                showTimeSelect
-                showTimeSelectOnly
-                minTime={setHours(setMinutes(new Date(), 30), 8)}
-                maxTime={setHours(setMinutes(new Date(), 30), 17)}
-                timeIntervals={15}
-                timeCaption='Time'
-                dateFormat='h:mm aa'
-                withPortal
-              />
+                <DatePicker
+                    selected={slot}
+                    onChange={(time) => setSlot(time)}
+                    showTimeSelect
+                    showTimeSelectOnly
+                    minTime={setHours(setMinutes(new Date(), 30), 8)}
+                    maxTime={setHours(setMinutes(new Date(), 30), 17)}
+                    timeIntervals={15}
+                    timeCaption='Time'
+                    dateFormat='h:mm aa'
+                    withPortal
+                />
             )}
           </Form.Group>
+          {category == 'Laundry' ?
+              (<Form.Group>
+                <Form.Label>Date of DropOff:</Form.Label>
+                {readOnly ? (
+                    <Form.Control
+                        readOnly={readOnly}
+                        placeholder={formatDate(task.dropOffDate)}
+                    />
+                ) : (
+                    <DatePicker
+                        selected={dropOffDate}
+                        onChange={(dropOffDate) => setDropOffDate(dropOffDate)}
+                        minDate={addDays(date, 1)}
+                        maxDate={addDays(date, 5)}
+                        showDisabledMonthNavigation
+                        withPortal
+                    />
+                )}
+              </Form.Group>) :
+              (<div></div>)}
+          {category == 'Laundry' ?
+              (<Form.Group>
+                <Form.Label>Time of DropOff:</Form.Label>
+                {readOnly ? (
+                    <Form.Control
+                        readOnly={readOnly}
+                        placeholder={formatTime(task.dropOffTime)}
+                    />
+                ) : (
+                    <DatePicker
+                        selected={dropOffTime}
+                        onChange={(dropOffTime) => setDropOffTime(dropOffTime)}
+                        showTimeSelect
+                        showTimeSelectOnly
+                        minTime={setHours(setMinutes(new Date(), 30), 8)}
+                        maxTime={setHours(setMinutes(new Date(), 30), 17)}
+                        timeIntervals={15}
+                        timeCaption='Time'
+                        dateFormat='h:mm aa'
+                        withPortal
+                    />
+                )}
+              </Form.Group>) :
+              (<div></div>)}
           {/* <Form.Group>
             <Form.Label>TaskId:</Form.Label>
             <Form.Control readOnly defaultValue={task.taskId} />
@@ -135,21 +185,33 @@ const EditDetailsModal = (props) => {
             <Form.Control readOnly defaultValue={task.category} />
           </Form.Group>
           <Form.Group>
-            <Form.Label>Store:</Form.Label>
-            <Form.Control
-              as='select'
-              onChange={(e) => setStore(e.target.value)}
-              disabled={readOnly}
-              defaultValue={task.store}
-              name='store'
-            >
-              <option value={""} disabled selected>
-                Select your Store:
-              </option>
-              {stores.sort().map((store) => (
-                <option value={store}>{store}</option>
-              ))}
-            </Form.Control>
+            {category == 'Grocery' ?
+                (<Form.Label>Store:</Form.Label>) :
+                (<Form.Label> Loads:</Form.Label>)}
+            {category == 'Grocery' ?
+                (<Form.Control
+                    as='select'
+                    onChange={(e) => setStore(e.target.value)}
+                    disabled={readOnly}
+                    defaultValue={task.store}
+                    name='store'
+                >
+                  <option value={""} disabled selected>
+                    Select your Store:
+                  </option>
+                  {stores.sort().map((store) => (
+                      <option value={store}>{store}</option>
+                  ))}
+                </Form.Control>) :
+                (<Form.Control
+                    type='number'
+                    name='load'
+                    onChange={(e) => setLoad(e.target.value)}
+                    defaultValue={task.load}
+                    disabled={readOnly}
+                    min='1'
+                    max='5'
+                />)}
           </Form.Group>
           <Form.Group>
             <Form.Label>Your Purchased Items:</Form.Label>
