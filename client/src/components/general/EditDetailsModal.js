@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { Modal, ButtonToolbar, Form, Button, Table } from "react-bootstrap";
-import { useForm } from "react-hook-form";
 import { setHours, setMinutes } from "date-fns";
 import DatePicker from "react-datepicker";
 import { formatTime, formatDate } from "./dateTimeFormatter";
-import Basket from "./Basket";
+import EditBasket from "./EditBasket";
+import ViewOnlyBasket from "../volunteers/ViewOnlyBasket";
+import axios from "axios";
 
 const stores = [
   "Sainsburys",
@@ -17,11 +18,17 @@ const stores = [
 ];
 const EditDetailsModal = (props) => {
   const task = props.task;
-  const { register, handleSubmit, errors } = useForm();
   const [readOnly, setReadOnly] = useState(true);
+  const [store, setStore] = useState(task.store);
   const [date, setDate] = useState(new Date(task.date));
   const [slot, setSlot] = useState(new Date(task.time));
-  const [basket, setBasket] = useState(task.basket);
+  var taskBasket;
+  try {
+    taskBasket = JSON.parse(task.basket);
+  } catch (err) {
+    console.log(typeof task.basket);
+  }
+  const [basket, setBasket] = useState(taskBasket);
 
   // console.log(typeof basket);
   // do tmr - change this to class and implement date and time
@@ -29,15 +36,37 @@ const EditDetailsModal = (props) => {
   //   if (nextProps.task.date != prevState.task.date) {}
   // }
   // need readonly for each request -- do tmr!
-  const onSubmit = (data) => {
-    // do axios call;
-    //TODO!
-    console.log(data);
+  const onSubmit = (e) => {
+    e.preventDefault();
+
+    axios
+      .post("/services/updateGroceries", {
+        basket: basket,
+        date: date,
+        time: slot,
+        store: store,
+        taskId: task._id,
+      })
+      .then((res) => {
+        alert("HIII");
+
+        if (res.data.success) {
+          console.log("successful axios post");
+          console.log(res.data);
+        } else {
+          console.log(res.data.err);
+        }
+      })
+      .catch((err) => {
+        console.log("Could not submit post request");
+        console.log(err);
+      });
+
+    console.log(basket);
+
     if (!readOnly) {
       setReadOnly(!readOnly);
     }
-
-    props.onHide();
   };
 
   const changeDetails = (e) => {
@@ -56,7 +85,7 @@ const EditDetailsModal = (props) => {
           Edit Details of Request
         </Modal.Title>
       </Modal.Header>
-      <Form onSubmit={handleSubmit(onSubmit)}>
+      <Form>
         <Modal.Body>
           <h6>Details of service</h6>
           <Form.Group>
@@ -110,13 +139,8 @@ const EditDetailsModal = (props) => {
             <Form.Label>Store:</Form.Label>
             <Form.Control
               as='select'
-              ref={register({
-                required: {
-                  value: true,
-                  message: "This field is required",
-                },
-              })}
-              readOnly={readOnly}
+              onChange={(e) => setStore(e.target.value)}
+              disabled={readOnly}
               defaultValue={task.store}
               name='store'
             >
@@ -127,15 +151,14 @@ const EditDetailsModal = (props) => {
                 <option value={store}>{store}</option>
               ))}
             </Form.Control>
-            {errors.store && <Form.Text>{errors.store.message}</Form.Text>}
           </Form.Group>
           <Form.Group>
             <Form.Label>Your Purchased Items:</Form.Label>
-            <Form.Control
-              readOnly={readOnly}
-              placeholder={basket}
-            ></Form.Control>
-            {/* <Basket basket={basket} setBasket={setBasket} /> */}
+            {readOnly ? (
+              <ViewOnlyBasket basket={basket} checkBox={false} />
+            ) : (
+              <EditBasket basket={basket} setBasket={setBasket} />
+            )}
           </Form.Group>
         </Modal.Body>
 
@@ -144,7 +167,7 @@ const EditDetailsModal = (props) => {
             {readOnly ? (
               <Button onClick={(e) => changeDetails(e)}>Click to Change</Button>
             ) : (
-              <Button variant='success' type='submit'>
+              <Button variant='success' onClick={(e) => onSubmit(e)}>
                 Submit
               </Button>
             )}

@@ -114,7 +114,7 @@ const VolunteerTaskCard = (props) => {
           <Modal.Title>{service.category}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <ViewOnlyBasket basket={service.details.basket} />
+          <ViewOnlyBasket check='true' basket={service.details.basket} />
         </Modal.Body>
         <Modal.Footer>
           <Button className='modalBtn' onClick={closeTaskModal}>

@@ -6,6 +6,7 @@ const Basket = (props) => {
     console.log(id);
     props.setBasket(props.basket.filter((el, value) => value !== id));
   };
+
   console.log(typeof props.basket);
   return (
     <Container className='border'>

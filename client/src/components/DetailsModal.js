@@ -50,7 +50,7 @@ class DetailsModal extends React.Component {
             </Modal.Header>
             <Modal.Body>
               {/* <h4>{category}</h4> */}
-              <ViewOnlyBasket basket={props.basket} />
+              <ViewOnlyBasket check='true' basket={props.basket} />
               <br />
               <h4>Person You Will Help</h4>
               <Table>
@@ -70,7 +70,13 @@ class DetailsModal extends React.Component {
                 </tr>
                 <tr>
                   <td>Address</td>
-                  <td>{pin.firstAddress + ", " + pin.streetName + " " + pin.postCode}</td>
+                  <td>
+                    {pin.firstAddress +
+                      ", " +
+                      pin.streetName +
+                      " " +
+                      pin.postCode}
+                  </td>
                 </tr>
               </Table>
             </Modal.Body>
@@ -98,7 +104,7 @@ class DetailsModal extends React.Component {
             <Modal.Body>
               <h4>{category}</h4>
               {/* use another thingy cus ViewOnlyBasket doesnt allow edits cus i made it only with volunteers in mind or u can modify it */}
-              <ViewOnlyBasket basket={basket} />
+              <ViewOnlyBasket check='true' basket={basket} />
               <br />
               <h4>Your Volunteer</h4>
               <p>{volunteerId}</p>
